@@ -1,4 +1,3 @@
-import 'package:baswara_app/authentication/presentation/pages/register_page.dart';
 import 'package:baswara_app/core/color_value.dart';
 import 'package:baswara_app/homeUser/presentation/pages/home_user_page.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +6,14 @@ import 'package:sizer/sizer.dart';
 
 import '../../../widget/custom_form_widget.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final _formKey = GlobalKey<FormState>();
 
   @override
@@ -45,7 +44,7 @@ class _LoginPageState extends State<LoginPage> {
                       color: const Color(0xff27714E)),
                 ),
                 Text(
-                  "Selamat datang kembali, silakan\nmasukkan email dan password",
+                  "Selamat datang, silakan masukkan Nama, No.\nTelepon, e-mail, dan sandi",
                   textAlign: TextAlign.center,
                   style: GoogleFonts.poppins(
                     fontSize: 15,
@@ -53,6 +52,22 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 const SizedBox(
                   height: 29,
+                ),
+                CustomFormWidget(
+                  obsecure: false,
+                  hint: "Masukkan Nama Lengkap",
+                  label: "Nama Lengkap",
+                ),
+                const SizedBox(
+                  height: 14,
+                ),
+                CustomFormWidget(
+                  obsecure: false,
+                  hint: "Masukkan Nomor Telepon",
+                  label: "Nomor Telepon",
+                ),
+                const SizedBox(
+                  height: 14,
                 ),
                 CustomFormWidget(
                   obsecure: false,
@@ -70,27 +85,16 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 20,
                 ),
-                Align(
-                  alignment: Alignment.topRight,
-                  child: Text(
-                    "Lupa kata sandi?",
-                    style: GoogleFonts.poppins(fontSize: 16),
-                  ),
-                ),
                 const SizedBox(
                   height: 15,
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => HomeUserPage(),
-                      ),
-                    );
+                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                        builder: (context) => HomeUserPage()), (route) => false);
                   },
                   child: Text(
-                    "Masuk",
+                    "Daftar",
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                     ),
@@ -99,27 +103,17 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(
                   height: 25,
                 ),
-                GestureDetector(
-                  onTap: (){
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RegisterPage(),
-                      ),
-                    );
-                  },
-                  child: RichText(
-                    text: TextSpan(
-                      text: 'Tidak mempunyai akun? ',
-                      style: GoogleFonts.poppins(color: Colors.black),
-                      children: <TextSpan>[
-                        TextSpan(
-                            text: 'Daftar',
-                            style: GoogleFonts.poppins(
-                              color: ColorValue.primary,
-                            )),
-                      ],
-                    ),
+                RichText(
+                  text: TextSpan(
+                    text: 'Sudah mempunyai akun? ',
+                    style: GoogleFonts.poppins(color: Colors.black),
+                    children: <TextSpan>[
+                      TextSpan(
+                          text: 'Masuk',
+                          style: GoogleFonts.poppins(
+                            color: ColorValue.primary,
+                          )),
+                    ],
                   ),
                 )
               ],

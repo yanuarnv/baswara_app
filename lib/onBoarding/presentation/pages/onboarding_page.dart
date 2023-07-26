@@ -45,11 +45,21 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                         fontWeight: FontWeight.w600,
                         fontSize: 24),
                   ),
-                  Text(
-                    "Skip",
-                    style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w500,
-                      fontSize: 16,
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>const  LoginPage(),
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Skip",
+                      style: GoogleFonts.poppins(
+                        fontWeight: FontWeight.w500,
+                        fontSize: 16,
+                      ),
                     ),
                   ),
                 ],
@@ -81,10 +91,12 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                           builder: (context) =>const  LoginPage(),
                         ),
                       );
+                    }else{
+                      controller.nextPage(
+                          duration: const Duration(milliseconds: 200),
+                          curve: Curves.easeIn);
                     }
-                    controller.nextPage(
-                        duration: const Duration(milliseconds: 200),
-                        curve: Curves.easeIn);
+
                   },
                   child: Text(
                     "Lanjutkan",
