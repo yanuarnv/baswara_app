@@ -1,73 +1,54 @@
 import 'package:baswara_app/core/color_value.dart';
+import 'package:baswara_app/homeUser/presentation/widgets/home_user_widget.dart';
+import 'package:baswara_app/homeUser/presentation/widgets/profil_user_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class HomeUserPage extends StatelessWidget {
+class HomeUserPage extends StatefulWidget {
   const HomeUserPage({super.key});
+
+  @override
+  State<HomeUserPage> createState() => _HomeUserPageState();
+}
+
+class _HomeUserPageState extends State<HomeUserPage> {
+  final ValueNotifier<int> indexSelect = ValueNotifier(0);
+  final List<Widget> pages = [
+    const HomeUserWidget(),
+    const ProfilUserWidget()
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xffF5F5F5),
-      appBar: AppBar(
-        backgroundColor: ColorValue.primary,
-        title: Text(
-          "Baswara",
-          style: GoogleFonts.poppins(
-            fontSize: 20,
-            fontWeight: FontWeight.w600,
-            color: Colors.white,
-          ),
-        ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 13.0),
-            child: SvgPicture.asset("assets/icons/icon_notif_appbar.svg"),
-          )
-        ],
+      bottomNavigationBar: ValueListenableBuilder(
+        valueListenable: indexSelect,
+        builder: (context,value,_) {
+          return BottomNavigationBar(
+            onTap: (value){
+              indexSelect.value =value;
+            },
+            currentIndex: value,
+            items: const [
+              BottomNavigationBarItem(
+                icon: Icon(Icons.home),
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.account_circle_rounded),
+                label: 'Business',
+              ),
+            ],
+          );
+        }
       ),
-      body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
-          children: [
-            const SizedBox(height: 21,),
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Image.asset("assets/images/dashboard_people.png"),
-                  const SizedBox(
-                    height: 15,
-                  ),
-                  Text(
-                    "Lihat Total Sampahmu",
-                    style: GoogleFonts.poppins(
-                      fontSize: 20,
-                      color: ColorValue.primary,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
-                  Text(
-                    "Anda bisa melihat total sampah dan uang yang Anda dapatkan.",
-                    style: GoogleFonts.poppins(
-                      fontSize: 12,
-                      color: const Color(0xff909090),
-                    ),
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+      body: ValueListenableBuilder(
+        valueListenable: indexSelect,
+        builder: (context,value,_) {
+          return pages[value];
+        }
       ),
     );
   }

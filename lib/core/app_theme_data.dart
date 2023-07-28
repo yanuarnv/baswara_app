@@ -29,6 +29,17 @@ class AppThemeData {
         canvasColor: Colors.white,
         brightness: Brightness.light,
         iconTheme: IconThemeData(size: 6.w),
+        bottomNavigationBarTheme: BottomNavigationBarThemeData(
+          selectedLabelStyle: GoogleFonts.poppins(
+            fontSize: 16,
+            color: ColorValue.primary
+          ),
+          unselectedLabelStyle: GoogleFonts.poppins(
+            fontSize: 16,
+          ),
+          selectedIconTheme: IconThemeData(color: ColorValue.primary),
+          unselectedIconTheme: IconThemeData(color: Colors.black)
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 36.sp),
