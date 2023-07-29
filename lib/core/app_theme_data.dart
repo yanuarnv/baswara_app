@@ -25,21 +25,18 @@ class AppThemeData {
     return ThemeData(
         primaryColor: primaryColor,
         primarySwatch: primaryMaterialColor,
-        scaffoldBackgroundColor: Colors.white,
-        canvasColor: Colors.white,
+        scaffoldBackgroundColor:  const Color(0xffF5F5F5),
+        canvasColor: const Color(0xffF5F5F5),
         brightness: Brightness.light,
         iconTheme: IconThemeData(size: 6.w),
         bottomNavigationBarTheme: BottomNavigationBarThemeData(
-          selectedLabelStyle: GoogleFonts.poppins(
-            fontSize: 16,
-            color: ColorValue.primary
-          ),
-          unselectedLabelStyle: GoogleFonts.poppins(
-            fontSize: 16,
-          ),
-          selectedIconTheme: IconThemeData(color: ColorValue.primary),
-          unselectedIconTheme: IconThemeData(color: Colors.black)
-        ),
+            selectedLabelStyle:
+                GoogleFonts.poppins(fontSize: 16, color: ColorValue.primary),
+            unselectedLabelStyle: GoogleFonts.poppins(
+              fontSize: 16,
+            ),
+            selectedIconTheme: IconThemeData(color: ColorValue.primary),
+            unselectedIconTheme: IconThemeData(color: Colors.black)),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
                 minimumSize: Size(double.infinity, 36.sp),
