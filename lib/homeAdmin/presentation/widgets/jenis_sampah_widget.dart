@@ -1,4 +1,7 @@
 import 'package:baswara_app/core/color_value.dart';
+import 'package:baswara_app/widget/add_product_dialog.dart';
+import 'package:baswara_app/widget/delete_product_dialog.dart';
+import 'package:baswara_app/widget/edit_product_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -349,11 +352,27 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      SvgPicture.asset(
-                                          "assets/icons/icon_pencil.svg"),
-                                      SvgPicture.asset(
-                                        "assets/icons/icon_trash.svg",
-                                        color: Colors.red,
+                                      InkWell(
+                                        onTap: () async {
+                                          await showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                                  const EditProductDialog());
+                                        },
+                                        child: SvgPicture.asset(
+                                            "assets/icons/icon_pencil.svg"),
+                                      ),
+                                      InkWell(
+                                        onTap: () async {
+                                          await showDialog(
+                                              context: context,
+                                              builder: (context) =>
+                                              const DeleteProductDialog());
+                                        },
+                                        child: SvgPicture.asset(
+                                          "assets/icons/icon_trash.svg",
+                                          color: Colors.red,
+                                        ),
                                       )
                                     ],
                                   )),
@@ -371,7 +390,11 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                 height: 20,
               ),
               ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () async {
+                    await showDialog(
+                        context: context,
+                        builder: (context) => const AddProductDialog());
+                  },
                   child: Text(
                     "Tambah Jenis Sampah",
                     style: GoogleFonts.poppins(
@@ -379,7 +402,10 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                       fontWeight: FontWeight.w500,
                       color: Colors.white,
                     ),
-                  ))
+                  )),
+              const SizedBox(
+                height: 20,
+              ),
             ],
           ),
         ),

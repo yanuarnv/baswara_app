@@ -35,11 +35,11 @@ class AppThemeData {
             unselectedLabelStyle: GoogleFonts.poppins(
               fontSize: 16,
             ),
-            selectedIconTheme: IconThemeData(color: ColorValue.primary),
-            unselectedIconTheme: IconThemeData(color: Colors.black)),
+            selectedIconTheme: const IconThemeData(color: ColorValue.primary),
+            unselectedIconTheme: const IconThemeData(color: Colors.black)),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-                minimumSize: Size(double.infinity, 36.sp),
+                minimumSize: const Size(double.infinity, 45),
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.sp)),

@@ -30,93 +30,100 @@ class _RegisterPageState extends State<RegisterPage> {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Form(
             key: _formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                SizedBox(
-                  height: 10.h,
-                ),
-                Text(
-                  "Baswara",
-                  style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 24,
-                      color: const Color(0xff27714E)),
-                ),
-                Text(
-                  "Selamat datang, silakan masukkan Nama, No.\nTelepon, e-mail, dan sandi",
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 10.h,
                   ),
-                ),
-                const SizedBox(
-                  height: 29,
-                ),
-                CustomFormWidget(
-                  obsecure: false,
-                  hint: "Masukkan Nama Lengkap",
-                  label: "Nama Lengkap",
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                CustomFormWidget(
-                  obsecure: false,
-                  hint: "Masukkan Nomor Telepon",
-                  label: "Nomor Telepon",
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                CustomFormWidget(
-                  obsecure: false,
-                  hint: "Masukkan E-mail",
-                  label: "E-mail",
-                ),
-                const SizedBox(
-                  height: 14,
-                ),
-                CustomFormWidget(
-                  obsecure: true,
-                  hint: "Masukkan Password",
-                  label: "Password",
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                const SizedBox(
-                  height: 15,
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
-                        builder: (context) => HomeUserPage()), (route) => false);
-                  },
-                  child: Text(
-                    "Daftar",
+                  Text(
+                    "Baswara",
                     style: GoogleFonts.poppins(
-                      fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 24,
+                        color: const Color(0xff27714E)),
+                  ),
+                  Text(
+                    "Selamat datang, silakan masukkan Nama, No.\nTelepon, e-mail, dan sandi",
+                    textAlign: TextAlign.center,
+                    style: GoogleFonts.poppins(
+                      fontSize: 15,
                     ),
                   ),
-                ),
-                const SizedBox(
-                  height: 25,
-                ),
-                RichText(
-                  text: TextSpan(
-                    text: 'Sudah mempunyai akun? ',
-                    style: GoogleFonts.poppins(color: Colors.black),
-                    children: <TextSpan>[
-                      TextSpan(
-                          text: 'Masuk',
-                          style: GoogleFonts.poppins(
-                            color: ColorValue.primary,
-                          )),
-                    ],
+                  const SizedBox(
+                    height: 29,
                   ),
-                )
-              ],
+                  CustomFormWidget(
+                    obsecure: false,
+                    hint: "Masukkan Nama Lengkap",
+                    label: "Nama Lengkap",
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  CustomFormWidget(
+                    obsecure: false,
+                    hint: "Masukkan Nomor Telepon",
+                    label: "Nomor Telepon",
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  CustomFormWidget(
+                    obsecure: false,
+                    hint: "Masukkan E-mail",
+                    label: "E-mail",
+                  ),
+                  const SizedBox(
+                    height: 14,
+                  ),
+                  CustomFormWidget(
+                    obsecure: true,
+                    hint: "Masukkan Password",
+                    label: "Password",
+                  ),
+                  const SizedBox(
+                    height: 20,
+                  ),
+                  const SizedBox(
+                    height: 15,
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pushAndRemoveUntil(context, MaterialPageRoute(
+                          builder: (context) => HomeUserPage()), (route) => false);
+                    },
+                    child: Text(
+                      "Daftar",
+                      style: GoogleFonts.poppins(
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(
+                    height: 25,
+                  ),
+                  GestureDetector(
+                    onTap: (){
+                      Navigator.pop(context);
+                    },
+                    child: RichText(
+                      text: TextSpan(
+                        text: 'Sudah mempunyai akun? ',
+                        style: GoogleFonts.poppins(color: Colors.black),
+                        children: <TextSpan>[
+                          TextSpan(
+                              text: 'Masuk',
+                              style: GoogleFonts.poppins(
+                                color: ColorValue.primary,
+                              )),
+                        ],
+                      ),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         ),

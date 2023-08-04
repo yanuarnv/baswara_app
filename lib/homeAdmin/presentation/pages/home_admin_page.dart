@@ -18,13 +18,13 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
   int _selectedIndex = 0;
   static const List<Widget> _widgetOptions = <Widget>[
     DashBoardAdminWidget(),
-    GrafikPenjualanWidget(),
-    HargaSampahWidget(),
-    JenisSampahWidget(),
-    KatalogBertakwa(),
     ProfileAdminWidget(),
     ProfileUsersWidget(),
+    JenisSampahWidget(),
     SampahUserWidget(),
+    HargaSampahWidget(),
+    GrafikPenjualanWidget(),
+    KatalogBertakwa(),
   ];
 
   void _onItemTapped(int index) {
@@ -125,7 +125,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               selected: _selectedIndex == 2,
               onTap: () {
                 // Update the state of the app
-                _onItemTapped(1);
+                _onItemTapped(2);
                 // Then close the drawer
                 Navigator.pop(context);
               },
@@ -157,7 +157,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               title: Row(
                 children: [
                   SvgPicture.asset("assets/icons/icon_trash.svg",
-                      color: _selectedIndex == 4 ?  ColorValue.primary:null),
+                      color: _selectedIndex == 4 ? ColorValue.primary : null),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: Text(
@@ -247,13 +247,18 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               iconColor: Colors.black,
               title: Row(
                 children: [
-                  const Icon(Icons.logout,color: Colors.red,),
+                  const Icon(
+                    Icons.logout,
+                    color: Colors.red,
+                  ),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
                     child: Text(
                       'Log out',
                       style: GoogleFonts.poppins(
-                          fontSize: 16, fontWeight: FontWeight.w500,color: Colors.red),
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.red),
                     ),
                   ),
                 ],
