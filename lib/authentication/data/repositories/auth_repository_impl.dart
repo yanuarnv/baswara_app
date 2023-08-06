@@ -26,7 +26,7 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<Either<Failure, bool>> register(
-      String name, String email, String password, int phoneNumber) async {
+      String name, String email, String password, String phoneNumber) async {
     if (await networkInfo.isConnected) {
       try {
         await remoteDataSources.register(name, email, password, phoneNumber);

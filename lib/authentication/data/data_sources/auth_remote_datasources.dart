@@ -9,7 +9,7 @@ abstract class AuthRemoteDataSource {
   Future<bool> login(String email, String password);
 
   Future<bool> register(
-      String name, String email, String password, int phoneNumber);
+      String name, String email, String password, String phoneNumber);
 }
 
 class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
@@ -21,7 +21,7 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
   Future<bool> login(String email, String password) async {
     final body = {"password": password, "email": email};
     final response = await client.post(
-        Uri.parse("${ConstantValue.apiUrl}users/login"),
+        Uri.parse("${ConstantValue.apiUrl}login"),
         body: jsonEncode(body));
     if (response.statusCode == 200) {
       return true;
@@ -31,8 +31,20 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<bool> register(String name, String email, String password, int phoneNumber) {
-    // TODO: implement register
-    throw UnimplementedError();
+  Future<bool> register(String name, String email, String password, String phoneNumber) async{
+    final body = {
+      'name': name,
+      'email': email,
+      'phone': phoneNumber,
+      'password': password,
+    };
+    final response = await client.post(
+        Uri.parse("${ConstantValue.apiUrl}register"),
+        body: jsonEncode(body));
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw ServerException(response.reasonPhrase.toString());
+    }
   }
 }

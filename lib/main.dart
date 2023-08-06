@@ -1,8 +1,14 @@
+import 'package:baswara_app/authentication/data/data_sources/auth_remote_datasources.dart';
+import 'package:baswara_app/authentication/data/repositories/auth_repository_impl.dart';
+import 'package:baswara_app/authentication/domain/repositories/auth_repository.dart';
 import 'package:baswara_app/onBoarding/presentation/pages/splash_page.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:sizer/sizer.dart';
-
+import 'package:http/http.dart' as http;
 import 'core/app_theme_data.dart';
+import 'core/network_info.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,10 +21,33 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Sizer(builder: (context, orientation, deviceType) {
-      return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: AppThemeData.getTheme(context),
-        home: const SplashPage(),
+      return MultiRepositoryProvider(
+        providers: [
+          RepositoryProvider<Connectivity>(
+            create: (_) => Connectivity(),
+          ),
+          RepositoryProvider<NetworkInfo>(
+            create: (context) => NetworkInfoImpl(
+              RepositoryProvider.of<Connectivity>(context),
+            ),
+          ),
+          RepositoryProvider<AuthRemoteDataSource>(
+            create: (_) => AuthRemoteDataSourcesImpl(
+              http.Client(),
+            ),
+          ),
+          RepositoryProvider<AuthRepository>(
+            create: (context) => AuthRepositoryImpl(
+              RepositoryProvider.of<NetworkInfo>(context),
+              RepositoryProvider.of<AuthRemoteDataSource>(context),
+            ),
+          )
+        ],
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          theme: AppThemeData.getTheme(context),
+          home: const SplashPage(),
+        ),
       );
     });
   }

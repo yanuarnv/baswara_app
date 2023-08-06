@@ -10,12 +10,11 @@ class LoginAuth extends AuthEvent {}
 
 class RegisterAuth extends AuthEvent {
   final String name;
-  final int phoneNumber;
-  final String username;
+  final String phoneNumber;
   final String email;
   final String password;
 
   RegisterAuth(
-      this.name, this.phoneNumber, this.username, this.email, this.password);
+      this.name, this.phoneNumber, this.email, this.password);
 }
 
