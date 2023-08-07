@@ -1,10 +1,13 @@
 import 'package:baswara_app/authentication/domain/repositories/auth_repository.dart';
 import 'package:baswara_app/authentication/presentation/manager/auth_bloc.dart';
 import 'package:baswara_app/core/color_value.dart';
+import 'package:baswara_app/core/utility.dart';
 import 'package:baswara_app/homeUser/presentation/pages/home_user_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../widget/custom_form_widget.dart';
@@ -45,11 +48,21 @@ class _RegisterPageState extends State<RegisterPage> {
             child: BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
                 if (state is SuccessAuthState) {
+                  if(state == ""){
+
+                  }
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(
                           builder: (context) => HomeUserPage()),
                           (route) => false);
+                }
+                if(state is LoadingAuthState){
+                  context.loaderOverlay.show();
+                }
+                if(state is FailureAuthState){
+                  context.loaderOverlay.hide();
+                  Utility(context).showSnackbar(state.msg);
                 }
               },
               builder: (context, state) {
@@ -80,6 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 29,
                         ),
                         CustomFormWidget(
+                          controller: _fullName,
                           obsecure: false,
                           hint: "Masukkan Nama Lengkap",
                           label: "Nama Lengkap",
@@ -88,14 +102,18 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 14,
                         ),
                         CustomFormWidget(
+                          controller: _numberPhone,
                           obsecure: false,
                           hint: "Masukkan Nomor Telepon",
                           label: "Nomor Telepon",
+                          inputType: TextInputType.number,
+                          inputFormaters: [FilteringTextInputFormatter.digitsOnly],
                         ),
                         const SizedBox(
                           height: 14,
                         ),
                         CustomFormWidget(
+                          controller: _email,
                           obsecure: false,
                           hint: "Masukkan E-mail",
                           label: "E-mail",
@@ -104,6 +122,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           height: 14,
                         ),
                         CustomFormWidget(
+                          controller: _password,
                           obsecure: true,
                           hint: "Masukkan Password",
                           label: "Password",
@@ -116,13 +135,16 @@ class _RegisterPageState extends State<RegisterPage> {
                         ),
                         ElevatedButton(
                           onPressed: () {
-                            context.read<AuthBloc>().add(
-                              RegisterAuth(
-                                  _fullName.text,
-                                  _numberPhone.text,
-                                  _email.text,
-                                  _password.text),
-                            );
+                            if(_formKey.currentState!.validate()){
+                              FocusScope.of(context).unfocus();
+                              context.read<AuthBloc>().add(
+                                RegisterAuth(
+                                    _fullName.text,
+                                    _numberPhone.text,
+                                    _email.text,
+                                    _password.text),
+                              );
+                            }
                           },
                           child: Text(
                             "Daftar",

@@ -2,9 +2,11 @@ import 'package:baswara_app/authentication/data/data_sources/auth_remote_datasou
 import 'package:baswara_app/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:baswara_app/authentication/domain/repositories/auth_repository.dart';
 import 'package:baswara_app/onBoarding/presentation/pages/splash_page.dart';
+import 'package:baswara_app/widget/loading_spin_widget.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
 import 'core/app_theme_data.dart';
@@ -43,10 +45,14 @@ class MyApp extends StatelessWidget {
             ),
           )
         ],
-        child: MaterialApp(
-          debugShowCheckedModeBanner: false,
-          theme: AppThemeData.getTheme(context),
-          home: const SplashPage(),
+        child: GlobalLoaderOverlay(
+          useDefaultLoading: false,
+          overlayWidget: const LoadingSpinWidget(),
+          child: MaterialApp(
+            debugShowCheckedModeBanner: false,
+            theme: AppThemeData.getTheme(context),
+            home: const SplashPage(),
+          ),
         ),
       );
     });

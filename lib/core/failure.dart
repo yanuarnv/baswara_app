@@ -12,7 +12,4 @@ class ServerFailure extends Failure {
   ServerFailure(this.msg);
 }
 class InternalFailure extends Failure {
-  final String msg;
-
-  InternalFailure(this.msg);
 }

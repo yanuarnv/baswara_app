@@ -1,4 +1,5 @@
 import 'package:baswara_app/core/color_value.dart';
+import 'package:baswara_app/homeAdmin/presentation/pages/home_admin_page.dart';
 import 'package:baswara_app/homeUser/presentation/pages/home_user_page.dart';
 import 'package:baswara_app/onBoarding/presentation/manager/onboarding_bloc.dart';
 import 'package:baswara_app/onBoarding/presentation/pages/onboarding_page.dart';
@@ -19,7 +20,7 @@ class SplashPage extends StatelessWidget {
             if (state is SuccesOnBoardingState) {
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(
-                  builder: (context) => const HomeUserPage(),
+                  builder: (context) => const HomeAdminPage(),
                 ),
               );
             }else{

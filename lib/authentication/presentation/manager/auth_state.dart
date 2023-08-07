@@ -8,14 +8,18 @@ abstract class AuthState extends Equatable {
 
 class AuthInitial extends AuthState {}
 
-class SuccessAuthState extends AuthState{
+class SuccessAuthState extends AuthState {
+  final String role;
 
+  SuccessAuthState({required this.role});
 }
 
-class LoadingAuthState extends AuthState{}
+class LoadingAuthState extends AuthState {}
 
-class FailureAuthState extends AuthState{
+class FailureAuthState extends AuthState {
   final String msg;
 
   FailureAuthState(this.msg);
 }
+
+class NoConnectionState extends AuthState {}

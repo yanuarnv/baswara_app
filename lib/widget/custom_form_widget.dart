@@ -29,13 +29,13 @@ class CustomFormWidget extends StatefulWidget {
 }
 
 class _CustomFormWidgetState extends State<CustomFormWidget> {
-  bool hidePass = false;
+  bool hidePass = true;
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
       style: GoogleFonts.roboto(fontSize: 16),
-      obscureText: hidePass,
+      obscureText:widget.obsecure? hidePass:false,
       inputFormatters: widget.inputFormaters,
       keyboardType: widget.inputType,
       validator: widget.validation ??

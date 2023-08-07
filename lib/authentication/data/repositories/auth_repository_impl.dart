@@ -12,30 +12,32 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl(this.networkInfo, this.remoteDataSources);
 
   @override
-  Future<Either<Failure, bool>> login(String email, String password) async {
+  Future<Either<Failure, String>> login(String email, String password) async {
     if (await networkInfo.isConnected) {
       try {
-        return const Right(true);
+        final role = await remoteDataSources.login(email, password);
+        return  Right(role);
       } on ServerException catch (e) {
         return Left(ServerFailure(e.msg));
       }
     } else {
-      return Left(InternalFailure('You are Offline !'));
+      return Left(InternalFailure());
     }
   }
 
   @override
-  Future<Either<Failure, bool>> register(
+  Future<Either<Failure, String>> register(
       String name, String email, String password, String phoneNumber) async {
     if (await networkInfo.isConnected) {
       try {
-        await remoteDataSources.register(name, email, password, phoneNumber);
-        return  const Right(true);
+        final role = await remoteDataSources.register(
+            name, email, password, phoneNumber);
+        return Right(role);
       } on ServerException catch (e) {
         return Left(ServerFailure(e.msg));
       }
     } else {
-      return Left(InternalFailure('You are Offline !'));
+      return Left(InternalFailure());
     }
   }
 }

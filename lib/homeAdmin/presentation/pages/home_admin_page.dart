@@ -1,3 +1,4 @@
+import 'package:baswara_app/widget/logout_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,9 +7,9 @@ import '../../../core/color_value.dart';
 import '../widgets/widget.dart';
 
 class HomeAdminPage extends StatefulWidget {
-  const HomeAdminPage({super.key, required this.title});
-
-  final String title;
+  const HomeAdminPage({
+    super.key,
+  });
 
   @override
   State<HomeAdminPage> createState() => _HomeAdminPageState();
@@ -264,11 +265,11 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                 ],
               ),
               selected: _selectedIndex == 8,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(8);
-                // Then close the drawer
+              onTap: () async {
                 Navigator.pop(context);
+                await showDialog(
+                    context: context,
+                    builder: (context) => LogoutDialogWidget());
               },
             ),
           ],
