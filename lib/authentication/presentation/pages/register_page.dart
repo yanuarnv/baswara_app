@@ -2,6 +2,7 @@ import 'package:baswara_app/authentication/domain/repositories/auth_repository.d
 import 'package:baswara_app/authentication/presentation/manager/auth_bloc.dart';
 import 'package:baswara_app/core/color_value.dart';
 import 'package:baswara_app/core/utility.dart';
+import 'package:baswara_app/homeAdmin/presentation/pages/home_admin_page.dart';
 import 'package:baswara_app/homeUser/presentation/pages/home_user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -48,14 +49,21 @@ class _RegisterPageState extends State<RegisterPage> {
             child: BlocConsumer<AuthBloc, AuthState>(
               listener: (context, state) {
                 if (state is SuccessAuthState) {
-                  if(state == ""){
-
+                  context.loaderOverlay.hide();
+                  if(state.role== "USER"){
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeUserPage()),
+                            (route) => false);
                   }
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => HomeUserPage()),
-                          (route) => false);
+                  if(state.role == "ADMIN"){
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const HomeAdminPage()),
+                            (route) => false);
+                  }
                 }
                 if(state is LoadingAuthState){
                   context.loaderOverlay.show();

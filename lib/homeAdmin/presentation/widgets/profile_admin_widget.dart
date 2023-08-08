@@ -22,7 +22,7 @@ class ProfileAdminWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                     color: Colors.grey,
                     borderRadius: BorderRadius.circular(90)),
-                child: Icon(Icons.person, size: 60),
+                child: const Icon(Icons.person, size: 60),
               ),
             ),
             const SizedBox(
@@ -82,6 +82,18 @@ class ProfileAdminWidget extends StatelessWidget {
                 color: const Color(0xff455A64),
               ),
             ),
+            const SizedBox(
+              height: 80,
+            ),
+            ElevatedButton(
+                onPressed: () {},
+                child: Text(
+                  "Edit",
+                  style: GoogleFonts.poppins(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
+                ))
           ],
         ),
       ),

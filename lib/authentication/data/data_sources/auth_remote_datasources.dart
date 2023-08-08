@@ -38,6 +38,7 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
       final streamResult = await response.stream.bytesToString();
       final user = userEntityFromJson(streamResult);
       await LocalAuthStorage().write("token", user.data.accessToken);
+      await LocalAuthStorage().write("role", user.data.user.roles);
       return user.data.user.roles;
     } else {
       if (response.statusCode == 500) {

@@ -18,11 +18,20 @@ class SplashPage extends StatelessWidget {
         child: BlocListener<OnboardingBloc,OnBoardingState>(
           listener: (context, state) {
             if (state is SuccesOnBoardingState) {
-              Navigator.of(context).pushReplacement(
-                MaterialPageRoute(
-                  builder: (context) => const HomeAdminPage(),
-                ),
-              );
+              if(state.role== "USER"){
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeUserPage()),
+                        (route) => false);
+              }
+              if(state.role == "ADMIN"){
+                Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const HomeAdminPage()),
+                        (route) => false);
+              }
             }else{
               Navigator.of(context).pushReplacement(
                 MaterialPageRoute(

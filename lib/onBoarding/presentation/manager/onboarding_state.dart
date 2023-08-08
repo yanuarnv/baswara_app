@@ -8,6 +8,11 @@ abstract class OnBoardingState extends Equatable {
 
 class OnBoardingInitial extends OnBoardingState {}
 
-class SuccesOnBoardingState extends OnBoardingState {}
+class SuccesOnBoardingState extends OnBoardingState {
+  final String role;
+
+  SuccesOnBoardingState({required this.role});
+
+}
 
 class FailureOnBoardingState extends OnBoardingState{}

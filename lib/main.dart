@@ -9,10 +9,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
+import 'bloc_observer.dart';
 import 'core/app_theme_data.dart';
 import 'core/network_info.dart';
 
-void main() {
+void main() async{
+  Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
 }
 
