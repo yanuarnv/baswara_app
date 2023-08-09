@@ -1,4 +1,3 @@
-import 'package:baswara_app/onBoarding/presentation/pages/onboarding_page.dart';
 import 'package:baswara_app/widget/logout_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -43,7 +42,23 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
         backgroundColor: ColorValue.primary,
         centerTitle: true,
         title: Text(
-          "Baswara",
+          _selectedIndex == 0
+              ? "Baswara"
+              : _selectedIndex == 1
+                  ? "Profile"
+                  : _selectedIndex == 2
+                      ? "Profil Pengguna"
+                      : _selectedIndex == 3
+                          ? "Input Jenis Sampah"
+                          : _selectedIndex == 4
+                              ? "Input Sampah User"
+                              : _selectedIndex == 5
+                                  ? "Input Harga Sampah"
+                                  : _selectedIndex == 6
+                                      ? "Tarik Saldo User"
+                                      : _selectedIndex == 7
+                                          ? "Grafik Penjualan"
+                                          : "Katalog Bertawa",
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.w600,
@@ -150,7 +165,6 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               selected: _selectedIndex == 3,
               onTap: () {
                 _onItemTapped(3);
-                print(_selectedIndex);
                 Navigator.pop(context);
               },
             ),
@@ -270,7 +284,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                 Navigator.pop(context);
                 await showDialog(
                     context: context,
-                    builder: (context) =>const  LogoutDialogWidget());
+                    builder: (context) => const LogoutDialogWidget());
               },
             ),
           ],

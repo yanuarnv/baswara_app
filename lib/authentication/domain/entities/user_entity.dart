@@ -48,7 +48,7 @@ class Data {
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
-    accessToken:json["access_token"]??null,
+    accessToken:json["access_token"],
     tokenType: json["token_type"],
     user: User.fromJson(json["user"]),
   );

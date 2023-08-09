@@ -2,7 +2,6 @@ import 'package:baswara_app/core/color_value.dart';
 import 'package:baswara_app/widget/custom_form_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sizer/sizer.dart';
 
 class AddProductDialog extends StatelessWidget {
   const AddProductDialog({super.key});

@@ -3,7 +3,6 @@ import 'package:baswara_app/authentication/presentation/pages/register_page.dart
 import 'package:baswara_app/core/color_value.dart';
 import 'package:baswara_app/core/utility.dart';
 import 'package:baswara_app/homeAdmin/presentation/pages/home_admin_page.dart';
-import 'package:baswara_app/homeUser/presentation/pages/home_user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -139,7 +138,7 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => RegisterPage(),
+                                builder: (context) => const RegisterPage(),
                               ),
                             );
                           },

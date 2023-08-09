@@ -1,9 +1,6 @@
-import 'package:baswara_app/core/color_value.dart';
 import 'package:baswara_app/homeUser/presentation/widgets/home_user_widget.dart';
 import 'package:baswara_app/homeUser/presentation/widgets/profil_user_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class HomeUserPage extends StatefulWidget {
   const HomeUserPage({super.key});

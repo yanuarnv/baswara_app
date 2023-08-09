@@ -1,6 +1,9 @@
 import 'package:baswara_app/authentication/data/data_sources/auth_remote_datasources.dart';
 import 'package:baswara_app/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:baswara_app/authentication/domain/repositories/auth_repository.dart';
+import 'package:baswara_app/homeAdmin/data/data_sources/admin_remote_datasources.dart';
+import 'package:baswara_app/homeAdmin/data/repositories/admin_repository_impl.dart';
+import 'package:baswara_app/homeAdmin/domain/repositories/admin_repository.dart';
 import 'package:baswara_app/onBoarding/presentation/pages/splash_page.dart';
 import 'package:baswara_app/widget/loading_spin_widget.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -13,7 +16,7 @@ import 'bloc_observer.dart';
 import 'core/app_theme_data.dart';
 import 'core/network_info.dart';
 
-void main() async{
+void main() async {
   Bloc.observer = AppBlocObserver();
   runApp(const MyApp());
 }
@@ -44,6 +47,17 @@ class MyApp extends StatelessWidget {
             create: (context) => AuthRepositoryImpl(
               RepositoryProvider.of<NetworkInfo>(context),
               RepositoryProvider.of<AuthRemoteDataSource>(context),
+            ),
+          ),
+          RepositoryProvider<AdminRemoteDataSources>(
+            create: (_) => AdminRemoteDataSourcesImpl(
+              http.Client(),
+            ),
+          ),
+          RepositoryProvider<AdminRepository>(
+            create: (context) => AdminRepositoryImpl(
+              RepositoryProvider.of<NetworkInfo>(context),
+              RepositoryProvider.of<AdminRemoteDataSources>(context),
             ),
           )
         ],

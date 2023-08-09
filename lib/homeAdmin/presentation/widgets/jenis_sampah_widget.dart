@@ -3,8 +3,13 @@ import 'package:baswara_app/widget/add_product_dialog.dart';
 import 'package:baswara_app/widget/delete_product_dialog.dart';
 import 'package:baswara_app/widget/edit_product_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:sizer/sizer.dart';
+
+import '../../domain/repositories/admin_repository.dart';
+import '../manager/admin_bloc.dart';
 
 class JenisSampahWidget extends StatefulWidget {
   const JenisSampahWidget({super.key});
@@ -14,7 +19,13 @@ class JenisSampahWidget extends StatefulWidget {
 }
 
 class _JenisSampahWidgetState extends State<JenisSampahWidget> {
-  ValueNotifier<List<int>> filterItem = ValueNotifier([]);
+  ValueNotifier<int> filterItem = ValueNotifier(0);
+  final List<String> categoryList = [
+    "Semua",
+    "Plastik",
+    "Kertas",
+    "Besi",
+  ];
 
   @override
   void dispose() {
@@ -31,382 +42,304 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
       },
       child: Scaffold(
         resizeToAvoidBottomInset: false,
-        body: Padding(
-          padding: const EdgeInsets.only(top: 15.0, left: 16, right: 16),
-          child: Column(
-            children: [
-              ValueListenableBuilder(
-                  valueListenable: filterItem,
-                  builder: (context, value, _) {
-                    return SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              if (value.contains(0)) {
-                                filterItem.value = List.from(value)..remove(0);
-                              } else {
-                                filterItem.value = List.from(value)..add(0);
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              width: 82,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: value.contains(0)
-                                    ? null
-                                    : Border.all(color: ColorValue.primary),
-                                color: value.contains(0)
-                                    ? ColorValue.primary
-                                    : Colors.white,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if (value.contains(0))
-                                    const Icon(
-                                      Icons.check,
-                                      color: Colors.white,
-                                      size: 12,
-                                    ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "semua",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      color: value.contains(0)
-                                          ? Colors.white
-                                          : ColorValue.primary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+        body: BlocProvider<AdminBloc>(
+          create: (context) =>
+              AdminBloc(RepositoryProvider.of<AdminRepository>(context))
+                ..add(GetProduct()),
+          child: BlocBuilder<AdminBloc, AdminState>(
+            builder: (context, state) {
+              return RefreshIndicator(
+                onRefresh: () async {
+                  await Future.delayed(
+                    const Duration(milliseconds: 500),
+                    () {
+                      BlocProvider.of<AdminBloc>(context).add(GetProduct());
+                    },
+                  );
+                  return;
+                },
+                child: SingleChildScrollView(
+                  child: BlocConsumer<AdminBloc, AdminState>(
+                    listener: (context, state) {
+                      if (state is NoConnection) {
+                        showDialog(
+                            context: context,
+                            builder: (context) => const AlertDialog(
+                                  content: Text("NO internet"),
+                                ));
+                      }
+                    },
+                    builder: (context, state) {
+                      if (state is LoadingGetProduct) {
+                        return SizedBox(
+                          height: 90.h,
+                          child: const Center(
+                            child: CircularProgressIndicator(
+                                color: ColorValue.primary),
                           ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              if (value.contains(1)) {
-                                filterItem.value = List.from(value)..remove(1);
-                              } else {
-                                filterItem.value = List.from(value)..add(1);
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              width: 82,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: value.contains(1)
-                                    ? null
-                                    : Border.all(color: ColorValue.primary),
-                                color: value.contains(1)
-                                    ? ColorValue.primary
-                                    : Colors.white,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if (value.contains(1))
-                                    const Icon(
-                                      Icons.check,
-                                      color: Colors.white,
-                                      size: 12,
-                                    ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Plastik",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      color: value.contains(1)
-                                          ? Colors.white
-                                          : ColorValue.primary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              if (value.contains(2)) {
-                                filterItem.value = List.from(value)..remove(2);
-                              } else {
-                                filterItem.value = List.from(value)..add(2);
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              width: 82,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: value.contains(2)
-                                    ? null
-                                    : Border.all(color: ColorValue.primary),
-                                color: value.contains(2)
-                                    ? ColorValue.primary
-                                    : Colors.white,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if (value.contains(2))
-                                    const Icon(
-                                      Icons.check,
-                                      color: Colors.white,
-                                      size: 12,
-                                    ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Kertas",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      color: value.contains(2)
-                                          ? Colors.white
-                                          : ColorValue.primary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          const SizedBox(
-                            width: 10,
-                          ),
-                          InkWell(
-                            onTap: () {
-                              if (value.contains(3)) {
-                                filterItem.value = List.from(value)..remove(3);
-                              } else {
-                                filterItem.value = List.from(value)..add(3);
-                              }
-                            },
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(vertical: 10),
-                              width: 82,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                border: value.contains(3)
-                                    ? null
-                                    : Border.all(color: ColorValue.primary),
-                                color: value.contains(3)
-                                    ? ColorValue.primary
-                                    : Colors.white,
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  if (value.contains(3))
-                                    const Icon(
-                                      Icons.check,
-                                      color: Colors.white,
-                                      size: 12,
-                                    ),
-                                  const SizedBox(
-                                    width: 5,
-                                  ),
-                                  Text(
-                                    "Besi",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 12,
-                                      color: value.contains(3)
-                                          ? Colors.white
-                                          : ColorValue.primary,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    );
-                  }),
-              const SizedBox(
-                height: 25,
-              ),
-              FocusScope(
-                node: FocusScopeNode(),
-                child: TextField(
-                  style: GoogleFonts.poppins(fontSize: 16),
-                  decoration: InputDecoration(
-                      border: OutlineInputBorder(
-                        borderSide: BorderSide(color: ColorValue.primary),
-                      ),
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: ColorValue.primary),
-                      ),
-                      hintText: "Search...",
-                      hintStyle: GoogleFonts.poppins(
-                          fontSize: 16, color: ColorValue.primary),
-                      isDense: true,
-                      contentPadding: EdgeInsets.all(10),
-                      suffixIcon: Icon(
-                        Icons.search,
-                        size: 24,
-                        color: ColorValue.primary,
-                      )),
-                ),
-              ),
-              Expanded(
-                child: Container(
-                  padding: const EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(5)),
-                  child: Column(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        decoration: const BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(color: Colors.black, width: 1),
-                          ),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Center(
-                                child: Text(
-                                  "No",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 4,
-                              child: Text(
-                                "Nama",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                ),
-                              ),
-                            ),
-                            Expanded(
-                              flex: 2,
-                              child: Center(
-                                child: Text(
-                                  "Aksi",
-                                  style: GoogleFonts.poppins(
-                                    fontSize: 16,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      Expanded(
-                        child: ListView.builder(
-                          shrinkWrap: true,
-                          itemCount: 115,
-                          itemBuilder: (c, index) => Container(
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            decoration: const BoxDecoration(
-                              border: Border(
-                                bottom:
-                                    BorderSide(color: Colors.black, width: 1),
-                              ),
-                            ),
-                            child: Row(
+                        );
+                      }
+                      if (state is SuccesGetProduct) {
+                        return SizedBox(
+                          height: 90.h,
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(
                               children: [
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                ValueListenableBuilder(
+                                    valueListenable: filterItem,
+                                    builder: (context, value, _) {
+                                      return Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: List<Widget>.generate(
+                                          4,
+                                          (int index) {
+                                            return ChoiceChip(
+                                              selectedColor: ColorValue.primary,
+                                              backgroundColor: Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius:
+                                                    BorderRadius.circular(4),
+                                                side: const BorderSide(
+                                                  color: ColorValue.primary,
+                                                ),
+                                              ),
+                                              label: Row(
+                                                children: [
+                                                  if(value == index)const Icon(
+                                                    Icons.check,
+                                                    color: Colors.white,
+                                                    size: 12,
+                                                  ),
+                                                  const SizedBox(width: 5,),
+                                                  Text(
+                                                    categoryList[index],
+                                                    style: GoogleFonts.inter(
+                                                        fontSize: 12,
+                                                        color: value == index
+                                                            ? Colors.white
+                                                            : ColorValue
+                                                                .primary),
+                                                  ),
+                                                ],
+                                              ),
+                                              selected: value == index,
+                                              onSelected: (bool selected) {
+                                                filterItem.value = index;
+                                              },
+                                            );
+                                          },
+                                        ).toList(),
+                                      );
+                                    }),
+                                const SizedBox(
+                                  height: 25,
+                                ),
+                                FocusScope(
+                                  node: FocusScopeNode(),
+                                  child: TextField(
+                                    style: GoogleFonts.poppins(fontSize: 16),
+                                    decoration: InputDecoration(
+                                        border: const OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ColorValue.primary),
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                              color: ColorValue.primary),
+                                        ),
+                                        hintText: "Search...",
+                                        hintStyle: GoogleFonts.poppins(
+                                            fontSize: 16,
+                                            color: ColorValue.primary),
+                                        isDense: true,
+                                        contentPadding: EdgeInsets.all(10),
+                                        suffixIcon: Icon(
+                                          Icons.search,
+                                          size: 24,
+                                          color: ColorValue.primary,
+                                        )),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 25,
+                                ),
                                 Expanded(
-                                  child: Center(
+                                  child: Container(
+                                    padding: const EdgeInsets.all(10),
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(5)),
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 10),
+                                          decoration: const BoxDecoration(
+                                            border: Border(
+                                              bottom: BorderSide(
+                                                  color: Colors.black,
+                                                  width: 1),
+                                            ),
+                                          ),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: Center(
+                                                  child: Text(
+                                                    "No",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 4,
+                                                child: Text(
+                                                  "Nama",
+                                                  style: GoogleFonts.poppins(
+                                                    fontSize: 16,
+                                                  ),
+                                                ),
+                                              ),
+                                              Expanded(
+                                                flex: 2,
+                                                child: Center(
+                                                  child: Text(
+                                                    "Aksi",
+                                                    style: GoogleFonts.poppins(
+                                                      fontSize: 16,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                        ),
+                                        Expanded(
+                                          child: ListView.builder(
+                                            shrinkWrap: true,
+                                            itemCount: state.data.length,
+                                            itemBuilder: (c, index) =>
+                                                Container(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      vertical: 10),
+                                              decoration: const BoxDecoration(
+                                                border: Border(
+                                                  bottom: BorderSide(
+                                                      color: Colors.black,
+                                                      width: 1),
+                                                ),
+                                              ),
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Center(
+                                                      child: Text(
+                                                        "${1 + index}",
+                                                        style:
+                                                            GoogleFonts.poppins(
+                                                          fontSize: 16,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 4,
+                                                    child: Text(
+                                                      state.data[index].name,
+                                                      style:
+                                                          GoogleFonts.poppins(
+                                                        fontSize: 16,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Expanded(
+                                                    flex: 2,
+                                                    child: Center(
+                                                        child: Row(
+                                                      mainAxisAlignment:
+                                                          MainAxisAlignment
+                                                              .spaceAround,
+                                                      children: [
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            await showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) =>
+                                                                        const EditProductDialog());
+                                                          },
+                                                          child: SvgPicture.asset(
+                                                              "assets/icons/icon_pencil.svg"),
+                                                        ),
+                                                        InkWell(
+                                                          onTap: () async {
+                                                            await showDialog(
+                                                                context:
+                                                                    context,
+                                                                builder:
+                                                                    (context) =>
+                                                                        const DeleteProductDialog());
+                                                          },
+                                                          child:
+                                                              SvgPicture.asset(
+                                                            "assets/icons/icon_trash.svg",
+                                                            color: Colors.red,
+                                                          ),
+                                                        )
+                                                      ],
+                                                    )),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                ElevatedButton(
+                                    onPressed: () async {
+                                      await showDialog(
+                                          context: context,
+                                          builder: (context) =>
+                                              const AddProductDialog());
+                                    },
                                     child: Text(
-                                      "${1 + index}",
+                                      "Tambah Jenis Sampah",
                                       style: GoogleFonts.poppins(
                                         fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.white,
                                       ),
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 4,
-                                  child: Text(
-                                    "Plastik",
-                                    style: GoogleFonts.poppins(
-                                      fontSize: 16,
-                                    ),
-                                  ),
-                                ),
-                                Expanded(
-                                  flex: 2,
-                                  child: Center(
-                                      child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceAround,
-                                    children: [
-                                      InkWell(
-                                        onTap: () async {
-                                          await showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                                  const EditProductDialog());
-                                        },
-                                        child: SvgPicture.asset(
-                                            "assets/icons/icon_pencil.svg"),
-                                      ),
-                                      InkWell(
-                                        onTap: () async {
-                                          await showDialog(
-                                              context: context,
-                                              builder: (context) =>
-                                              const DeleteProductDialog());
-                                        },
-                                        child: SvgPicture.asset(
-                                          "assets/icons/icon_trash.svg",
-                                          color: Colors.red,
-                                        ),
-                                      )
-                                    ],
-                                  )),
+                                    )),
+                                const SizedBox(
+                                  height: 20,
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                      ),
-                    ],
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
                   ),
                 ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                  onPressed: () async {
-                    await showDialog(
-                        context: context,
-                        builder: (context) => const AddProductDialog());
-                  },
-                  child: Text(
-                    "Tambah Jenis Sampah",
-                    style: GoogleFonts.poppins(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.white,
-                    ),
-                  )),
-              const SizedBox(
-                height: 20,
-              ),
-            ],
+              );
+            },
           ),
         ),
       ),

@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:baswara_app/authentication/domain/entities/user_entity.dart';
-import 'package:baswara_app/core/constant_value.dart';
 import 'package:baswara_app/core/local_auth_storage.dart';
 import 'package:http/http.dart' as http;
 

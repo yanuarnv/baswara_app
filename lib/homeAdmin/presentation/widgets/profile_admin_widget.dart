@@ -1,4 +1,6 @@
+import 'package:baswara_app/core/color_value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ProfileAdminWidget extends StatelessWidget {
@@ -27,6 +29,52 @@ class ProfileAdminWidget extends StatelessWidget {
             ),
             const SizedBox(
               height: 40,
+            ),
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 16,vertical: 14),
+              margin: const EdgeInsets.only(bottom: 39),
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.white,
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 10,
+                      offset:  Offset(0, 2)
+                    ),
+                  ]),
+              child: Row(
+                children: [
+                  SvgPicture.asset(
+                    "assets/icons/icon_wallet.svg",
+                    width: 45,
+                    height: 45,
+                  ),
+                  const SizedBox(
+                    width: 9,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Saldo",
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black),
+                      ),
+                      Text(
+                        "Rp 100.000",
+                        style: GoogleFonts.poppins(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w600,
+                          color: ColorValue.primary,
+                        ),
+                      )
+                    ],
+                  )
+                ],
+              ),
             ),
             Text(
               "Nama",
@@ -85,15 +133,6 @@ class ProfileAdminWidget extends StatelessWidget {
             const SizedBox(
               height: 80,
             ),
-            ElevatedButton(
-                onPressed: () {},
-                child: Text(
-                  "Edit",
-                  style: GoogleFonts.poppins(
-                    fontWeight: FontWeight.w500,
-                    fontSize: 16,
-                  ),
-                ))
           ],
         ),
       ),
