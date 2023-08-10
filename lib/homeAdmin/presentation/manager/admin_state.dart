@@ -7,13 +7,16 @@ abstract class AdminState extends Equatable {
 }
 
 class AdminInitial extends AdminState {}
-class LoadingGetProduct  extends AdminState{
+class LoadingAdminState  extends AdminState{
 
 }
 class SuccesGetProduct extends AdminState{
   final List<Product> data;
 
   SuccesGetProduct(this.data);
+}
+class SuccesAddproduct extends AdminState{
+
 }
 
 class FailureAdminState extends AdminState{

@@ -26,4 +26,18 @@ class AdminRepositoryImpl extends AdminRepository {
       return Left(InternalFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> addProduct(String name,int category) async{
+    if (await networkInfo.isConnected) {
+      try {
+        final data = await remoteDataSources.addProduct(name, category);
+        return Right(data);
+      } on ServerException catch(e){
+        return Left(ServerFailure(e.msg));
+      }
+    }else{
+      return Left(InternalFailure());
+    }
+  }
 }

@@ -16,11 +16,12 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
 
   AdminBloc(this.repository) : super(AdminInitial()) {
     on<GetProduct>(getProductMapToState);
+    on<AddProduct>(addProductMapToState);
   }
 
   FutureOr<void> getProductMapToState(
       GetProduct event, Emitter<AdminState> emit) async {
-    emit(LoadingGetProduct());
+    emit(LoadingAdminState());
     final data = await repository.getProduct();
     data.fold(
       (l) {
@@ -33,6 +34,25 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
       },
       (r) => emit(
         SuccesGetProduct(r),
+      ),
+    );
+  }
+
+  FutureOr<void> addProductMapToState(
+      AddProduct event, Emitter<AdminState> emit) async {
+    emit(LoadingAdminState());
+    final data = await repository.addProduct(event.name, event.category);
+    data.fold(
+      (l) {
+        if (l is ServerFailure) {
+          emit(FailureAdminState(l.msg));
+        }
+        if (l is InternalFailure) {
+          emit(NoConnection());
+        }
+      },
+      (r) => emit(
+        SuccesAddproduct(),
       ),
     );
   }

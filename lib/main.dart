@@ -63,6 +63,7 @@ class MyApp extends StatelessWidget {
         ],
         child: GlobalLoaderOverlay(
           useDefaultLoading: false,
+          useBackButtonInterceptor: true,
           overlayWidget: const LoadingSpinWidget(),
           child: MaterialApp(
             debugShowCheckedModeBanner: false,

@@ -16,7 +16,7 @@ class EditProductDialog extends StatelessWidget {
           const SizedBox(
             height: 20,
           ),
-          CustomFormWidget(obsecure: false, label: "Nama Sampah"),
+          const CustomFormWidget(obsecure: false, label: "Nama Sampah"),
           const SizedBox(
             height: 36,
           ),

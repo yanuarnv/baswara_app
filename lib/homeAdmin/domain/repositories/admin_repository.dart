@@ -4,4 +4,5 @@ import 'package:dartz/dartz.dart';
 
 abstract class AdminRepository {
   Future<Either<Failure,List<Product>>> getProduct();
+  Future<Either<Failure,bool>> addProduct(String name,int category);
 }
