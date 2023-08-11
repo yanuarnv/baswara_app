@@ -15,6 +15,14 @@ class AddProduct extends AdminEvent {
   AddProduct({required this.name,required this.category});
 }
 
-class DeleteProduct extends AdminEvent {}
+class DeleteProduct extends AdminEvent {
+  final String idProduct;
+
+  DeleteProduct(this.idProduct);
+}
 
 class EditProduct extends AdminEvent {}
+
+class GetAlluser extends AdminEvent{
+
+}

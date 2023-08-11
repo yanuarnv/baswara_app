@@ -67,10 +67,6 @@ class User {
   String phone;
   String roles;
   String savings;
-  dynamic emailVerifiedAt;
-  dynamic twoFactorSecret;
-  dynamic twoFactorRecoveryCodes;
-  dynamic twoFactorConfirmedAt;
   DateTime createdAt;
   DateTime updatedAt;
 
@@ -81,10 +77,7 @@ class User {
     required this.phone,
     required this.roles,
     required this.savings,
-    this.emailVerifiedAt,
-    this.twoFactorSecret,
-    this.twoFactorRecoveryCodes,
-    this.twoFactorConfirmedAt,
+
     required this.createdAt,
     required this.updatedAt,
   });
@@ -96,10 +89,6 @@ class User {
     phone: json["phone"],
     roles: json["roles"],
     savings: json["savings"],
-    emailVerifiedAt: json["email_verified_at"],
-    twoFactorSecret: json["two_factor_secret"],
-    twoFactorRecoveryCodes: json["two_factor_recovery_codes"],
-    twoFactorConfirmedAt: json["two_factor_confirmed_at"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );
@@ -111,10 +100,6 @@ class User {
     "phone": phone,
     "roles": roles,
     "savings": savings,
-    "email_verified_at": emailVerifiedAt,
-    "two_factor_secret": twoFactorSecret,
-    "two_factor_recovery_codes": twoFactorRecoveryCodes,
-    "two_factor_confirmed_at": twoFactorConfirmedAt,
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
   };

@@ -1,9 +1,16 @@
 import 'package:baswara_app/core/color_value.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../homeAdmin/presentation/manager/admin_bloc.dart';
+
 class DeleteProductDialog extends StatelessWidget {
-  const DeleteProductDialog({super.key});
+  final int idProduct;
+  final BuildContext blocContext;
+
+  const DeleteProductDialog(
+      {super.key, required this.blocContext, required this.idProduct});
 
   @override
   Widget build(BuildContext context) {
@@ -38,18 +45,23 @@ class DeleteProductDialog extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                      color: const Color(0xffECECEC),
-                      borderRadius: BorderRadius.circular(100)),
-                  child: Center(
-                    child: Text(
-                      "Kembali",
-                      style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff909090)),
+                child: GestureDetector(
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                        color: const Color(0xffECECEC),
+                        borderRadius: BorderRadius.circular(100)),
+                    child: Center(
+                      child: Text(
+                        "Kembali",
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: const Color(0xff909090)),
+                      ),
                     ),
                   ),
                 ),
@@ -58,18 +70,28 @@ class DeleteProductDialog extends StatelessWidget {
                 width: 10,
               ),
               Expanded(
-                child: Container(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
-                  decoration: BoxDecoration(
-                      color: ColorValue.primary,
-                      borderRadius: BorderRadius.circular(100)),
-                  child: Center(
-                    child: Text(
-                      "Tambah",
-                      style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white),
+                child: GestureDetector(
+                  onTap: () {
+                    blocContext.read<AdminBloc>().add(
+                          DeleteProduct(
+                            idProduct.toString(),
+                          ),
+                        );
+                    Navigator.pop(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    decoration: BoxDecoration(
+                        color: ColorValue.primary,
+                        borderRadius: BorderRadius.circular(100)),
+                    child: Center(
+                      child: Text(
+                        "Yakin",
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.white),
+                      ),
                     ),
                   ),
                 ),

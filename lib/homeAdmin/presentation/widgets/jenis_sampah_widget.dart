@@ -1,6 +1,7 @@
 import 'package:baswara_app/core/color_value.dart';
 import 'package:baswara_app/homeAdmin/presentation/widgets/product_item_widget.dart';
 import 'package:baswara_app/widget/add_product_dialog.dart';
+import 'package:baswara_app/widget/no_internet_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,7 +56,7 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
               return RefreshIndicator(
                 onRefresh: () async {
                   await Future.delayed(
-                    const Duration(milliseconds: 500),
+                    const Duration(),
                     () {
                       BlocProvider.of<AdminBloc>(context).add(GetProduct());
                     },
@@ -69,25 +70,25 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                       child: BlocConsumer<AdminBloc, AdminState>(
                         listener: (context, state) {
                           if (state is NoConnection) {
+                            context.loaderOverlay.hide();
                             showDialog(
                                 context: context,
-                                builder: (context) => const AlertDialog(
-                                      content: Text("NO internet"),
-                                    ));
+                                builder: (context) => const NoInternetDialog());
                           }
-                          if(state is SuccesAddproduct){
-                            BlocProvider.of<AdminBloc>(context).add(GetProduct());
+                          if (state is SuccesProductCRUD) {
+                            context.loaderOverlay.hide();
+                            BlocProvider.of<AdminBloc>(context)
+                                .add(GetProduct());
                           }
-                          if(state is LoadingAdminState){
+                          if (state is LoadingAdminState) {
                             context.loaderOverlay.show();
                           }
-                          if(state is FailureAdminState){
+                          if (state is FailureAdminState) {
                             context.loaderOverlay.hide();
                             Utility(context).showSnackbar(state.msg);
                           }
                         },
                         builder: (context, state) {
-
                           if (state is SuccesGetProduct) {
                             context.loaderOverlay.hide();
                             dataProduct.value = List.from(state.data);
@@ -106,24 +107,20 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                                         builder: (context, value, _) {
                                           return Row(
                                             mainAxisAlignment:
-                                                MainAxisAlignment
-                                                    .spaceBetween,
+                                                MainAxisAlignment.spaceBetween,
                                             children: List<Widget>.generate(
                                               4,
                                               (int index) {
                                                 return ChoiceChip(
                                                   selectedColor:
                                                       ColorValue.primary,
-                                                  backgroundColor:
-                                                      Colors.white,
-                                                  shape:
-                                                      RoundedRectangleBorder(
+                                                  backgroundColor: Colors.white,
+                                                  shape: RoundedRectangleBorder(
                                                     borderRadius:
                                                         BorderRadius.circular(
                                                             4),
                                                     side: const BorderSide(
-                                                      color:
-                                                          ColorValue.primary,
+                                                      color: ColorValue.primary,
                                                     ),
                                                   ),
                                                   label: Row(
@@ -150,15 +147,13 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                                                     ],
                                                   ),
                                                   selected: value == index,
-                                                  onSelected:
-                                                      (bool selected) {
+                                                  onSelected: (bool selected) {
                                                     filterItem.value = index;
                                                     if (index == 0) {
                                                       dataProduct.value =
                                                           state.data;
                                                     } else {
-                                                      dataProduct
-                                                          .value = List<
+                                                      dataProduct.value = List<
                                                                   Product>.from(
                                                               state.data)
                                                           .where((element) =>
@@ -235,8 +230,8 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                                                     child: Center(
                                                       child: Text(
                                                         "No",
-                                                        style: GoogleFonts
-                                                            .poppins(
+                                                        style:
+                                                            GoogleFonts.poppins(
                                                           fontSize: 16,
                                                         ),
                                                       ),
@@ -257,8 +252,8 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                                                     child: Center(
                                                       child: Text(
                                                         "Aksi",
-                                                        style: GoogleFonts
-                                                            .poppins(
+                                                        style:
+                                                            GoogleFonts.poppins(
                                                           fontSize: 16,
                                                         ),
                                                       ),
@@ -281,15 +276,25 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                                                       index: index,
                                                       edit: () async {
                                                         await showDialog(
-                                                            context: context,
-                                                            builder: (context) =>
-                                                                const EditProductDialog());
+                                                          context: context,
+                                                          builder: (_) =>
+                                                              EditProductDialog(
+                                                            blocContext:
+                                                                context,
+                                                          ),
+                                                        );
                                                       },
                                                       delete: () async {
                                                         await showDialog(
-                                                            context: context,
-                                                            builder: (context) =>
-                                                                const DeleteProductDialog());
+                                                          context: context,
+                                                          builder: (_) =>
+                                                              DeleteProductDialog(
+                                                            idProduct:
+                                                                value[index].id,
+                                                            blocContext:
+                                                                context,
+                                                          ),
+                                                        );
                                                       },
                                                     ),
                                                   );
@@ -307,8 +312,7 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                                         onPressed: () async {
                                           await showDialog(
                                               context: context,
-                                              builder: (_) =>
-                                                  AddProductDialog(
+                                              builder: (_) => AddProductDialog(
                                                     blocContext: context,
                                                   ));
                                         },
@@ -328,7 +332,7 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                               ),
                             );
                           }
-                          return SizedBox.shrink();
+                          return const SizedBox.shrink();
                         },
                       ),
                     ),

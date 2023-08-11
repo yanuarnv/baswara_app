@@ -15,7 +15,13 @@ class SuccesGetProduct extends AdminState{
 
   SuccesGetProduct(this.data);
 }
-class SuccesAddproduct extends AdminState{
+class SuccesGetAllUser extends AdminState{
+  final List<User> data;
+
+  SuccesGetAllUser(this.data);
+}
+
+class SuccesProductCRUD extends AdminState{
 
 }
 

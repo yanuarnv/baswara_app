@@ -5,7 +5,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:sizer/sizer.dart';
 
 class EditProductDialog extends StatelessWidget {
-  const EditProductDialog({super.key});
+  final BuildContext blocContext;
+  const EditProductDialog({super.key, required this.blocContext});
 
   @override
   Widget build(BuildContext context) {
