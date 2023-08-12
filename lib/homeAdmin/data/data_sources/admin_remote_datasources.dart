@@ -4,6 +4,7 @@ import 'package:baswara_app/authentication/domain/entities/user_entity.dart';
 import 'package:baswara_app/core/constant_value.dart';
 import 'package:baswara_app/core/local_auth_storage.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/alluser_entity.dart';
+import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
 import 'package:http/http.dart' as http;
 
@@ -17,6 +18,8 @@ abstract class AdminRemoteDataSources {
   Future<bool> delete(String id);
 
   Future<List<User>> getAllUser();
+
+  Future<List<DataCategory>> getAllCategory();
 }
 
 class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
@@ -95,6 +98,22 @@ class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
     if (response.statusCode == 200) {
       final stream = await response.stream.bytesToString();
       final data = allUserEntityFromJson(stream);
+      return data.data;
+    } else {
+      throw ServerException(response.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<List<DataCategory>> getAllCategory() async {
+    var request = http.Request(
+        'GET', Uri.parse('https://baswara-backend.my.id/api/categories'));
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      final streamData = await response.stream.bytesToString();
+      final data = categoryEntityFromJson(streamData);
       return data.data;
     } else {
       throw ServerException(response.reasonPhrase.toString());

@@ -40,31 +40,23 @@ class Product {
   int id;
   String name;
   CategoriesId categoriesId;
-  DateTime createdAt;
-  DateTime updatedAt;
 
   Product({
     required this.id,
     required this.name,
     required this.categoriesId,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) => Product(
     id: json["id"],
     name: json["name"],
     categoriesId: CategoriesId.fromJson(json["categories_id"]),
-    createdAt: DateTime.parse(json["created_at"]),
-    updatedAt: DateTime.parse(json["updated_at"]),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
     "categories_id": categoriesId.toJson(),
-    "created_at": createdAt.toIso8601String(),
-    "updated_at": updatedAt.toIso8601String(),
   };
 }
 

@@ -9,6 +9,8 @@ class CustomFormWidget extends StatefulWidget {
   final String? label;
   final bool obsecure;
   final bool isOpsional;
+  final Widget? suffixIcon;
+
   final TextInputType? inputType;
   final List<TextInputFormatter>? inputFormaters;
   final FormFieldValidator<String>? validation;
@@ -22,7 +24,8 @@ class CustomFormWidget extends StatefulWidget {
       required this.obsecure,
       this.inputType,
       this.isOpsional = true,
-      this.label});
+      this.label,
+      this.suffixIcon});
 
   @override
   State<CustomFormWidget> createState() => _CustomFormWidgetState();
@@ -30,12 +33,13 @@ class CustomFormWidget extends StatefulWidget {
 
 class _CustomFormWidgetState extends State<CustomFormWidget> {
   bool hidePass = true;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
-      style: GoogleFonts.roboto(fontSize: 16),
-      obscureText:widget.obsecure? hidePass:false,
+      style: GoogleFonts.roboto(fontSize: 14),
+      obscureText: widget.obsecure ? hidePass : false,
       inputFormatters: widget.inputFormaters,
       keyboardType: widget.inputType,
       validator: widget.validation ??
@@ -61,23 +65,23 @@ class _CustomFormWidgetState extends State<CustomFormWidget> {
         suffixIcon: widget.obsecure
             ? GestureDetector(
                 onTap: () {
-                 setState(() {
-                   hidePass=!hidePass;
-                 });
+                  setState(() {
+                    hidePass = !hidePass;
+                  });
                 },
                 child: SvgPicture.asset("assets/icons/hide_eye.svg"))
-            : null,
+            : widget.suffixIcon,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0xffE9ECEF),
-            width: 1,
+            color: Colors.grey,
+            width: 2,
           ),
           borderRadius: BorderRadius.circular(4),
         ),
         border: OutlineInputBorder(
           borderSide: const BorderSide(
-            color: Color(0xffE9ECEF),
-            width: 1,
+            color: Colors.grey,
+            width: 2,
           ),
           borderRadius: BorderRadius.circular(4),
         ),

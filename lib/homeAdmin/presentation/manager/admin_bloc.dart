@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:baswara_app/core/failure.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/alluser_entity.dart';
+import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<AddProduct>(addProductMapToState);
     on<DeleteProduct>(deleteProductMapToState);
     on<GetAlluser>(getAllUserMapToState);
+    on<GetAllCategory>(getAllCategoryMapToState);
   }
 
   FutureOr<void> getProductMapToState(
@@ -81,11 +83,11 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   }
 
   FutureOr<void> getAllUserMapToState(
-      GetAlluser event, Emitter<AdminState> emit) async{
+      GetAlluser event, Emitter<AdminState> emit) async {
     emit(LoadingAdminState());
     final data = await repository.getAllUser();
     data.fold(
-          (l) {
+      (l) {
         if (l is ServerFailure) {
           emit(FailureAdminState(l.msg));
         }
@@ -93,8 +95,27 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
           emit(NoConnection());
         }
       },
-          (r) => emit(
+      (r) => emit(
         SuccesGetAllUser(r),
+      ),
+    );
+  }
+
+  FutureOr<void> getAllCategoryMapToState(
+      GetAllCategory event, Emitter<AdminState> emit) async {
+    emit(LoadingAdminState());
+    final data = await repository.getAllCategory();
+    data.fold(
+      (l) {
+        if (l is ServerFailure) {
+          emit(FailureAdminState(l.msg));
+        }
+        if (l is InternalFailure) {
+          emit(NoConnection());
+        }
+      },
+      (r) => emit(
+        SuccesGetAllCategory(r),
       ),
     );
   }

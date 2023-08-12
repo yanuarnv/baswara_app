@@ -8,11 +8,13 @@ abstract class AdminEvent extends Equatable {
 
 class GetProduct extends AdminEvent {}
 
+class GetAllCategory extends AdminEvent {}
+
 class AddProduct extends AdminEvent {
   final String name;
   final int category;
 
-  AddProduct({required this.name,required this.category});
+  AddProduct({required this.name, required this.category});
 }
 
 class DeleteProduct extends AdminEvent {
@@ -23,6 +25,4 @@ class DeleteProduct extends AdminEvent {
 
 class EditProduct extends AdminEvent {}
 
-class GetAlluser extends AdminEvent{
-
-}
+class GetAlluser extends AdminEvent {}
