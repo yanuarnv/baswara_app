@@ -1,11 +1,14 @@
+import 'package:baswara_app/authentication/presentation/manager/auth_bloc.dart';
 import 'package:baswara_app/core/local_auth_storage.dart';
 import 'package:baswara_app/onBoarding/presentation/pages/onboarding_page.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LogoutDialogWidget extends StatelessWidget {
-  const LogoutDialogWidget({super.key});
+  final BuildContext blocContext;
+  const LogoutDialogWidget({super.key, required this.blocContext});
 
   @override
   Widget build(BuildContext context) {
@@ -63,9 +66,8 @@ class LogoutDialogWidget extends StatelessWidget {
                   style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xffC72D2D)),
                   onPressed: () async {
-                    await LocalAuthStorage().delete();
-                    Navigator.pushReplacement(context, MaterialPageRoute(
-                        builder: (context) => OnBoardingPage()));
+                   blocContext.read<AuthBloc>().add(Logout());
+                   Navigator.pop(context);
                   },
                   child: Text(
                     "Yakin",

@@ -110,12 +110,11 @@ class _AddProductDialogState extends State<AddProductDialog> {
                 Expanded(
                   child: GestureDetector(
                     onTap: () {
-
                       if (_formKey.currentState!.validate()) {
                         widget.blocContext.read<AdminBloc>().add(AddProduct(
-                          name: _name.text,
-                          category: _category.value,
-                        ));
+                              name: _name.text,
+                              category: _category.value,
+                            ));
                         Navigator.pop(context);
                       }
                     },

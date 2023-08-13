@@ -15,6 +15,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc(this.repository) : super(AuthInitial()) {
     on<RegisterAuth>(registermapToState);
     on<LoginAuth>(loginMapToState);
+    on<Logout>(logoutMapToState);
   }
 
   FutureOr<void> registermapToState(
@@ -41,5 +42,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(NoConnectionState());
       }
     }, (r) => emit(SuccessAuthState(role: r)));
+  }
+
+  FutureOr<void> logoutMapToState(Logout event, Emitter<AuthState> emit) async{
+    emit(LoadingAuthState());
+    final data = await repository.logout();
+    data.fold((l) {
+      if (l is ServerFailure) {
+        emit(FailureAuthState(l.msg));
+      }
+      if(l is InternalFailure){
+        emit(NoConnectionState());
+      }
+    }, (r) => emit(SuccesLogout()));
   }
 }

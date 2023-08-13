@@ -1,8 +1,11 @@
+import 'package:baswara_app/authentication/domain/repositories/auth_repository.dart';
 import 'package:baswara_app/widget/logout_dialog_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+import '../../../authentication/presentation/manager/auth_bloc.dart';
 import '../../../core/color_value.dart';
 import '../widgets/widget.dart';
 
@@ -70,224 +73,234 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
         child: _widgetOptions[_selectedIndex],
       ),
       drawer: Drawer(
-        child: ListView(
-          // Important: Remove any padding from the ListView.
-          padding: EdgeInsets.zero,
-          children: [
-            const DrawerHeader(
-              decoration: BoxDecoration(
-                color: ColorValue.primary,
+        child: BlocProvider(
+          create: (context) =>
+              AuthBloc(RepositoryProvider.of<AuthRepository>(context)),
+          child: ListView(
+            // Important: Remove any padding from the ListView.
+            padding: EdgeInsets.zero,
+            children: [
+              const DrawerHeader(
+                decoration: BoxDecoration(
+                  color: ColorValue.primary,
+                ),
+                child: SizedBox.shrink(),
               ),
-              child: SizedBox.shrink(),
-            ),
-            ListTile(
-              iconColor: Colors.black,
-              title: Row(
-                children: [
-                  const Icon(Icons.home),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      'Beranda',
-                      style: GoogleFonts.poppins(
-                          fontSize: 16, fontWeight: FontWeight.w500),
+              ListTile(
+                iconColor: Colors.black,
+                title: Row(
+                  children: [
+                    const Icon(Icons.home),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        'Beranda',
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                selected: _selectedIndex == 0,
+                onTap: () {
+                  _onItemTapped(0);
+                  Navigator.pop(context);
+                },
               ),
-              selected: _selectedIndex == 0,
-              onTap: () {
-                _onItemTapped(0);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              iconColor: Colors.black,
-              title: Row(
-                children: [
-                  const Icon(Icons.account_circle_rounded),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      'Profil Admin',
-                      style: GoogleFonts.poppins(
-                          fontSize: 16, fontWeight: FontWeight.w500),
+              ListTile(
+                iconColor: Colors.black,
+                title: Row(
+                  children: [
+                    const Icon(Icons.account_circle_rounded),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        'Profil Admin',
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                selected: _selectedIndex == 1,
+                onTap: () {
+                  // Update the state of the app
+                  _onItemTapped(1);
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
               ),
-              selected: _selectedIndex == 1,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(1);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              iconColor: Colors.black,
-              title: Row(
-                children: [
-                  const Icon(Icons.people),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      'Profil Pengguna',
-                      style: GoogleFonts.poppins(
-                          fontSize: 16, fontWeight: FontWeight.w500),
+              ListTile(
+                iconColor: Colors.black,
+                title: Row(
+                  children: [
+                    const Icon(Icons.people),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        'Profil Pengguna',
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                selected: _selectedIndex == 2,
+                onTap: () {
+                  // Update the state of the app
+                  _onItemTapped(2);
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
               ),
-              selected: _selectedIndex == 2,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(2);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              iconColor: Colors.black,
-              title: Row(
-                children: [
-                  const Icon(Icons.file_copy),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      'Input Jenis Sampah',
-                      style: GoogleFonts.poppins(
-                          fontSize: 16, fontWeight: FontWeight.w500),
+              ListTile(
+                iconColor: Colors.black,
+                title: Row(
+                  children: [
+                    const Icon(Icons.file_copy),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        'Input Jenis Sampah',
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                selected: _selectedIndex == 3,
+                onTap: () {
+                  _onItemTapped(3);
+                  Navigator.pop(context);
+                },
               ),
-              selected: _selectedIndex == 3,
-              onTap: () {
-                _onItemTapped(3);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              iconColor: Colors.black,
-              title: Row(
-                children: [
-                  SvgPicture.asset("assets/icons/icon_trash.svg",
-                      color: _selectedIndex == 4 ? ColorValue.primary : null),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      'Input Sampah User',
-                      style: GoogleFonts.poppins(
-                          fontSize: 16, fontWeight: FontWeight.w500),
+              ListTile(
+                iconColor: Colors.black,
+                title: Row(
+                  children: [
+                    SvgPicture.asset("assets/icons/icon_trash.svg",
+                        color: _selectedIndex == 4 ? ColorValue.primary : null),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        'Input Sampah User',
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                selected: _selectedIndex == 4,
+                onTap: () {
+                  // Update the state of the app
+                  _onItemTapped(4);
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
               ),
-              selected: _selectedIndex == 4,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(4);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              iconColor: Colors.black,
-              title: Row(
-                children: [
-                  const Icon(Icons.attach_money),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      'Input Harga Sampah',
-                      style: GoogleFonts.poppins(
-                          fontSize: 16, fontWeight: FontWeight.w500),
+              ListTile(
+                iconColor: Colors.black,
+                title: Row(
+                  children: [
+                    const Icon(Icons.attach_money),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        'Input Harga Sampah',
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                selected: _selectedIndex == 5,
+                onTap: () {
+                  // Update the state of the app
+                  _onItemTapped(5);
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
               ),
-              selected: _selectedIndex == 5,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(5);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              iconColor: Colors.black,
-              title: Row(
-                children: [
-                  const Icon(Icons.bar_chart),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      'Grafik Penjualan',
-                      style: GoogleFonts.poppins(
-                          fontSize: 16, fontWeight: FontWeight.w500),
+              ListTile(
+                iconColor: Colors.black,
+                title: Row(
+                  children: [
+                    const Icon(Icons.bar_chart),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        'Grafik Penjualan',
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                selected: _selectedIndex == 6,
+                onTap: () {
+                  _onItemTapped(6);
+                  Navigator.pop(context);
+                },
               ),
-              selected: _selectedIndex == 6,
-              onTap: () {
-                _onItemTapped(6);
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              iconColor: Colors.black,
-              title: Row(
-                children: [
-                  const Icon(Icons.shopping_bag),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      'Katalog Bertawa',
-                      style: GoogleFonts.poppins(
-                          fontSize: 16, fontWeight: FontWeight.w500),
+              ListTile(
+                iconColor: Colors.black,
+                title: Row(
+                  children: [
+                    const Icon(Icons.shopping_bag),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10.0),
+                      child: Text(
+                        'Katalog Bertawa',
+                        style: GoogleFonts.poppins(
+                            fontSize: 16, fontWeight: FontWeight.w500),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
+                selected: _selectedIndex == 7,
+                onTap: () {
+                  // Update the state of the app
+                  _onItemTapped(7);
+                  // Then close the drawer
+                  Navigator.pop(context);
+                },
               ),
-              selected: _selectedIndex == 7,
-              onTap: () {
-                // Update the state of the app
-                _onItemTapped(7);
-                // Then close the drawer
-                Navigator.pop(context);
-              },
-            ),
-            ListTile(
-              iconColor: Colors.black,
-              title: Row(
-                children: [
-                  const Icon(
-                    Icons.logout,
-                    color: Colors.red,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 10.0),
-                    child: Text(
-                      'Log out',
-                      style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.red),
-                    ),
-                  ),
-                ],
+              ListTile(
+                iconColor: Colors.black,
+                title: BlocBuilder<AuthBloc, AuthState>(
+                  builder: (context, state) {
+                    return Row(
+                      children: [
+                        const Icon(
+                          Icons.logout,
+                          color: Colors.red,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 10.0),
+                          child: Text(
+                            'Log out',
+                            style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.red),
+                          ),
+                        ),
+                      ],
+                    );
+                  },
+                ),
+                selected: _selectedIndex == 8,
+                onTap: () async {
+                  Navigator.pop(context);
+                  await showDialog(
+                      context: context,
+                      builder: (_) => LogoutDialogWidget(
+                            blocContext: context,
+                          ));
+                },
               ),
-              selected: _selectedIndex == 8,
-              onTap: () async {
-                Navigator.pop(context);
-                await showDialog(
-                    context: context,
-                    builder: (context) => const LogoutDialogWidget());
-              },
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

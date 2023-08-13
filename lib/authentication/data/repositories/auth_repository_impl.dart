@@ -5,6 +5,8 @@ import 'package:baswara_app/core/failure.dart';
 import 'package:baswara_app/core/network_info.dart';
 import 'package:dartz/dartz.dart';
 
+import '../../../core/local_auth_storage.dart';
+
 class AuthRepositoryImpl extends AuthRepository {
   final NetworkInfo networkInfo;
   final AuthRemoteDataSource remoteDataSources;
@@ -32,6 +34,22 @@ class AuthRepositoryImpl extends AuthRepository {
       try {
         final role = await remoteDataSources.register(
             name, email, password, phoneNumber);
+        return Right(role);
+      } on ServerException catch (e) {
+        print("error");
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> logout() async{
+    if (await networkInfo.isConnected) {
+      try {
+        final role = await remoteDataSources.logout();
+        await LocalAuthStorage().delete();
         return Right(role);
       } on ServerException catch (e) {
         return Left(ServerFailure(e.msg));

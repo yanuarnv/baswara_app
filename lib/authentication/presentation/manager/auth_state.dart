@@ -8,6 +8,10 @@ abstract class AuthState extends Equatable {
 
 class AuthInitial extends AuthState {}
 
+class SuccesLogout extends AuthState {
+
+}
+
 class SuccessAuthState extends AuthState {
   final String role;
 

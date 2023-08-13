@@ -23,3 +23,7 @@ class RegisterAuth extends AuthEvent {
       this.name, this.phoneNumber, this.email, this.password);
 }
 
+class Logout extends AuthEvent{
+
+}
+
