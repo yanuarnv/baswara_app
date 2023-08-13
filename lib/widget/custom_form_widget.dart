@@ -10,6 +10,8 @@ class CustomFormWidget extends StatefulWidget {
   final bool obsecure;
   final bool isOpsional;
   final Widget? suffixIcon;
+  final TextAlign? textAlign;
+  final EdgeInsets? contentPadding;
 
   final TextInputType? inputType;
   final List<TextInputFormatter>? inputFormaters;
@@ -25,7 +27,8 @@ class CustomFormWidget extends StatefulWidget {
       this.inputType,
       this.isOpsional = true,
       this.label,
-      this.suffixIcon});
+      this.suffixIcon,
+      this.textAlign, this.contentPadding});
 
   @override
   State<CustomFormWidget> createState() => _CustomFormWidgetState();
@@ -38,6 +41,7 @@ class _CustomFormWidgetState extends State<CustomFormWidget> {
   Widget build(BuildContext context) {
     return TextFormField(
       controller: widget.controller,
+      textAlign: widget.textAlign ?? TextAlign.start,
       style: GoogleFonts.roboto(fontSize: 14),
       obscureText: widget.obsecure ? hidePass : false,
       inputFormatters: widget.inputFormaters,
@@ -59,9 +63,10 @@ class _CustomFormWidgetState extends State<CustomFormWidget> {
         ),
         labelText: widget.label,
         labelStyle: GoogleFonts.roboto(fontSize: 14),
-        contentPadding: const EdgeInsets.only(top: 16, bottom: 16, left: 20),
+        contentPadding: widget.contentPadding??const EdgeInsets.only(top: 16, bottom: 16, left: 20),
         isDense: true,
         hintText: widget.hint,
+        suffixIconConstraints: const BoxConstraints(),
         suffixIcon: widget.obsecure
             ? GestureDetector(
                 onTap: () {

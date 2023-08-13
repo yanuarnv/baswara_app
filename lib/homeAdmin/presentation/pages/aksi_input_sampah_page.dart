@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:sizer/sizer.dart';
 
 import '../../../core/color_value.dart';
 import '../../../core/utility.dart';
@@ -10,8 +11,16 @@ import '../../../widget/no_internet_dialog.dart';
 import '../manager/admin_bloc.dart';
 import '../widgets/category_item_widget.dart';
 
-class AksiInputSampahPage extends StatelessWidget {
+class AksiInputSampahPage extends StatefulWidget {
   const AksiInputSampahPage({super.key});
+
+  @override
+  State<AksiInputSampahPage> createState() => _AksiInputSampahPageState();
+}
+
+class _AksiInputSampahPageState extends State<AksiInputSampahPage> {
+  final List<List<TextEditingController>> _listControllerText = [];
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,41 +87,81 @@ class AksiInputSampahPage extends StatelessWidget {
                     },
                     builder: (context, state) {
                       if (state is SuccesGetAllCategory) {
+                        /// removed index empty manuaal
+                        state.data.removeAt(3);
+                        for (int i = 0; i < state.data.length; i++) {
+                          _listControllerText.add([]);
+                          for (int j = 0; j < state.data[i].products.length; j++) {
+                            _listControllerText[i].add(TextEditingController());
+                          }
+                        }
                         context.loaderOverlay.hide();
                         return SingleChildScrollView(
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                const SizedBox(
-                                  height: 30,
-                                ),
-                                Text(
-                                  "Masukkan Berat Sampah",
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 20,
-                                    fontWeight: FontWeight.w600,
-                                    color: ColorValue.primary,
+                          child: SizedBox(
+                            height: 100.h - 80,
+                            child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  const SizedBox(
+                                    height: 30,
                                   ),
-                                ),
-                                Text(
-                                  "Masukkan jenis sampah sesuai dengan pengguna kirimkan",
-                                  style: GoogleFonts.montserrat(
-                                    fontSize: 14,
+                                  Text(
+                                    "Masukkan Berat Sampah",
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.w600,
+                                      color: ColorValue.primary,
+                                    ),
                                   ),
-                                ),
-                                const SizedBox(
-                                  height: 6,
-                                ),
-                                ListView.builder(
-                                  shrinkWrap: true,
-                                  physics: const NeverScrollableScrollPhysics(),
-                                  itemCount: state.data.length,
-                                  itemBuilder: (context, i) =>
-                                      CategoryItemWidget(data: state.data[i]),
-                                )
-                              ],
+                                  Text(
+                                    "Masukkan jenis sampah sesuai dengan pengguna kirimkan",
+                                    style: GoogleFonts.montserrat(
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 6,
+                                  ),
+                                  Expanded(
+                                    child: ListView.builder(
+                                      shrinkWrap: true,
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: state.data.length,
+                                      itemBuilder: (context, i) =>
+                                          CategoryItemWidget(
+                                        data: state.data[i],
+                                        controller: _listControllerText[i],
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      _listControllerText.forEach((element) {
+                                        element.forEach((element) {
+                                          print(element.text);
+                                        });
+                                      });
+                                    },
+                                    child: Text(
+                                      "Simpan",
+                                      style: GoogleFonts.poppins(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 20,
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         );
