@@ -43,10 +43,10 @@ class AppThemeData {
                 foregroundColor: Colors.white,
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(20.sp)),
-                textStyle: TextStyle(
+                textStyle: GoogleFonts.poppins(
                   color: Colors.white,
                   fontWeight: FontWeight.w600,
-                  fontSize: 8.sp,
+                  fontSize: 16,
                 ))),
         tabBarTheme: TabBarTheme(
           labelStyle: GoogleFonts.poppins(

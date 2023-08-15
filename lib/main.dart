@@ -1,6 +1,7 @@
 import 'package:baswara_app/authentication/data/data_sources/auth_remote_datasources.dart';
 import 'package:baswara_app/authentication/data/repositories/auth_repository_impl.dart';
 import 'package:baswara_app/authentication/domain/repositories/auth_repository.dart';
+import 'package:baswara_app/authentication/presentation/manager/auth_bloc.dart';
 import 'package:baswara_app/homeAdmin/data/data_sources/admin_remote_datasources.dart';
 import 'package:baswara_app/homeAdmin/data/repositories/admin_repository_impl.dart';
 import 'package:baswara_app/homeAdmin/domain/repositories/admin_repository.dart';
@@ -65,10 +66,14 @@ class MyApp extends StatelessWidget {
           useDefaultLoading: false,
           useBackButtonInterceptor: true,
           overlayWidget: const LoadingSpinWidget(),
-          child: MaterialApp(
-            debugShowCheckedModeBanner: false,
-            theme: AppThemeData.getTheme(context),
-            home: const SplashPage(),
+          child: BlocProvider(
+            create: (context) =>
+                AuthBloc(RepositoryProvider.of<AuthRepository>(context)),
+            child: MaterialApp(
+              debugShowCheckedModeBanner: false,
+              theme: AppThemeData.getTheme(context),
+              home: const SplashPage(),
+            ),
           ),
         ),
       );

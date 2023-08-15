@@ -26,3 +26,9 @@ class DeleteProduct extends AdminEvent {
 class EditProduct extends AdminEvent {}
 
 class GetAlluser extends AdminEvent {}
+
+class PostCheckOut extends AdminEvent {
+  final CheckoutBodyEntity body;
+
+  PostCheckOut(this.body);
+}

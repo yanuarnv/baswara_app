@@ -2,6 +2,7 @@ import 'package:baswara_app/authentication/domain/entities/user_entity.dart';
 import 'package:baswara_app/core/failure.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/alluser_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
+import 'package:baswara_app/homeAdmin/domain/entities/checkout_body_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
 import 'package:dartz/dartz.dart';
 
@@ -15,4 +16,5 @@ abstract class AdminRepository {
   Future<Either<Failure, List<User>>> getAllUser();
 
   Future<Either<Failure, List<DataCategory>>> getAllCategory();
+  Future<Either<Failure,bool>> potCheckout(CheckoutBodyEntity body);
 }

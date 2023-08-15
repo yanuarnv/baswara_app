@@ -48,11 +48,47 @@ class UserItemWidget extends StatelessWidget {
           Expanded(
             flex: 2,
             child: Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "Rp. ${user.savings}",
-                  style: GoogleFonts.poppins(fontSize: 16),
-                )),
+              alignment: Alignment.centerLeft,
+              child: IconButton(
+                icon: const Icon(Icons.remove_red_eye),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      actions: [
+                        ElevatedButton(
+                          onPressed: () {
+                            Navigator.pop(context);
+                          },
+                          child: const Text(
+                            "oke",
+                          ),
+                        )
+                      ],
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Text(
+                            "Saldo",
+                            style: GoogleFonts.poppins(
+                                fontSize: 16, fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Rp ${user.savings}",
+                            style: GoogleFonts.poppins(
+                              fontSize: 16,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
           ),
           Expanded(
             flex: 2,
@@ -62,7 +98,7 @@ class UserItemWidget extends StatelessWidget {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AksiInputSampahPage()));
+                          builder: (context) => const AksiInputSampahPage()));
                 },
                 icon: const Icon(
                   Icons.add,

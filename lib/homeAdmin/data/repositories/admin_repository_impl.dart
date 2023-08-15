@@ -3,6 +3,7 @@ import 'package:baswara_app/core/exceptions.dart';
 import 'package:baswara_app/core/failure.dart';
 import 'package:baswara_app/homeAdmin/data/data_sources/admin_remote_datasources.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
+import 'package:baswara_app/homeAdmin/domain/entities/checkout_body_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/repositories/admin_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -76,6 +77,20 @@ class AdminRepositoryImpl extends AdminRepository {
     if (await networkInfo.isConnected) {
       try {
         final data = await remoteDataSources.getAllCategory();
+        return Right(data);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> potCheckout(CheckoutBodyEntity body) async{
+    if (await networkInfo.isConnected) {
+      try {
+        final data = await remoteDataSources.postCheckout(body);
         return Right(data);
       } on ServerException catch (e) {
         return Left(ServerFailure(e.msg));

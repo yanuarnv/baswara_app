@@ -15,7 +15,9 @@ class SuccesGetProduct extends AdminState {
 
   SuccesGetProduct(this.data);
 }
+class SuccesPostCheckout extends AdminState{
 
+}
 class SuccesGetAllUser extends AdminState {
   final List<User> data;
 

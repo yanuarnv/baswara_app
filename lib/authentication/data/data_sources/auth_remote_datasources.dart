@@ -39,6 +39,7 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
       final user = userEntityFromJson(streamResult);
       await LocalAuthStorage().write("token", user.data.accessToken);
       await LocalAuthStorage().write("role", user.data.user.roles);
+      await LocalAuthStorage().write("id", user.data.user.id.toString());
       return user.data.user.roles;
     } else {
       if (response.statusCode == 500) {
@@ -69,6 +70,7 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
       final user = userEntityFromJson(streamResult);
       await LocalAuthStorage().write("token", user.data.accessToken);
       await LocalAuthStorage().write("role", user.data.user.roles);
+      await LocalAuthStorage().write("id", user.data.user.id.toString());
       return user.data.user.roles;
     } else if (response.statusCode == 401) {
       final user = jsonDecode(streamResult);
