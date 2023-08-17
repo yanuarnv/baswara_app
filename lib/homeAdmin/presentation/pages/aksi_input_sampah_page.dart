@@ -1,4 +1,3 @@
-import 'package:baswara_app/homeAdmin/domain/entities/checkout_body_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/repositories/admin_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -78,9 +77,12 @@ class _AksiInputSampahPageState extends State<AksiInputSampahPage> {
                               context: context,
                               builder: (context) => const NoInternetDialog());
                         }
-                        if (state is SuccesProductCRUD) {
+                        if (state is SuccesPostCheckout) {
                           context.loaderOverlay.hide();
-                          BlocProvider.of<AdminBloc>(context).add(GetProduct());
+                          Utility(context).showSnackbar("Success",
+                              color: ColorValue.primary);
+                          BlocProvider.of<AdminBloc>(context)
+                              .add(GetAllCategory());
                         }
                         if (state is LoadingAdminState) {
                           context.loaderOverlay.show();
@@ -159,18 +161,14 @@ class _AksiInputSampahPageState extends State<AksiInputSampahPage> {
                                             items.add({
                                               "id":
                                                   state.data[x].products[y].id,
-                                              "quantity":
-                                                  int.parse(_listControllerText[x][y].text)
+                                              "quantity": int.parse(
+                                                  _listControllerText[x][y]
+                                                      .text)
                                             });
                                           }
                                         }
                                         context.read<AdminBloc>().add(
-                                              PostCheckOut(
-                                                CheckoutBodyEntity(
-                                                  items: items,
-                                                  totalPrice: "0",
-                                                ),
-                                              ),
+                                              PostCheckOut(items),
                                             );
                                       }
                                     },

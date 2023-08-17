@@ -5,7 +5,6 @@ import 'package:baswara_app/core/constant_value.dart';
 import 'package:baswara_app/core/local_auth_storage.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/alluser_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
-import 'package:baswara_app/homeAdmin/domain/entities/checkout_body_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
 import 'package:http/http.dart' as http;
 
@@ -22,7 +21,8 @@ abstract class AdminRemoteDataSources {
 
   Future<List<DataCategory>> getAllCategory();
 
-  Future<bool> postCheckout(CheckoutBodyEntity body);
+  Future<bool> postCheckout(List<Map<String, dynamic>>  body);
+  Future<bool> updateHargaSampah(List<Map<String, dynamic>>  body);
 }
 
 class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
@@ -124,19 +124,44 @@ class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
   }
 
   @override
-  Future<bool> postCheckout(CheckoutBodyEntity body) async {
+  Future<bool> postCheckout(List<Map<String, dynamic>> body) async {
     final String token = await LocalAuthStorage().read("token");
     final String userid = await LocalAuthStorage().read("id");
     var headers = {
       'Authorization': 'Bearer $token',
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
     };
     var request = await http.post(
       Uri.parse('https://baswara-backend.my.id/api/checkout'),
       body: jsonEncode({
-        "item":body.items,
-        "user_id":int.parse(userid),
+        "items": body,
+        "user_id": int.parse(userid),
         "status": "PENDING"
+      }),
+      headers: headers,
+    );
+
+    if (request.statusCode == 200) {
+      return true;
+    } else {
+      throw ServerException(request.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<bool> updateHargaSampah(List<Map<String, dynamic>> body) async{
+    final String token = await LocalAuthStorage().read("token");
+    final String userid = await LocalAuthStorage().read("id");
+    var headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    var request = await http.post(
+      Uri.parse('${ConstantValue.apiUrl}updateHarga'),
+      body: jsonEncode({
+        "items": body,
       }),
       headers: headers,
     );

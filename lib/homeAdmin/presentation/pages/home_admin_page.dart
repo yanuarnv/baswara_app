@@ -30,7 +30,7 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
     ProfileUsersWidget(),
     JenisSampahWidget(),
     SampahUserWidget(),
-    HargaSampahWidget(),
+    InputHargaSampahWidget(),
     GrafikPenjualanWidget(),
     KatalogBertakwa(),
   ];

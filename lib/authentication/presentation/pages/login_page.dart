@@ -3,6 +3,7 @@ import 'package:baswara_app/authentication/presentation/pages/register_page.dart
 import 'package:baswara_app/core/color_value.dart';
 import 'package:baswara_app/core/utility.dart';
 import 'package:baswara_app/homeAdmin/presentation/pages/home_admin_page.dart';
+import 'package:baswara_app/homeUser/presentation/pages/home_user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -40,13 +41,23 @@ class _LoginPageState extends State<LoginPage> {
           listener: (context, state) {
             if (state is SuccessAuthState) {
               context.loaderOverlay.hide();
-              Navigator.pushReplacement(
-                context,
-                MaterialPageRoute(
-                  builder: (context) =>
-                      const HomeAdminPage(),
-                ),
-              );
+              if(state.role=="ADMIN"){
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    const HomeAdminPage(),
+                  ),
+                );
+              }else{
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) =>
+                    const HomeUserPage(),
+                  ),
+                );
+              }
             }
             if(state is LoadingAuthState){
               context.loaderOverlay.show();

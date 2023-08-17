@@ -28,7 +28,13 @@ class EditProduct extends AdminEvent {}
 class GetAlluser extends AdminEvent {}
 
 class PostCheckOut extends AdminEvent {
-  final CheckoutBodyEntity body;
+  final List<Map<String, dynamic>> items;
 
-  PostCheckOut(this.body);
+  PostCheckOut(this.items);
+}
+
+class UpdateHargaSampah extends AdminEvent {
+  final List<Map<String, dynamic>> items;
+
+  UpdateHargaSampah(this.items);
 }

@@ -1,3 +1,5 @@
+import 'package:baswara_app/homeUser/domain/repositories/home_user_repository.dart';
+import 'package:baswara_app/homeUser/presentation/manager/home_user_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -21,13 +23,10 @@ class ProfilUserWidget extends StatefulWidget {
 class _ProfilUserWidgetState extends State<ProfilUserWidget> {
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) =>
-              AuthBloc(RepositoryProvider.of<AuthRepository>(context)),
-        ),
-      ],
+    return BlocProvider(
+      create: (_) =>
+          HomeUserBloc(RepositoryProvider.of<HomeUserRepository>(context))
+            ..add(GetUserProfile()),
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: ColorValue.primary,
@@ -47,8 +46,9 @@ class _ProfilUserWidgetState extends State<ProfilUserWidget> {
                   onPressed: () async {
                     await showDialog(
                         context: context,
-                        builder: (_) =>
-                            LogoutDialogWidget(blocContext: context,));
+                        builder: (_) => LogoutDialogWidget(
+                              blocContext: context,
+                            ));
                   },
                   icon: const Icon(
                     Icons.logout,
@@ -63,110 +63,143 @@ class _ProfilUserWidgetState extends State<ProfilUserWidget> {
           listener: (context, state) {
             if (state is SuccesLogout) {
               context.loaderOverlay.hide();
-              Navigator.pushReplacement(context, MaterialPageRoute(
-                  builder: (context) => const OnBoardingPage()));
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const OnBoardingPage()));
             }
-            if(state is LoadingAuthState){
+            if (state is LoadingAuthState) {
               context.loaderOverlay.show();
             }
-            if(state is FailureAuthState){
+            if (state is FailureAuthState) {
               context.loaderOverlay.hide();
               Utility(context).showSnackbar(state.msg);
             }
           },
-          child: BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
-              return RefreshIndicator(
-                onRefresh: () async {
-                  await Future.delayed(
-                    const Duration(),
-                        () {},
-                  );
-                  return;
-                },
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 26,
-                      ),
-                      Center(
-                        child: Container(
-                          width: 180,
-                          height: 180,
-                          decoration: BoxDecoration(
-                              color: Colors.grey,
-                              borderRadius: BorderRadius.circular(90)),
-                          child: const Icon(Icons.person, size: 60),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 40,
-                      ),
-                      Text(
-                        "Nama",
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        "Jodan will smith",
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff455A64),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "No. HP",
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        "0882003251891",
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff455A64),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Text(
-                        "Email",
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.black,
-                        ),
-                      ),
-                      Text(
-                        "jodansmith@imagine.com",
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: const Color(0xff455A64),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 80,
-                      ),
-                    ],
-                  ),
-                ),
-              );
+          child: BlocListener<HomeUserBloc, HomeUserState>(
+            listener: (context, state) {
+              if (state is LoadingHomeUserState) {
+                context.loaderOverlay.show();
+              }
+              if (state is FailureHomeUserState) {
+                context.loaderOverlay.hide();
+                Utility(context).showSnackbar(state.msg);
+              }
             },
+            child: BlocBuilder<HomeUserBloc, HomeUserState>(
+              builder: (context, state) {
+                if (state is SuccesGetProfile) {
+                  context.loaderOverlay.hide();
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      await Future.delayed(
+                        const Duration(),
+                        () {
+                          context.read<HomeUserBloc>().add(GetUserProfile());
+                        },
+                      );
+                      return;
+                    },
+                    child: Stack(
+                      children: [
+                        ListView(),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(
+                                height: 26,
+                              ),
+                              Center(
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(90),
+                                  child: Image.network(
+                                    state.model.data.imageUrl,
+                                    fit: BoxFit.cover,
+                                    width: 180,
+                                    height: 180,
+                                  ),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 40,
+                              ),
+                              Text(
+                                "Nama",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                state.model.data.name,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff455A64),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "No. HP",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                state.model.data.phone,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff455A64),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 10,
+                              ),
+                              Text(
+                                "Email",
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              Text(
+                                state.model.data.email,
+                                style: GoogleFonts.poppins(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.w500,
+                                  color: const Color(0xff455A64),
+                                ),
+                              ),
+                              const SizedBox(
+                                height: 80,
+                              ),
+                              const Spacer(),
+                              ElevatedButton(
+                                onPressed: () {},
+                                child: Text("Ubah"),
+                              ),
+                              const SizedBox(
+                                height: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+                return const SizedBox.shrink();
+              },
+            ),
           ),
         ),
       ),

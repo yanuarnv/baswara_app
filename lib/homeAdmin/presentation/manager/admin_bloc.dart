@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:baswara_app/core/failure.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/alluser_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
-import 'package:baswara_app/homeAdmin/domain/entities/checkout_body_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -25,6 +24,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<GetAlluser>(getAllUserMapToState);
     on<GetAllCategory>(getAllCategoryMapToState);
     on<PostCheckOut>(postCheckoutMapToState);
+    on<UpdateHargaSampah>(updateHargaSampahMapToState);
   }
 
   FutureOr<void> getProductMapToState(
@@ -125,7 +125,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   FutureOr<void> postCheckoutMapToState(
       PostCheckOut event, Emitter<AdminState> emit) async {
     emit(LoadingAdminState());
-    final data = await repository.potCheckout(event.body);
+    final data = await repository.potCheckout(event.items);
     data.fold(
       (l) {
         if (l is ServerFailure) {
@@ -137,6 +137,24 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
       },
       (r) => emit(
         SuccesPostCheckout(),
+      ),
+    );
+  }
+
+  FutureOr<void> updateHargaSampahMapToState(UpdateHargaSampah event, Emitter<AdminState> emit) async{
+    emit(LoadingAdminState());
+    final data = await repository.updateHargaSampah(event.items);
+    data.fold(
+          (l) {
+        if (l is ServerFailure) {
+          emit(FailureAdminState(l.msg));
+        }
+        if (l is InternalFailure) {
+          emit(NoConnection());
+        }
+      },
+          (r) => emit(
+        SuccesUpdateHarga(),
       ),
     );
   }

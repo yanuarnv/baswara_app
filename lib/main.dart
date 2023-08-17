@@ -5,6 +5,9 @@ import 'package:baswara_app/authentication/presentation/manager/auth_bloc.dart';
 import 'package:baswara_app/homeAdmin/data/data_sources/admin_remote_datasources.dart';
 import 'package:baswara_app/homeAdmin/data/repositories/admin_repository_impl.dart';
 import 'package:baswara_app/homeAdmin/domain/repositories/admin_repository.dart';
+import 'package:baswara_app/homeUser/data/data_sources/home_user_remote_datasources.dart';
+import 'package:baswara_app/homeUser/data/repositories/home_user_repository_impl.dart';
+import 'package:baswara_app/homeUser/domain/repositories/home_user_repository.dart';
 import 'package:baswara_app/onBoarding/presentation/pages/splash_page.dart';
 import 'package:baswara_app/widget/loading_spin_widget.dart';
 import 'package:connectivity_plus/connectivity_plus.dart';
@@ -59,6 +62,17 @@ class MyApp extends StatelessWidget {
             create: (context) => AdminRepositoryImpl(
               RepositoryProvider.of<NetworkInfo>(context),
               RepositoryProvider.of<AdminRemoteDataSources>(context),
+            ),
+          ),
+          RepositoryProvider<HomeUserRemoteDataSources>(
+            create: (_) => HomeUserREmoteDataSourcesImpl(
+              http.Client(),
+            ),
+          ),
+          RepositoryProvider<HomeUserRepository>(
+            create: (context) => HomeUserRepositoryImpl(
+              RepositoryProvider.of<NetworkInfo>(context),
+              RepositoryProvider.of<HomeUserRemoteDataSources>(context),
             ),
           )
         ],

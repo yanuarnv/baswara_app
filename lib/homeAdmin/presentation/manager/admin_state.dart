@@ -30,6 +30,10 @@ class SuccesGetAllCategory extends AdminState {
   SuccesGetAllCategory(this.data);
 }
 
+class SuccesUpdateHarga extends AdminState{
+
+}
+
 class SuccesProductCRUD extends AdminState {}
 
 class FailureAdminState extends AdminState {
