@@ -14,6 +14,8 @@ class SuccesGetProfile extends HomeUserState {
   SuccesGetProfile(this.model);
 }
 
+class SuccesUpdateProfile extends HomeUserState{}
+
 class LoadingHomeUserState extends HomeUserState {}
 
 class NoInternetHomeUser extends HomeUserState{}

@@ -1,5 +1,6 @@
 import 'package:baswara_app/homeUser/domain/repositories/home_user_repository.dart';
 import 'package:baswara_app/homeUser/presentation/manager/home_user_bloc.dart';
+import 'package:baswara_app/homeUser/presentation/pages/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -184,7 +185,15 @@ class _ProfilUserWidgetState extends State<ProfilUserWidget> {
                               ),
                               const Spacer(),
                               ElevatedButton(
-                                onPressed: () {},
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          EditProfilePage(model: state.model),
+                                    ),
+                                  );
+                                },
                                 child: Text("Ubah"),
                               ),
                               const SizedBox(
