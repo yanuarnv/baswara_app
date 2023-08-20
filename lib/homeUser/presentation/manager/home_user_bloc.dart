@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:baswara_app/authentication/domain/entities/user_entity.dart';
 import 'package:baswara_app/core/failure.dart';
+import 'package:baswara_app/homeUser/domain/entities/catalog_entity.dart';
 import 'package:baswara_app/homeUser/domain/entities/home_user_entity.dart';
 import 'package:baswara_app/homeUser/domain/repositories/home_user_repository.dart';
 import 'package:dartz/dartz.dart';
@@ -19,6 +20,7 @@ class HomeUserBloc extends Bloc<HomeUserEvent, HomeUserState> {
   HomeUserBloc(this.repository) : super(HomeUserInitial()) {
     on<GetUserProfile>(getUserProfielMapToState);
     on<UpdateUserProfile>(updateProfileMapToState);
+    on<GetCatalogUser>(getCatalogUserMapToState);
   }
 
   FutureOr<void> getUserProfielMapToState(
@@ -52,5 +54,18 @@ class HomeUserBloc extends Bloc<HomeUserEvent, HomeUserState> {
         emit(NoInternetHomeUser());
       }
     }, (r) => emit(SuccesUpdateProfile()));
+  }
+
+  FutureOr<void> getCatalogUserMapToState(GetCatalogUser event, Emitter<HomeUserState> emit) async{
+    emit(LoadingHomeUserState());
+    final data =await repository.getCatalogUser();
+    data.fold((l) {
+      if (l is ServerFailure) {
+        emit(FailureHomeUserState(l.msg));
+      }
+      if (l is InternalFailure) {
+        emit(NoInternetHomeUser());
+      }
+    }, (r) => emit(SuccesGetCatalogUser(r)));
   }
 }

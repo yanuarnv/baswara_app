@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:baswara_app/authentication/domain/entities/user_entity.dart';
+import 'package:baswara_app/homeUser/domain/entities/catalog_entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,6 +13,7 @@ import '../../domain/entities/home_user_entity.dart';
 
 abstract class HomeUserRemoteDataSources {
   Future<HomeUserEntity> getUserProfile();
+  Future<CatalogEntity> getCatalogUser();
 
   Future<bool> updateUserProfile({required String name,
     required String noHp,
@@ -89,6 +91,25 @@ class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
       return true;
     } else {
       throw ServerException(response.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<CatalogEntity> getCatalogUser() async{
+    var headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    var request = await http.get(
+      Uri.parse('${ConstantValue.apiUrl}catalog'),
+      headers: headers,
+    );
+
+    if (request.statusCode == 200) {
+      final model = catalogEntityFromJson(request.body);
+      return model;
+    } else {
+      throw ServerException(request.reasonPhrase.toString());
     }
   }
 }

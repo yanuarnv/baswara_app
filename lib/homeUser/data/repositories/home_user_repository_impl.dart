@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:baswara_app/authentication/domain/entities/user_entity.dart';
 import 'package:baswara_app/core/failure.dart';
 import 'package:baswara_app/homeUser/data/data_sources/home_user_remote_datasources.dart';
+import 'package:baswara_app/homeUser/domain/entities/catalog_entity.dart';
 import 'package:baswara_app/homeUser/domain/repositories/home_user_repository.dart';
 import 'package:dartz/dartz.dart';
 
@@ -40,6 +41,20 @@ class HomeUserRepositoryImpl extends HomeUserRepository {
     if (await networkInfo.isConnected) {
       try {
         final data = await remoteDataSources.updateUserProfile(name: name, noHp: noHp, email: email, image: image);
+        return Right(data);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, CatalogEntity>> getCatalogUser() async{
+    if (await networkInfo.isConnected) {
+      try {
+        final data = await remoteDataSources.getCatalogUser();
         return Right(data);
       } on ServerException catch (e) {
         return Left(ServerFailure(e.msg));

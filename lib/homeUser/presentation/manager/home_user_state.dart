@@ -15,6 +15,10 @@ class SuccesGetProfile extends HomeUserState {
 }
 
 class SuccesUpdateProfile extends HomeUserState{}
+class SuccesGetCatalogUser extends HomeUserState{
+  final CatalogEntity data;
+  SuccesGetCatalogUser(this.data);
+}
 
 class LoadingHomeUserState extends HomeUserState {}
 
