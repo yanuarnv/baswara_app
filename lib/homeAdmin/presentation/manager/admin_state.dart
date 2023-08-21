@@ -15,11 +15,11 @@ class SuccesGetProduct extends AdminState {
 
   SuccesGetProduct(this.data);
 }
-class SuccesPostCheckout extends AdminState{
 
-}
+class SuccesPostCheckout extends AdminState {}
+
 class SuccesGetAllUser extends AdminState {
-  final List<User> data;
+  final List<Data> data;
 
   SuccesGetAllUser(this.data);
 }
@@ -30,9 +30,7 @@ class SuccesGetAllCategory extends AdminState {
   SuccesGetAllCategory(this.data);
 }
 
-class SuccesUpdateHarga extends AdminState{
-
-}
+class SuccesUpdateHarga extends AdminState {}
 
 class SuccesProductCRUD extends AdminState {}
 

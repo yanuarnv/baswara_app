@@ -1,11 +1,10 @@
 import 'dart:convert';
 
-import 'package:baswara_app/authentication/domain/entities/user_entity.dart';
 import 'package:baswara_app/core/constant_value.dart';
 import 'package:baswara_app/core/local_auth_storage.dart';
-import 'package:baswara_app/homeAdmin/domain/entities/alluser_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
+import 'package:baswara_app/homeUser/domain/entities/home_user_entity.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../core/exceptions.dart';
@@ -17,12 +16,12 @@ abstract class AdminRemoteDataSources {
 
   Future<bool> delete(String id);
 
-  Future<List<User>> getAllUser();
+  Future<List<Data>> getAllUser();
 
   Future<List<DataCategory>> getAllCategory();
 
-  Future<bool> postCheckout(List<Map<String, dynamic>>  body);
-  Future<bool> updateHargaSampah(List<Map<String, dynamic>>  body);
+  Future<bool> postCheckout(List<Map<String, dynamic>> body);
+  Future<bool> updateHargaSampah(List<Map<String, dynamic>> body);
 }
 
 class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
@@ -88,7 +87,7 @@ class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
   }
 
   @override
-  Future<List<User>> getAllUser() async {
+  Future<List<Data>> getAllUser() async {
     final String token = await LocalAuthStorage().read("token");
     var headers = {'Authorization': 'Bearer $token'};
     var request = http.Request(
@@ -100,8 +99,9 @@ class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
 
     if (response.statusCode == 200) {
       final stream = await response.stream.bytesToString();
-      final data = allUserEntityFromJson(stream);
-      return data.data;
+      final jsonD = json.decode(stream);
+      final data = List<Data>.from(jsonD["data"].map((x) => Data.fromJson(x)));
+      return data;
     } else {
       throw ServerException(response.reasonPhrase.toString());
     }
@@ -134,11 +134,8 @@ class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
     };
     var request = await http.post(
       Uri.parse('https://baswara-backend.my.id/api/checkout'),
-      body: jsonEncode({
-        "items": body,
-        "user_id": int.parse(userid),
-        "status": "PENDING"
-      }),
+      body: jsonEncode(
+          {"items": body, "user_id": int.parse(userid), "status": "PENDING"}),
       headers: headers,
     );
 
@@ -150,7 +147,7 @@ class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
   }
 
   @override
-  Future<bool> updateHargaSampah(List<Map<String, dynamic>> body) async{
+  Future<bool> updateHargaSampah(List<Map<String, dynamic>> body) async {
     final String token = await LocalAuthStorage().read("token");
     final String userid = await LocalAuthStorage().read("id");
     var headers = {

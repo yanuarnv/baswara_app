@@ -1,4 +1,3 @@
-import 'package:baswara_app/authentication/domain/repositories/auth_repository.dart';
 import 'package:baswara_app/widget/logout_dialog_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -10,7 +9,6 @@ import '../../../authentication/presentation/manager/auth_bloc.dart';
 import '../../../core/color_value.dart';
 import '../../../core/utility.dart';
 import '../../../onBoarding/presentation/pages/onboarding_page.dart';
-import '../manager/admin_bloc.dart';
 import '../widgets/widget.dart';
 
 class HomeAdminPage extends StatefulWidget {

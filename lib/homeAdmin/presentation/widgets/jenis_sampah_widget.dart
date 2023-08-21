@@ -36,6 +36,7 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
   void dispose() {
     // TODO: implement dispose
     filterItem.dispose();
+    dataProduct.dispose();
     super.dispose();
   }
 
@@ -91,6 +92,9 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                         builder: (context, state) {
                           if (state is SuccesGetProduct) {
                             context.loaderOverlay.hide();
+                            // if(dataProduct.value.isEmpty){
+                            //   dataProduct.value =List.from(state.data);
+                            // }
                             dataProduct.value = List.from(state.data);
                             return SizedBox(
                               height: 90.h,
@@ -174,32 +178,50 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                                     ),
                                     FocusScope(
                                       node: FocusScopeNode(),
-                                      child: TextField(
-                                        style:
-                                            GoogleFonts.poppins(fontSize: 16),
-                                        decoration: InputDecoration(
-                                            border: const OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: ColorValue.primary),
-                                            ),
-                                            enabledBorder:
-                                                const OutlineInputBorder(
-                                              borderSide: BorderSide(
-                                                  color: ColorValue.primary),
-                                            ),
-                                            hintText: "Search...",
-                                            hintStyle: GoogleFonts.poppins(
-                                                fontSize: 16,
-                                                color: ColorValue.primary),
-                                            isDense: true,
-                                            contentPadding:
-                                                const EdgeInsets.all(10),
-                                            suffixIcon: const Icon(
-                                              Icons.search,
-                                              size: 24,
-                                              color: ColorValue.primary,
-                                            )),
-                                      ),
+                                      child: ValueListenableBuilder(
+                                          valueListenable: dataProduct,
+                                          builder: (context, listProduct, _) {
+                                            return TextField(
+                                              style: GoogleFonts.poppins(
+                                                  fontSize: 16),
+                                              onChanged: (value) {
+                                                final filtered =
+                                                    state.data.where((element) {
+                                                  return RegExp(value,
+                                                          caseSensitive: false)
+                                                      .hasMatch(element.name);
+                                                }).toList();
+                                                dataProduct.value = filtered;
+                                              },
+                                              decoration: InputDecoration(
+                                                  border:
+                                                      const OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color:
+                                                            ColorValue.primary),
+                                                  ),
+                                                  enabledBorder:
+                                                      const OutlineInputBorder(
+                                                    borderSide: BorderSide(
+                                                        color:
+                                                            ColorValue.primary),
+                                                  ),
+                                                  hintText: "Search...",
+                                                  hintStyle:
+                                                      GoogleFonts.poppins(
+                                                          fontSize: 16,
+                                                          color: ColorValue
+                                                              .primary),
+                                                  isDense: true,
+                                                  contentPadding:
+                                                      const EdgeInsets.all(10),
+                                                  suffixIcon: const Icon(
+                                                    Icons.search,
+                                                    size: 24,
+                                                    color: ColorValue.primary,
+                                                  )),
+                                            );
+                                          }),
                                     ),
                                     const SizedBox(
                                       height: 25,

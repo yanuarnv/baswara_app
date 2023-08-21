@@ -1,10 +1,10 @@
-import 'package:baswara_app/authentication/domain/entities/user_entity.dart';
 import 'package:baswara_app/core/exceptions.dart';
 import 'package:baswara_app/core/failure.dart';
 import 'package:baswara_app/homeAdmin/data/data_sources/admin_remote_datasources.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/repositories/admin_repository.dart';
+import 'package:baswara_app/homeUser/domain/entities/home_user_entity.dart';
 import 'package:dartz/dartz.dart';
 
 import '../../../core/network_info.dart';
@@ -58,7 +58,7 @@ class AdminRepositoryImpl extends AdminRepository {
   }
 
   @override
-  Future<Either<Failure, List<User>>> getAllUser() async{
+  Future<Either<Failure, List<Data>>> getAllUser() async {
     if (await networkInfo.isConnected) {
       try {
         final data = await remoteDataSources.getAllUser();
@@ -72,7 +72,7 @@ class AdminRepositoryImpl extends AdminRepository {
   }
 
   @override
-  Future<Either<Failure, List<DataCategory>>> getAllCategory() async{
+  Future<Either<Failure, List<DataCategory>>> getAllCategory() async {
     if (await networkInfo.isConnected) {
       try {
         final data = await remoteDataSources.getAllCategory();
@@ -86,7 +86,8 @@ class AdminRepositoryImpl extends AdminRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> potCheckout(List<Map<String, dynamic>>  body) async{
+  Future<Either<Failure, bool>> potCheckout(
+      List<Map<String, dynamic>> body) async {
     if (await networkInfo.isConnected) {
       try {
         final data = await remoteDataSources.postCheckout(body);
@@ -100,7 +101,8 @@ class AdminRepositoryImpl extends AdminRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> updateHargaSampah(List<Map<String, dynamic>> body) async{
+  Future<Either<Failure, bool>> updateHargaSampah(
+      List<Map<String, dynamic>> body) async {
     if (await networkInfo.isConnected) {
       try {
         final data = await remoteDataSources.updateHargaSampah(body);

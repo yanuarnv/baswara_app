@@ -1,17 +1,15 @@
 import 'dart:async';
 
 import 'package:baswara_app/core/failure.dart';
-import 'package:baswara_app/homeAdmin/domain/entities/alluser_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
+import 'package:baswara_app/homeUser/domain/entities/home_user_entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../authentication/domain/entities/user_entity.dart';
 import '../../domain/repositories/admin_repository.dart';
 
 part 'admin_event.dart';
-
 part 'admin_state.dart';
 
 class AdminBloc extends Bloc<AdminEvent, AdminState> {
@@ -141,11 +139,12 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     );
   }
 
-  FutureOr<void> updateHargaSampahMapToState(UpdateHargaSampah event, Emitter<AdminState> emit) async{
+  FutureOr<void> updateHargaSampahMapToState(
+      UpdateHargaSampah event, Emitter<AdminState> emit) async {
     emit(LoadingAdminState());
     final data = await repository.updateHargaSampah(event.items);
     data.fold(
-          (l) {
+      (l) {
         if (l is ServerFailure) {
           emit(FailureAdminState(l.msg));
         }
@@ -153,7 +152,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
           emit(NoConnection());
         }
       },
-          (r) => emit(
+      (r) => emit(
         SuccesUpdateHarga(),
       ),
     );

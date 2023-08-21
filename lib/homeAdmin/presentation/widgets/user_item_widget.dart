@@ -1,13 +1,13 @@
-import 'package:baswara_app/authentication/domain/entities/user_entity.dart';
 import 'package:baswara_app/homeAdmin/presentation/pages/aksi_input_sampah_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../../../core/color_value.dart';
+import '../../../homeUser/domain/entities/home_user_entity.dart';
 
 class UserItemWidget extends StatelessWidget {
   final int index;
-  final User user;
+  final Data user;
 
   const UserItemWidget({
     super.key,
