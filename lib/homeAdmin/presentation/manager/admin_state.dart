@@ -16,6 +16,12 @@ class SuccesGetProduct extends AdminState {
   SuccesGetProduct(this.data);
 }
 
+class SuccesGetCatalogAdmin extends AdminState {
+  final CatalogEntity data;
+
+  SuccesGetCatalogAdmin(this.data);
+}
+
 class SuccesPostCheckout extends AdminState {}
 
 class SuccesGetAllUser extends AdminState {
@@ -23,6 +29,8 @@ class SuccesGetAllUser extends AdminState {
 
   SuccesGetAllUser(this.data);
 }
+
+class SuccesAddCatallogAdmin extends AdminState {}
 
 class SuccesGetAllCategory extends AdminState {
   final List<DataCategory> data;

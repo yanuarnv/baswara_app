@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:baswara_app/core/failure.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
@@ -7,6 +8,7 @@ import 'package:baswara_app/homeUser/domain/entities/home_user_entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../homeUser/domain/entities/catalog_entity.dart';
 import '../../domain/repositories/admin_repository.dart';
 
 part 'admin_event.dart';
@@ -19,8 +21,10 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<GetProduct>(getProductMapToState);
     on<AddProduct>(addProductMapToState);
     on<DeleteProduct>(deleteProductMapToState);
+    on<AddCatalogAdmin>(addCatalogAdminMapToState);
     on<GetAlluser>(getAllUserMapToState);
     on<GetAllCategory>(getAllCategoryMapToState);
+    on<GetCatalogAdmin>(getCatalogAdminMapToState);
     on<PostCheckOut>(postCheckoutMapToState);
     on<UpdateHargaSampah>(updateHargaSampahMapToState);
   }
@@ -154,6 +158,48 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
       },
       (r) => emit(
         SuccesUpdateHarga(),
+      ),
+    );
+  }
+
+  FutureOr<void> getCatalogAdminMapToState(
+      GetCatalogAdmin event, Emitter<AdminState> emit) async {
+    emit(LoadingAdminState());
+    final data = await repository.getCatalogAdmin();
+    data.fold(
+      (l) {
+        if (l is ServerFailure) {
+          emit(FailureAdminState(l.msg));
+        }
+        if (l is InternalFailure) {
+          emit(NoConnection());
+        }
+      },
+      (r) => emit(
+        SuccesGetCatalogAdmin(r),
+      ),
+    );
+  }
+
+  FutureOr<void> addCatalogAdminMapToState(
+      AddCatalogAdmin event, Emitter<AdminState> emit) async {
+    emit(LoadingAdminState());
+    final data = await repository.addCatalogAdmin(
+      name: event.name,
+      tautan: event.tautan,
+      image: event.img,
+    );
+    data.fold(
+      (l) {
+        if (l is ServerFailure) {
+          emit(FailureAdminState(l.msg));
+        }
+        if (l is InternalFailure) {
+          emit(NoConnection());
+        }
+      },
+      (r) => emit(
+        SuccesAddCatallogAdmin(),
       ),
     );
   }

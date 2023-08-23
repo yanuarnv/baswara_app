@@ -29,8 +29,9 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
     JenisSampahWidget(),
     SampahUserWidget(),
     InputHargaSampahWidget(),
+    TarikSaldoWidget(),
     GrafikPenjualanWidget(),
-    KatalogBertakwa(),
+    CatalogAdmin(),
   ];
 
   void _onItemTapped(int index) {
@@ -242,6 +243,29 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
               iconColor: Colors.black,
               title: Row(
                 children: [
+                  SvgPicture.asset("assets/icons/icon_money.svg"),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10.0),
+                    child: Text(
+                      'Tarik Saldo User',
+                      style: GoogleFonts.poppins(
+                          fontSize: 16, fontWeight: FontWeight.w500),
+                    ),
+                  ),
+                ],
+              ),
+              selected: _selectedIndex == 6,
+              onTap: () {
+                // Update the state of the app
+                _onItemTapped(6);
+                // Then close the drawer
+                Navigator.pop(context);
+              },
+            ),
+            ListTile(
+              iconColor: Colors.black,
+              title: Row(
+                children: [
                   const Icon(Icons.bar_chart),
                   Padding(
                     padding: const EdgeInsets.only(left: 10.0),
@@ -253,9 +277,9 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                   ),
                 ],
               ),
-              selected: _selectedIndex == 6,
+              selected: _selectedIndex == 7,
               onTap: () {
-                _onItemTapped(6);
+                _onItemTapped(7);
                 Navigator.pop(context);
               },
             ),
@@ -274,10 +298,10 @@ class _HomeAdminPageState extends State<HomeAdminPage> {
                   ),
                 ],
               ),
-              selected: _selectedIndex == 7,
+              selected: _selectedIndex == 8,
               onTap: () {
                 // Update the state of the app
-                _onItemTapped(7);
+                _onItemTapped(8);
                 // Then close the drawer
                 Navigator.pop(context);
               },

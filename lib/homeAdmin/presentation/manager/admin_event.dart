@@ -38,3 +38,28 @@ class UpdateHargaSampah extends AdminEvent {
 
   UpdateHargaSampah(this.items);
 }
+
+class GetCatalogAdmin extends AdminEvent {}
+
+class EditCatalogAdmin extends AdminEvent {
+  final String id;
+  final String name;
+  final String tautan;
+  final File img;
+
+  EditCatalogAdmin(this.id, this.name, this.tautan, this.img);
+}
+
+class AddCatalogAdmin extends AdminEvent {
+  final String name;
+  final String tautan;
+  final File img;
+
+  AddCatalogAdmin(this.name, this.tautan, this.img);
+}
+
+class DeleteCatalogAdmin extends AdminState {
+  final String id;
+
+  DeleteCatalogAdmin(this.id);
+}

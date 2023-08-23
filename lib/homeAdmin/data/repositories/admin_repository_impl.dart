@@ -1,9 +1,12 @@
+import 'dart:io';
+
 import 'package:baswara_app/core/exceptions.dart';
 import 'package:baswara_app/core/failure.dart';
 import 'package:baswara_app/homeAdmin/data/data_sources/admin_remote_datasources.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/repositories/admin_repository.dart';
+import 'package:baswara_app/homeUser/domain/entities/catalog_entity.dart';
 import 'package:baswara_app/homeUser/domain/entities/home_user_entity.dart';
 import 'package:dartz/dartz.dart';
 
@@ -106,6 +109,38 @@ class AdminRepositoryImpl extends AdminRepository {
     if (await networkInfo.isConnected) {
       try {
         final data = await remoteDataSources.updateHargaSampah(body);
+        return Right(data);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, CatalogEntity>> getCatalogAdmin() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final data = await remoteDataSources.getCatalogAdmin();
+        return Right(data);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> addCatalogAdmin(
+      {required String name,
+      required String tautan,
+      required File? image}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final data = await remoteDataSources.addCatalogAdmin(
+            name: name, image: image, tautan: tautan);
         return Right(data);
       } on ServerException catch (e) {
         return Left(ServerFailure(e.msg));

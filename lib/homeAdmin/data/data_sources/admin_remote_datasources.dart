@@ -1,13 +1,16 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:baswara_app/core/constant_value.dart';
 import 'package:baswara_app/core/local_auth_storage.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
 import 'package:baswara_app/homeUser/domain/entities/home_user_entity.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../core/exceptions.dart';
+import '../../../homeUser/domain/entities/catalog_entity.dart';
 
 abstract class AdminRemoteDataSources {
   Future<List<Product>> getProduct();
@@ -18,9 +21,18 @@ abstract class AdminRemoteDataSources {
 
   Future<List<Data>> getAllUser();
 
+  Future<CatalogEntity> getCatalogAdmin();
+
+  Future<bool> addCatalogAdmin({
+    required String name,
+    required String tautan,
+    required File? image,
+  });
+
   Future<List<DataCategory>> getAllCategory();
 
   Future<bool> postCheckout(List<Map<String, dynamic>> body);
+
   Future<bool> updateHargaSampah(List<Map<String, dynamic>> body);
 }
 
@@ -167,6 +179,71 @@ class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
       return true;
     } else {
       throw ServerException(request.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<CatalogEntity> getCatalogAdmin() async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    var request = await http.get(
+      Uri.parse('${ConstantValue.apiUrl}catalog'),
+      headers: headers,
+    );
+
+    if (request.statusCode == 200) {
+      final model = catalogEntityFromJson(request.body);
+      return model;
+    } else {
+      throw ServerException(request.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<bool> addCatalogAdmin(
+      {required String name,
+      required String tautan,
+      required File? image}) async {
+    final String token = await LocalAuthStorage().read("token");
+
+    var headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('${ConstantValue.apiUrl}addCatalog'),
+    );
+
+    // Add file to the request
+    if (image != null) {
+      File imageFile = image;
+      request.files.add(
+        http.MultipartFile(
+          'image', // Field name in the API
+          imageFile.readAsBytes().asStream(),
+          imageFile.lengthSync(),
+          filename: '${DateTime.now().toIso8601String()}.jpg',
+        ),
+      );
+    }
+    request.fields.addAll({
+      'url': tautan,
+      'name': name,
+    });
+    request.headers.addAll(headers);
+
+    // Send the request and handle the response
+    var response = await request.send();
+    if (response.statusCode == 200) {
+      debugPrint(await response.stream.bytesToString());
+      return true;
+    } else {
+      throw ServerException(response.reasonPhrase.toString());
     }
   }
 }
