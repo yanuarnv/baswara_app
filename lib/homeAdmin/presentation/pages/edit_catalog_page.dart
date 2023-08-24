@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:baswara_app/homeAdmin/domain/repositories/admin_repository.dart';
 import 'package:baswara_app/homeAdmin/presentation/manager/admin_bloc.dart';
-import 'package:baswara_app/homeAdmin/presentation/widgets/success_catalog_dialog.dart';
 import 'package:baswara_app/widget/custom_form_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,15 +14,26 @@ import '../../../core/color_value.dart';
 import '../../../core/utility.dart';
 import '../../../homeUser/presentation/manager/home_user_bloc.dart';
 import '../../../widget/no_internet_dialog.dart';
+import '../widgets/success_catalog_dialog.dart';
 
-class TambahCatalogPage extends StatefulWidget {
-  const TambahCatalogPage({super.key});
+class EditCatalogPage extends StatefulWidget {
+  final String name;
+  final String tautan;
+  final String imgUrl;
+  final String id;
+
+  const EditCatalogPage(
+      {super.key,
+      required this.name,
+      required this.tautan,
+      required this.imgUrl,
+      required this.id});
 
   @override
-  State<TambahCatalogPage> createState() => _TambahCatalogPageState();
+  State<EditCatalogPage> createState() => _EditCatalogPageState();
 }
 
-class _TambahCatalogPageState extends State<TambahCatalogPage> {
+class _EditCatalogPageState extends State<EditCatalogPage> {
   final _formKey = GlobalKey<FormState>();
   File? _image;
   final nameCatalog = TextEditingController();
@@ -49,6 +59,14 @@ class _TambahCatalogPageState extends State<TambahCatalogPage> {
   }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    nameCatalog.text = widget.name;
+    tautanCatalog.text = widget.tautan;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -61,7 +79,7 @@ class _TambahCatalogPageState extends State<TambahCatalogPage> {
         backgroundColor: ColorValue.primary,
         centerTitle: true,
         title: Text(
-          "Tambah Catalog",
+          "Edit Catalog",
           style: GoogleFonts.poppins(
             fontSize: 20,
             fontWeight: FontWeight.w600,
@@ -88,7 +106,7 @@ class _TambahCatalogPageState extends State<TambahCatalogPage> {
               showDialog(
                   context: context,
                   builder: (_) => const SuccesCatalogDialog(
-                        msg: "Produk Tersimpan",
+                        msg: "Sukses Edit Catalog",
                       ));
             }
             if (state is FailureAdminState) {
@@ -188,54 +206,23 @@ class _TambahCatalogPageState extends State<TambahCatalogPage> {
                                         width: 1.sp,
                                       ),
                                       borderRadius: BorderRadius.circular(10)),
-                                  child: const Center(
-                                    child: Icon(
-                                      Icons.camera_alt,
-                                      color: ColorValue.primary,
-                                      size: 48,
-                                    ),
-                                  ),
+                                  child: Image.network(widget.imgUrl),
                                 ),
                         ),
                         const Spacer(),
                         ElevatedButton(
                           onPressed: () {
                             if (_formKey.currentState!.validate()) {
-                              if (_image != null) {
-                                catalogcontext.read<AdminBloc>().add(
-                                      AddCatalogAdmin(nameCatalog.text,
-                                          tautanCatalog.text, _image!),
-                                    );
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    content: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        const Text(
-                                          "Mohon Tambahkan\nFoto Catalog !",
-                                          textAlign: TextAlign.center,
-                                          style: TextStyle(
-                                              fontWeight: FontWeight.w500,
-                                              fontSize: 21),
-                                        ),
-                                        const SizedBox(
-                                          height: 10,
-                                        ),
-                                        ElevatedButton(
-                                            onPressed: () {
-                                              Navigator.pop(context);
-                                            },
-                                            child: const Text("oke"))
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              }
+                              catalogcontext.read<AdminBloc>().add(
+                                    EditCatalogAdmin(
+                                        widget.id,
+                                        nameCatalog.text,
+                                        tautanCatalog.text,
+                                        _image),
+                                  );
                             }
                           },
-                          child: const Text("Simpan"),
+                          child: const Text("Edit"),
                         ),
                         const SizedBox(
                           height: 20,

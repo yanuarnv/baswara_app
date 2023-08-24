@@ -30,12 +30,18 @@ class SuccesGetAllUser extends AdminState {
   SuccesGetAllUser(this.data);
 }
 
-class SuccesAddCatallogAdmin extends AdminState {}
+class SuccesCatallogAdmin extends AdminState {}
 
 class SuccesGetAllCategory extends AdminState {
   final List<DataCategory> data;
 
   SuccesGetAllCategory(this.data);
+}
+
+class SuccesGetReport extends AdminState {
+  final ReportEntity data;
+
+  SuccesGetReport(this.data);
 }
 
 class SuccesUpdateHarga extends AdminState {}

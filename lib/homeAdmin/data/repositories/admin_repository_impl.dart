@@ -5,6 +5,7 @@ import 'package:baswara_app/core/failure.dart';
 import 'package:baswara_app/homeAdmin/data/data_sources/admin_remote_datasources.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
+import 'package:baswara_app/homeAdmin/domain/entities/report_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/repositories/admin_repository.dart';
 import 'package:baswara_app/homeUser/domain/entities/catalog_entity.dart';
 import 'package:baswara_app/homeUser/domain/entities/home_user_entity.dart';
@@ -141,6 +142,53 @@ class AdminRepositoryImpl extends AdminRepository {
       try {
         final data = await remoteDataSources.addCatalogAdmin(
             name: name, image: image, tautan: tautan);
+        return Right(data);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> editCatalogAdmin(
+      {required String name,
+      required String tautan,
+      required String id,
+      required File? image}) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final data = await remoteDataSources.editCatalogAdmin(
+            id: id, name: name, image: image, tautan: tautan);
+        return Right(data);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> deleteCatalogAdmin(String id) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final data = await remoteDataSources.deleteCatalogAdmin(id);
+        return Right(data);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, ReportEntity>> getReport() async {
+    if (await networkInfo.isConnected) {
+      try {
+        final data = await remoteDataSources.getReport();
         return Right(data);
       } on ServerException catch (e) {
         return Left(ServerFailure(e.msg));

@@ -5,6 +5,7 @@ import 'package:baswara_app/core/constant_value.dart';
 import 'package:baswara_app/core/local_auth_storage.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/product_entity.dart';
+import 'package:baswara_app/homeAdmin/domain/entities/report_entity.dart';
 import 'package:baswara_app/homeUser/domain/entities/home_user_entity.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
@@ -15,9 +16,13 @@ import '../../../homeUser/domain/entities/catalog_entity.dart';
 abstract class AdminRemoteDataSources {
   Future<List<Product>> getProduct();
 
+  Future<ReportEntity> getReport();
+
   Future<bool> addProduct(String name, int category);
 
   Future<bool> delete(String id);
+
+  Future<bool> deleteCatalogAdmin(String id);
 
   Future<List<Data>> getAllUser();
 
@@ -27,6 +32,13 @@ abstract class AdminRemoteDataSources {
     required String name,
     required String tautan,
     required File? image,
+  });
+
+  Future<bool> editCatalogAdmin({
+    required String name,
+    required String tautan,
+    required File? image,
+    required String id,
   });
 
   Future<List<DataCategory>> getAllCategory();
@@ -244,6 +256,96 @@ class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
       return true;
     } else {
       throw ServerException(response.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<bool> editCatalogAdmin(
+      {required String name,
+      required String tautan,
+      required String id,
+      required File? image}) async {
+    final String token = await LocalAuthStorage().read("token");
+
+    var headers = {
+      'Authorization': 'Bearer $token',
+      'Accept': 'application/json',
+      'Content-Type':
+          'multipart/form-data; boundary=<calculated when request is sent>'
+    };
+
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.parse('${ConstantValue.apiUrl}updateCatalog?id=$id'),
+    );
+
+    // Add file to the request
+    if (image != null) {
+      File imageFile = image;
+      request.files.add(
+        http.MultipartFile(
+          'image', // Field name in the API
+          imageFile.readAsBytes().asStream(),
+          imageFile.lengthSync(),
+          filename: imageFile.path.split("/").last,
+        ),
+      );
+    }
+    request.fields.addAll({
+      'url': tautan,
+      'name': name,
+    });
+    request.headers.addAll(headers);
+    // Send the request and handle the response
+    var response = await request.send();
+
+    debugPrint(await response.stream.bytesToString());
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw ServerException(response.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<bool> deleteCatalogAdmin(String id) async {
+    // TODO: implement deleteCatalogAdmin
+    final String token = await LocalAuthStorage().read("token");
+    var headers = {
+      'Authorization': 'Bearer $token',
+    };
+    var request = http.MultipartRequest('POST',
+        Uri.parse('https://baswara-backend.my.id/api/deleteCatalog?id=$id'));
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw ServerException(response.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<ReportEntity> getReport() async {
+    final String token = await LocalAuthStorage().read("token");
+    var headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    var request = await http.get(
+      Uri.parse('${ConstantValue.apiUrl}recentReports'),
+      headers: headers,
+    );
+
+    if (request.statusCode == 200) {
+      final model = reportEntityFromJson(request.body);
+      return model;
+    } else {
+      throw ServerException(request.reasonPhrase.toString());
     }
   }
 }

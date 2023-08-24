@@ -45,7 +45,7 @@ class EditCatalogAdmin extends AdminEvent {
   final String id;
   final String name;
   final String tautan;
-  final File img;
+  final File? img;
 
   EditCatalogAdmin(this.id, this.name, this.tautan, this.img);
 }
@@ -58,8 +58,10 @@ class AddCatalogAdmin extends AdminEvent {
   AddCatalogAdmin(this.name, this.tautan, this.img);
 }
 
-class DeleteCatalogAdmin extends AdminState {
+class DeleteCatalogAdmin extends AdminEvent {
   final String id;
 
   DeleteCatalogAdmin(this.id);
 }
+
+class GetReport extends AdminEvent {}

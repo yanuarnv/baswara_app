@@ -9,6 +9,7 @@ import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../homeUser/domain/entities/catalog_entity.dart';
+import '../../domain/entities/report_entity.dart';
 import '../../domain/repositories/admin_repository.dart';
 
 part 'admin_event.dart';
@@ -20,9 +21,12 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   AdminBloc(this.repository) : super(AdminInitial()) {
     on<GetProduct>(getProductMapToState);
     on<AddProduct>(addProductMapToState);
+    on<GetReport>(getReportMapToState);
+    on<DeleteCatalogAdmin>(deleteCatalogAdminMapToState);
     on<DeleteProduct>(deleteProductMapToState);
     on<AddCatalogAdmin>(addCatalogAdminMapToState);
     on<GetAlluser>(getAllUserMapToState);
+    on<EditCatalogAdmin>(editCatalogAdminMapToState);
     on<GetAllCategory>(getAllCategoryMapToState);
     on<GetCatalogAdmin>(getCatalogAdminMapToState);
     on<PostCheckOut>(postCheckoutMapToState);
@@ -199,7 +203,69 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
         }
       },
       (r) => emit(
-        SuccesAddCatallogAdmin(),
+        SuccesCatallogAdmin(),
+      ),
+    );
+  }
+
+  FutureOr<void> editCatalogAdminMapToState(
+      EditCatalogAdmin event, Emitter<AdminState> emit) async {
+    emit(LoadingAdminState());
+    final data = await repository.editCatalogAdmin(
+      name: event.name,
+      tautan: event.tautan,
+      id: event.id,
+      image: event.img,
+    );
+    data.fold(
+      (l) {
+        if (l is ServerFailure) {
+          emit(FailureAdminState(l.msg));
+        }
+        if (l is InternalFailure) {
+          emit(NoConnection());
+        }
+      },
+      (r) => emit(
+        SuccesCatallogAdmin(),
+      ),
+    );
+  }
+
+  FutureOr<void> deleteCatalogAdminMapToState(
+      DeleteCatalogAdmin event, Emitter<AdminState> emit) async {
+    emit(LoadingAdminState());
+    final data = await repository.deleteCatalogAdmin(event.id);
+    data.fold(
+      (l) {
+        if (l is ServerFailure) {
+          emit(FailureAdminState(l.msg));
+        }
+        if (l is InternalFailure) {
+          emit(NoConnection());
+        }
+      },
+      (r) => emit(
+        SuccesCatallogAdmin(),
+      ),
+    );
+  }
+
+  FutureOr<void> getReportMapToState(
+      GetReport event, Emitter<AdminState> emit) async {
+    emit(LoadingAdminState());
+    final data = await repository.getReport();
+    data.fold(
+      (l) {
+        if (l is ServerFailure) {
+          emit(FailureAdminState(l.msg));
+        }
+        if (l is InternalFailure) {
+          emit(NoConnection());
+        }
+      },
+      (r) => emit(
+        SuccesGetReport(r),
       ),
     );
   }
