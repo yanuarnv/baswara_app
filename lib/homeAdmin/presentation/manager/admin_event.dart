@@ -64,4 +64,11 @@ class DeleteCatalogAdmin extends AdminEvent {
   DeleteCatalogAdmin(this.id);
 }
 
+class TarikSaldoUser extends AdminEvent {
+  final int userID;
+  final int totalPrice;
+
+  TarikSaldoUser(this.userID, this.totalPrice);
+}
+
 class GetReport extends AdminEvent {}

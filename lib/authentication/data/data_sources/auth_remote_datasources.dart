@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:baswara_app/authentication/domain/entities/user_entity.dart';
 import 'package:baswara_app/core/local_auth_storage.dart';
@@ -10,9 +11,16 @@ abstract class AuthRemoteDataSource {
   Future<String> login(String email, String password);
 
   Future<String> register(
-      String name, String email, String password, String phoneNumber);
+    String name,
+    String email,
+    String password,
+    String phoneNumber,
+    File? image,
+  );
 
   Future<bool> logout();
+
+  Future<bool> postOtpEmail(String email);
 }
 
 class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
@@ -52,10 +60,21 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
   }
 
   @override
-  Future<String> register(
-      String name, String email, String password, String phoneNumber) async {
+  Future<String> register(String name, String email, String password,
+      String phoneNumber, File? image) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse('https://baswara-backend.my.id/api/register'));
+    if (image != null) {
+      File imageFile = image;
+      request.files.add(
+        http.MultipartFile(
+          'image', // Field name in the API
+          imageFile.readAsBytes().asStream(),
+          imageFile.lengthSync(),
+          filename: imageFile.path.split("/").last,
+        ),
+      );
+    }
     request.fields.addAll({
       'name': name,
       'email': email,
@@ -93,6 +112,23 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
 
     if (response.statusCode == 200) {
       return true;
+    } else {
+      throw ServerException(response.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<bool> postOtpEmail(String email) async {
+    var request = http.MultipartRequest('POST',
+        Uri.parse('https://baswara-backend.my.id/api/send-password-reset'));
+    request.fields.addAll({'email': email});
+
+    http.StreamedResponse response = await request.send();
+    if (response.statusCode == 200) {
+      return true;
+    }
+    if (response.statusCode == 404) {
+      throw ServerException("Penguna Tidak Ada");
     } else {
       throw ServerException(response.reasonPhrase.toString());
     }

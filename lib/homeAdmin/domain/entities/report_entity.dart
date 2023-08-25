@@ -43,8 +43,6 @@ class ReportData {
   String year;
   int quantity;
   int price;
-  DateTime createdAt;
-  DateTime updatedAt;
 
   ReportData({
     required this.id,
@@ -52,8 +50,6 @@ class ReportData {
     required this.year,
     required this.quantity,
     required this.price,
-    required this.createdAt,
-    required this.updatedAt,
   });
 
   factory ReportData.fromJson(Map<String, dynamic> json) => ReportData(
@@ -62,8 +58,6 @@ class ReportData {
         year: json["year"],
         quantity: json["quantity"],
         price: json["price"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -72,7 +66,5 @@ class ReportData {
         "year": year,
         "quantity": quantity,
         "price": price,
-        "created_at": createdAt.toIso8601String(),
-        "updated_at": updatedAt.toIso8601String(),
       };
 }

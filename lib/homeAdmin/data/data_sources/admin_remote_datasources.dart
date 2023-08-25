@@ -24,6 +24,8 @@ abstract class AdminRemoteDataSources {
 
   Future<bool> deleteCatalogAdmin(String id);
 
+  Future<bool> tarikSaldoUser(int userId, int totalSaldo);
+
   Future<List<Data>> getAllUser();
 
   Future<CatalogEntity> getCatalogAdmin();
@@ -344,6 +346,27 @@ class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
     if (request.statusCode == 200) {
       final model = reportEntityFromJson(request.body);
       return model;
+    } else {
+      throw ServerException(request.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<bool> tarikSaldoUser(int userId, int totalSaldo) async {
+    final String token = await LocalAuthStorage().read("token");
+    var headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final body = {"users_id": userId, "total_price": totalSaldo};
+    var request = await http.post(
+        Uri.parse('${ConstantValue.apiUrl}withdrawal'),
+        headers: headers,
+        body: jsonEncode(body));
+
+    if (request.statusCode == 200) {
+      return true;
     } else {
       throw ServerException(request.reasonPhrase.toString());
     }

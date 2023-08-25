@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:baswara_app/core/failure.dart';
 import 'package:dartz/dartz.dart';
 
@@ -9,7 +11,10 @@ abstract class AuthRepository {
     String email,
     String password,
     String phoneNumber,
+    File? image,
   );
 
   Future<Either<Failure, bool>> logout();
+
+  Future<Either<Failure, bool>> postOtpEmail(String email);
 }

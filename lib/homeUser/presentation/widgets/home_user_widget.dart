@@ -121,8 +121,7 @@ class HomeUserWidget extends StatelessWidget {
                             height: 30,
                           ),
                           Row(
-                            mainAxisAlignment:
-                                MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
                                 "Katalog Bertawa",
@@ -157,59 +156,70 @@ class HomeUserWidget extends StatelessWidget {
                           Text(
                             "Gunakan uang untuk membeli kreasi produk dari sampah",
                             style: GoogleFonts.poppins(
-                                fontSize: 12,
-                                color: const Color(0xff909090)),
+                                fontSize: 12, color: const Color(0xff909090)),
                           ),
                           const SizedBox(
                             height: 13,
                           ),
                           state is SuccesGetCatalogUser
-                              ? GridView.builder(
-                                  physics:
-                                      const NeverScrollableScrollPhysics(),
-                                  itemCount: state.data.data.length > 4
-                                      ? 4
-                                      : state.data.data.length,primary: false,
-                                  shrinkWrap: true,
-                                  gridDelegate:
-                                      const SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisSpacing: 20,
-                                          mainAxisSpacing: 14,
-                                          crossAxisCount: 2),
-                                  itemBuilder: (c, i) => Container(
-                                        padding: const EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            color: Colors.white,
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            boxShadow: [
-                                              BoxShadow(
-                                                color: Colors.grey.shade300,
-                                                offset: const Offset(0, 4),
-                                                blurRadius: 4,
-                                              )
-                                            ]),
-                                        child: Column(
-                                          children: [
-                                            Image.network(state
-                                                .data.data[i].imageUrl),
-                                            const SizedBox(
-                                              height: 9,
-                                            ),
-                                            Text(
-                                              state.data.data[i].name,
-                                              style: GoogleFonts.poppins(
-                                                  fontSize: 16,
-                                                  fontWeight:
-                                                      FontWeight.w600,
-                                                  color:
-                                                      ColorValue.primary),
-                                            )
-                                          ],
+                              ? state.data.data.isEmpty
+                                  ? SizedBox(
+                                      height: 200,
+                                      child: Center(
+                                          child: Text(
+                                        "Catalog tidak tersedia",
+                                        style: GoogleFonts.poppins(
+                                          fontWeight: FontWeight.w500,
+                                          fontSize: 16,
                                         ),
-                                      ))
+                                      )),
+                                    )
+                                  : GridView.builder(
+                                      physics:
+                                          const NeverScrollableScrollPhysics(),
+                                      itemCount: state.data.data.length > 4
+                                          ? 4
+                                          : state.data.data.length,
+                                      primary: false,
+                                      shrinkWrap: true,
+                                      gridDelegate:
+                                          const SliverGridDelegateWithFixedCrossAxisCount(
+                                              crossAxisSpacing: 20,
+                                              mainAxisSpacing: 14,
+                                              crossAxisCount: 2),
+                                      itemBuilder: (c, i) => Container(
+                                            padding: const EdgeInsets.all(10),
+                                            decoration: BoxDecoration(
+                                                color: Colors.white,
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                boxShadow: [
+                                                  BoxShadow(
+                                                    color: Colors.grey.shade300,
+                                                    offset: const Offset(0, 4),
+                                                    blurRadius: 4,
+                                                  )
+                                                ]),
+                                            child: Column(
+                                              children: [
+                                                Image.network(state
+                                                    .data.data[i].imageUrl),
+                                                const SizedBox(
+                                                  height: 9,
+                                                ),
+                                                Text(
+                                                  state.data.data[i].name,
+                                                  style: GoogleFonts.poppins(
+                                                      fontSize: 16,
+                                                      fontWeight:
+                                                          FontWeight.w600,
+                                                      color:
+                                                          ColorValue.primary),
+                                                )
+                                              ],
+                                            ),
+                                          ))
                               : GridView.builder(
-
                                   itemCount: 4,
                                   shrinkWrap: true,
                                   gridDelegate:
@@ -243,10 +253,8 @@ class HomeUserWidget extends StatelessWidget {
                                               "-",
                                               style: GoogleFonts.poppins(
                                                   fontSize: 16,
-                                                  fontWeight:
-                                                      FontWeight.w600,
-                                                  color:
-                                                      ColorValue.primary),
+                                                  fontWeight: FontWeight.w600,
+                                                  color: ColorValue.primary),
                                             )
                                           ],
                                         ),

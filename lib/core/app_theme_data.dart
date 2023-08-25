@@ -25,7 +25,7 @@ class AppThemeData {
     return ThemeData(
         primaryColor: primaryColor,
         primarySwatch: primaryMaterialColor,
-        scaffoldBackgroundColor:  const Color(0xffF5F5F5),
+        scaffoldBackgroundColor: const Color(0xffF5F5F5),
         canvasColor: const Color(0xffF5F5F5),
         brightness: Brightness.light,
         iconTheme: IconThemeData(size: 6.w),
@@ -49,13 +49,15 @@ class AppThemeData {
                   fontSize: 16,
                 ))),
         tabBarTheme: TabBarTheme(
+          indicatorColor: Colors.white,
+          indicatorSize: TabBarIndicatorSize.label,
           labelStyle: GoogleFonts.poppins(
             fontWeight: FontWeight.w500,
-            fontSize: 8.sp,
+            fontSize: 9.sp,
           ),
           unselectedLabelStyle: GoogleFonts.poppins(
             fontWeight: FontWeight.w500,
-            fontSize: 8.sp,
+            fontSize: 9.sp,
           ),
         ),
         appBarTheme: AppBarTheme(

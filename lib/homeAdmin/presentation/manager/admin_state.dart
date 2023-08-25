@@ -30,6 +30,8 @@ class SuccesGetAllUser extends AdminState {
   SuccesGetAllUser(this.data);
 }
 
+class SuccesTarikSaldo extends AdminState {}
+
 class SuccesCatallogAdmin extends AdminState {}
 
 class SuccesGetAllCategory extends AdminState {

@@ -1,4 +1,5 @@
 import 'package:baswara_app/authentication/domain/repositories/auth_repository.dart';
+import 'package:baswara_app/authentication/presentation/pages/forgot_email_page.dart';
 import 'package:baswara_app/authentication/presentation/pages/register_page.dart';
 import 'package:baswara_app/core/color_value.dart';
 import 'package:baswara_app/core/utility.dart';
@@ -41,28 +42,26 @@ class _LoginPageState extends State<LoginPage> {
           listener: (context, state) {
             if (state is SuccessAuthState) {
               context.loaderOverlay.hide();
-              if(state.role=="ADMIN"){
+              if (state.role == "ADMIN") {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                    const HomeAdminPage(),
+                    builder: (context) => const HomeAdminPage(),
                   ),
                 );
-              }else{
+              } else {
                 Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
-                    builder: (context) =>
-                    const HomeUserPage(),
+                    builder: (context) => const HomeUserPage(),
                   ),
                 );
               }
             }
-            if(state is LoadingAuthState){
+            if (state is LoadingAuthState) {
               context.loaderOverlay.show();
             }
-            if(state is FailureAuthState){
+            if (state is FailureAuthState) {
               context.loaderOverlay.hide();
               Utility(context).showSnackbar(state.msg);
             }
@@ -117,9 +116,17 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         Align(
                           alignment: Alignment.topRight,
-                          child: Text(
-                            "Lupa kata sandi?",
-                            style: GoogleFonts.poppins(fontSize: 16),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (_) => const ForgotEmailPage()));
+                            },
+                            child: Text(
+                              "Lupa kata sandi?",
+                              style: GoogleFonts.poppins(fontSize: 16),
+                            ),
                           ),
                         ),
                         const SizedBox(

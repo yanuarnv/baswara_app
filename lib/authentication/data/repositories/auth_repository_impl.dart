@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:baswara_app/authentication/data/data_sources/auth_remote_datasources.dart';
 import 'package:baswara_app/authentication/domain/repositories/auth_repository.dart';
 import 'package:baswara_app/core/exceptions.dart';
@@ -18,7 +20,7 @@ class AuthRepositoryImpl extends AuthRepository {
     if (await networkInfo.isConnected) {
       try {
         final role = await remoteDataSources.login(email, password);
-        return  Right(role);
+        return Right(role);
       } on ServerException catch (e) {
         return Left(ServerFailure(e.msg));
       }
@@ -29,11 +31,16 @@ class AuthRepositoryImpl extends AuthRepository {
 
   @override
   Future<Either<Failure, String>> register(
-      String name, String email, String password, String phoneNumber) async {
+    String name,
+    String email,
+    String password,
+    String phoneNumber,
+    File? image,
+  ) async {
     if (await networkInfo.isConnected) {
       try {
         final role = await remoteDataSources.register(
-            name, email, password, phoneNumber);
+            name, email, password, phoneNumber, image);
         return Right(role);
       } on ServerException catch (e) {
         print("error");
@@ -45,10 +52,25 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> logout() async{
+  Future<Either<Failure, bool>> logout() async {
     if (await networkInfo.isConnected) {
       try {
         final role = await remoteDataSources.logout();
+        await LocalAuthStorage().delete();
+        return Right(role);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> postOtpEmail(String email) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final role = await remoteDataSources.postOtpEmail(email);
         await LocalAuthStorage().delete();
         return Right(role);
       } on ServerException catch (e) {

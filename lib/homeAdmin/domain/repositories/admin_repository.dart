@@ -14,6 +14,8 @@ abstract class AdminRepository {
 
   Future<Either<Failure, ReportEntity>> getReport();
 
+  Future<Either<Failure, bool>> tarikSaldoUser(int userId, int totalSaldo);
+
   Future<Either<Failure, bool>> addProduct(String name, int category);
 
   Future<Either<Failure, bool>> deleteProduct(String id);

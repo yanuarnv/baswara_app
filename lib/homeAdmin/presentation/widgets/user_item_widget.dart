@@ -47,8 +47,7 @@ class UserItemWidget extends StatelessWidget {
           ),
           Expanded(
             flex: 2,
-            child: Align(
-              alignment: Alignment.centerLeft,
+            child: Center(
               child: IconButton(
                 icon: const Icon(Icons.remove_red_eye),
                 onPressed: () {

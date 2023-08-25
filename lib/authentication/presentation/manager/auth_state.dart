@@ -8,9 +8,7 @@ abstract class AuthState extends Equatable {
 
 class AuthInitial extends AuthState {}
 
-class SuccesLogout extends AuthState {
-
-}
+class SuccesLogout extends AuthState {}
 
 class SuccessAuthState extends AuthState {
   final String role;
@@ -25,5 +23,9 @@ class FailureAuthState extends AuthState {
 
   FailureAuthState(this.msg);
 }
+
+class SuccesCheckEmail extends AuthState {}
+
+class SuccessCheckOtp extends AuthState {}
 
 class NoConnectionState extends AuthState {}

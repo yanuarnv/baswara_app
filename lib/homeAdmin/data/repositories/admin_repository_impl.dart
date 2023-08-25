@@ -197,4 +197,19 @@ class AdminRepositoryImpl extends AdminRepository {
       return Left(InternalFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> tarikSaldoUser(
+      int userId, int totalSaldo) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final data = await remoteDataSources.tarikSaldoUser(userId, totalSaldo);
+        return Right(data);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
 }

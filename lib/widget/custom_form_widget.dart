@@ -28,7 +28,8 @@ class CustomFormWidget extends StatefulWidget {
       this.isOpsional = true,
       this.label,
       this.suffixIcon,
-      this.textAlign, this.contentPadding});
+      this.textAlign,
+      this.contentPadding});
 
   @override
   State<CustomFormWidget> createState() => _CustomFormWidgetState();
@@ -45,6 +46,7 @@ class _CustomFormWidgetState extends State<CustomFormWidget> {
       style: GoogleFonts.roboto(fontSize: 14),
       obscureText: widget.obsecure ? hidePass : false,
       inputFormatters: widget.inputFormaters,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: widget.inputType,
       validator: widget.validation ??
           (value) {
@@ -58,12 +60,13 @@ class _CustomFormWidgetState extends State<CustomFormWidget> {
       decoration: InputDecoration(
         hintStyle: GoogleFonts.roboto(
           color: const Color(0xffB5B6B8),
-          fontSize: 18,
+          fontSize: 14,
           fontWeight: FontWeight.w500,
         ),
         labelText: widget.label,
         labelStyle: GoogleFonts.roboto(fontSize: 14),
-        contentPadding: widget.contentPadding??const EdgeInsets.only(top: 16, bottom: 16, left: 20),
+        contentPadding: widget.contentPadding ??
+            const EdgeInsets.only(top: 16, bottom: 16, left: 20),
         isDense: true,
         hintText: widget.hint,
         suffixIconConstraints: const BoxConstraints(),
