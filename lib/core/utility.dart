@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 import 'package:sizer/sizer.dart';
 
 class Utility {
@@ -12,6 +13,11 @@ class Utility {
       content: Text(message),
       backgroundColor: color ?? Colors.red,
     ));
+  }
+
+  String currencyFormat(int number) {
+    return NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 2)
+        .format(number);
   }
 
   Widget emptyProfileImg(String inisial) {

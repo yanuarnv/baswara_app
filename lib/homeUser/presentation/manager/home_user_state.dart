@@ -14,15 +14,23 @@ class SuccesGetProfile extends HomeUserState {
   SuccesGetProfile(this.model);
 }
 
-class SuccesUpdateProfile extends HomeUserState{}
-class SuccesGetCatalogUser extends HomeUserState{
+class SuccesGetRiwayatUser extends HomeUserState {
+  final RiwayatEntity data;
+
+  SuccesGetRiwayatUser(this.data);
+}
+
+class SuccesUpdateProfile extends HomeUserState {}
+
+class SuccesGetCatalogUser extends HomeUserState {
   final CatalogEntity data;
+
   SuccesGetCatalogUser(this.data);
 }
 
 class LoadingHomeUserState extends HomeUserState {}
 
-class NoInternetHomeUser extends HomeUserState{}
+class NoInternetHomeUser extends HomeUserState {}
 
 class FailureHomeUserState extends HomeUserState {
   final String msg;

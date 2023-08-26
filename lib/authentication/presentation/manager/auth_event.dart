@@ -37,4 +37,12 @@ class PostOtpAuth extends AuthEvent {
   PostOtpAuth(this.email, this.otp);
 }
 
+class ResetPassword extends AuthEvent {
+  final String email;
+  final String otp;
+  final String password;
+
+  ResetPassword(this.email, this.otp, this.password);
+}
+
 class Logout extends AuthEvent {}

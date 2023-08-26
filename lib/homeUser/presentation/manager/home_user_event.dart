@@ -17,6 +17,10 @@ class UpdateUserProfile extends HomeUserEvent {
   UpdateUserProfile(this.name, this.email, this.noHp, this.image);
 }
 
-class GetCatalogUser extends HomeUserEvent{
+class GetCatalogUser extends HomeUserEvent {}
 
+class GetRiwayatUser extends HomeUserEvent {
+  final String status;
+
+  GetRiwayatUser(this.status);
 }

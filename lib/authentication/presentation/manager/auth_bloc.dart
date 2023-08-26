@@ -17,6 +17,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<LoginAuth>(loginMapToState);
     on<Logout>(logoutMapToState);
     on<PostOtpEmailAuth>(postOtpEmailMapToState);
+    on<PostOtpAuth>(postOtpAuthMapToState);
+    on<ResetPassword>(resetPasswordMapToState);
   }
 
   FutureOr<void> registermapToState(
@@ -70,5 +72,34 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         emit(NoConnectionState());
       }
     }, (r) => emit(SuccesCheckEmail()));
+  }
+
+  FutureOr<void> postOtpAuthMapToState(
+      PostOtpAuth event, Emitter<AuthState> emit) async {
+    emit(LoadingAuthState());
+    final data = await repository.postOtpEmail(event.email);
+    data.fold((l) {
+      if (l is ServerFailure) {
+        emit(FailureAuthState(l.msg));
+      }
+      if (l is InternalFailure) {
+        emit(NoConnectionState());
+      }
+    }, (r) => emit(SuccessCheckOtp()));
+  }
+
+  FutureOr<void> resetPasswordMapToState(
+      ResetPassword event, Emitter<AuthState> emit) async {
+    emit(LoadingAuthState());
+    final data =
+        await repository.resetPasswrod(event.email, event.otp, event.password);
+    data.fold((l) {
+      if (l is ServerFailure) {
+        emit(FailureAuthState(l.msg));
+      }
+      if (l is InternalFailure) {
+        emit(NoConnectionState());
+      }
+    }, (r) => emit(SuccesResetPassword()));
   }
 }

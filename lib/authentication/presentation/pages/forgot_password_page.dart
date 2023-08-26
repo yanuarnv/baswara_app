@@ -1,5 +1,5 @@
 import 'package:baswara_app/authentication/domain/repositories/auth_repository.dart';
-import 'package:baswara_app/authentication/presentation/pages/otp_auth_page.dart';
+import 'package:baswara_app/authentication/presentation/pages/login_page.dart';
 import 'package:baswara_app/core/color_value.dart';
 import 'package:baswara_app/widget/custom_form_widget.dart';
 import 'package:flutter/material.dart';
@@ -10,15 +10,19 @@ import 'package:loader_overlay/loader_overlay.dart';
 import '../../../core/utility.dart';
 import '../manager/auth_bloc.dart';
 
-class ForgotEmailPage extends StatefulWidget {
-  const ForgotEmailPage({super.key});
+class ForgotPasswordPage extends StatefulWidget {
+  final String email;
+  final String otp;
+
+  const ForgotPasswordPage({super.key, required this.email, required this.otp});
 
   @override
-  State<ForgotEmailPage> createState() => _ForgotEmailPageState();
+  State<ForgotPasswordPage> createState() => _ForgotPasswordPageState();
 }
 
-class _ForgotEmailPageState extends State<ForgotEmailPage> {
-  final _email = TextEditingController();
+class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
+  final _password = TextEditingController();
+  final _passwordConfirm = TextEditingController();
   final _form = GlobalKey<FormState>();
 
   @override
@@ -30,16 +34,15 @@ class _ForgotEmailPageState extends State<ForgotEmailPage> {
         ),
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
-            if (state is SuccesCheckEmail) {
+            if (state is SuccesResetPassword) {
               context.loaderOverlay.hide();
-              Navigator.push(
+              Navigator.pushAndRemoveUntil(
                 context,
-                MaterialPageRoute(
-                    builder: (_) => OtpAuthPage(
-                          email: _email.text,
-                        )),
+                MaterialPageRoute(builder: (_) => const LoginPage()),
+                (route) => false,
               );
             }
+
             if (state is LoadingAuthState) {
               context.loaderOverlay.show();
             }
@@ -61,7 +64,7 @@ class _ForgotEmailPageState extends State<ForgotEmailPage> {
                         height: 74,
                       ),
                       Text(
-                        "Masukkan E-mail",
+                        "Atur Sandi",
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w600,
                           fontSize: 24,
@@ -69,7 +72,7 @@ class _ForgotEmailPageState extends State<ForgotEmailPage> {
                         ),
                       ),
                       Text(
-                        "Masukkan E-mail untuk memperbarui kata sandi",
+                        "Pastikan kata sandi yang Anda masukkan benar",
                         style: GoogleFonts.poppins(
                           fontWeight: FontWeight.w400,
                           fontSize: 16,
@@ -79,10 +82,28 @@ class _ForgotEmailPageState extends State<ForgotEmailPage> {
                         height: 20,
                       ),
                       CustomFormWidget(
-                        obsecure: false,
-                        controller: _email,
-                        label: "E-mail",
-                        hint: "Masukkan Alamat E-mail",
+                        obsecure: true,
+                        controller: _password,
+                        label: "Sandi",
+                        hint: "Masukkan Sandi",
+                      ),
+                      const SizedBox(
+                        height: 29,
+                      ),
+                      CustomFormWidget(
+                        obsecure: true,
+                        controller: _passwordConfirm,
+                        label: "Konfirmasi Sandi",
+                        hint: "Masukkan Konfirmasi Sandi",
+                        validation: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Tolong Masukan Password';
+                          }
+                          if (value != _password.text) {
+                            return 'Sandi harus sesuai';
+                          }
+                          return null;
+                        },
                       ),
                       const SizedBox(
                         height: 29,
@@ -90,9 +111,13 @@ class _ForgotEmailPageState extends State<ForgotEmailPage> {
                       ElevatedButton(
                         onPressed: () {
                           if (_form.currentState!.validate()) {
-                            context
-                                .read<AuthBloc>()
-                                .add(PostOtpEmailAuth(_email.text));
+                            context.read<AuthBloc>().add(
+                                  ResetPassword(
+                                    widget.email,
+                                    widget.otp,
+                                    _passwordConfirm.text,
+                                  ),
+                                );
                           }
                         },
                         child: const Text("Selanjutnya"),

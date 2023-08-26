@@ -11,10 +11,17 @@ import '../../../core/color_value.dart';
 import '../../../core/utility.dart';
 import '../../../widget/no_internet_dialog.dart';
 
-class HomeUserWidget extends StatelessWidget {
+class HomeUserWidget extends StatefulWidget {
   const HomeUserWidget({
     super.key,
   });
+
+  @override
+  State<HomeUserWidget> createState() => _HomeUserWidgetState();
+}
+
+class _HomeUserWidgetState extends State<HomeUserWidget> {
+  int totalSaldo = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +46,7 @@ class HomeUserWidget extends StatelessWidget {
       body: BlocProvider(
         create: (context) =>
             HomeUserBloc(RepositoryProvider.of<HomeUserRepository>(context))
-              ..add(GetCatalogUser()),
+              ..add(GetUserProfile()),
         child: BlocBuilder<HomeUserBloc, HomeUserState>(
           builder: (context, state) {
             return RefreshIndicator(
@@ -48,7 +55,7 @@ class HomeUserWidget extends StatelessWidget {
                   const Duration(),
                   () {
                     BlocProvider.of<HomeUserBloc>(context)
-                        .add(GetCatalogUser());
+                        .add(GetUserProfile());
                   },
                 );
                 return;
@@ -65,6 +72,10 @@ class HomeUserWidget extends StatelessWidget {
                     }
                     if (state is LoadingHomeUserState) {
                       context.loaderOverlay.show();
+                    }
+                    if (state is SuccesGetProfile) {
+                      totalSaldo = int.parse(state.model.data.savings);
+                      context.read<HomeUserBloc>().add(GetCatalogUser());
                     }
                     if (state is SuccesGetCatalogUser) {
                       context.loaderOverlay.hide();
@@ -97,21 +108,22 @@ class HomeUserWidget extends StatelessWidget {
                                   height: 15,
                                 ),
                                 Text(
-                                  "Lihat Total Sampahmu",
+                                  "Total Saldo BASWARA:",
                                   style: GoogleFonts.poppins(
-                                    fontSize: 20,
-                                    color: ColorValue.primary,
-                                    fontWeight: FontWeight.w600,
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xff909090),
                                   ),
                                 ),
                                 const SizedBox(
                                   height: 10,
                                 ),
                                 Text(
-                                  "Anda bisa melihat total sampah dan uang yang Anda dapatkan.",
+                                  Utility(context).currencyFormat(totalSaldo),
                                   style: GoogleFonts.poppins(
-                                    fontSize: 12,
-                                    color: const Color(0xff909090),
+                                    fontSize: 20,
+                                    color: ColorValue.primary,
+                                    fontWeight: FontWeight.w600,
                                   ),
                                 ),
                               ],

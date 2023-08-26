@@ -26,6 +26,8 @@ class FailureAuthState extends AuthState {
 
 class SuccesCheckEmail extends AuthState {}
 
+class SuccesResetPassword extends AuthState {}
+
 class SuccessCheckOtp extends AuthState {}
 
 class NoConnectionState extends AuthState {}

@@ -80,4 +80,36 @@ class AuthRepositoryImpl extends AuthRepository {
       return Left(InternalFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> postOtpAuth(String email, String otp) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final role = await remoteDataSources.postOtpAuth(email, otp);
+        await LocalAuthStorage().delete();
+        return Right(role);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
+
+  @override
+  Future<Either<Failure, bool>> resetPasswrod(
+      String email, String otp, String password) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final role =
+            await remoteDataSources.resetPassword(email, otp, password);
+        await LocalAuthStorage().delete();
+        return Right(role);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
 }

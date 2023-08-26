@@ -1,9 +1,7 @@
-import 'dart:convert';
 import 'dart:io';
 
-import 'package:baswara_app/authentication/domain/entities/user_entity.dart';
 import 'package:baswara_app/homeUser/domain/entities/catalog_entity.dart';
-import 'package:equatable/equatable.dart';
+import 'package:baswara_app/homeUser/domain/entities/riwayat_entity.dart';
 import 'package:http/http.dart' as http;
 
 import '../../../core/constant_value.dart';
@@ -13,12 +11,16 @@ import '../../domain/entities/home_user_entity.dart';
 
 abstract class HomeUserRemoteDataSources {
   Future<HomeUserEntity> getUserProfile();
+
   Future<CatalogEntity> getCatalogUser();
 
-  Future<bool> updateUserProfile({required String name,
-    required String noHp,
-    required String email,
-    required File? image});
+  Future<RiwayatEntity> getRiwayatUser(String status);
+
+  Future<bool> updateUserProfile(
+      {required String name,
+      required String noHp,
+      required String email,
+      required File? image});
 }
 
 class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
@@ -48,10 +50,11 @@ class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
   }
 
   @override
-  Future<bool> updateUserProfile({required String name,
-    required String noHp,
-    required String email,
-    required File? image}) async {
+  Future<bool> updateUserProfile(
+      {required String name,
+      required String noHp,
+      required String email,
+      required File? image}) async {
     final String token = await LocalAuthStorage().read("token");
 
     var headers = {
@@ -66,7 +69,7 @@ class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
     );
 
     // Add file to the request
-    if(image!=null){
+    if (image != null) {
       File imageFile = image;
       request.files.add(
         http.MultipartFile(
@@ -95,7 +98,7 @@ class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
   }
 
   @override
-  Future<CatalogEntity> getCatalogUser() async{
+  Future<CatalogEntity> getCatalogUser() async {
     var headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/json',
@@ -107,6 +110,27 @@ class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
 
     if (request.statusCode == 200) {
       final model = catalogEntityFromJson(request.body);
+      return model;
+    } else {
+      throw ServerException(request.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<RiwayatEntity> getRiwayatUser(String status) async {
+    final String token = await LocalAuthStorage().read("token");
+    var headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    var request = await http.get(
+      Uri.parse('${ConstantValue.apiUrl}transaction?status=$status'),
+      headers: headers,
+    );
+
+    if (request.statusCode == 200) {
+      final model = riwayatEntityFromJson(request.body);
       return model;
     } else {
       throw ServerException(request.reasonPhrase.toString());

@@ -5,6 +5,7 @@ import 'package:baswara_app/authentication/domain/entities/user_entity.dart';
 import 'package:baswara_app/core/local_auth_storage.dart';
 import 'package:http/http.dart' as http;
 
+import '../../../core/constant_value.dart';
 import '../../../core/exceptions.dart';
 
 abstract class AuthRemoteDataSource {
@@ -21,6 +22,10 @@ abstract class AuthRemoteDataSource {
   Future<bool> logout();
 
   Future<bool> postOtpEmail(String email);
+
+  Future<bool> postOtpAuth(String email, String otp);
+
+  Future<bool> resetPassword(String email, String otp, String password);
 }
 
 class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
@@ -131,6 +136,50 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
       throw ServerException("Penguna Tidak Ada");
     } else {
       throw ServerException(response.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<bool> postOtpAuth(String email, String otp) async {
+    var headers = {
+      'Content-Type': 'application/json',
+    };
+    var request = http.MultipartRequest(
+        'POST', Uri.parse('https://baswara-backend.my.id/api/otp-check'));
+    request.fields.addAll({'email': email, 'otp': otp});
+
+    request.headers.addAll(headers);
+
+    http.StreamedResponse response = await request.send();
+
+    if (response.statusCode == 200) {
+      return true;
+    } else {
+      throw ServerException(response.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<bool> resetPassword(String email, String otp, String password) async {
+    var headers = {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final body = {
+      "email": email,
+      "otp": otp,
+      "password": password,
+    };
+    var request = await http.post(
+      Uri.parse('${ConstantValue.apiUrl}reset-password'),
+      headers: headers,
+      body: jsonEncode(body),
+    );
+
+    if (request.statusCode == 200) {
+      return true;
+    } else {
+      throw ServerException(request.reasonPhrase.toString());
     }
   }
 }
