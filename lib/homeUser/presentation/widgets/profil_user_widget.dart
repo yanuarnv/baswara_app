@@ -3,11 +3,9 @@ import 'package:baswara_app/homeUser/presentation/manager/home_user_bloc.dart';
 import 'package:baswara_app/homeUser/presentation/pages/edit_profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
-import '../../../authentication/domain/repositories/auth_repository.dart';
 import '../../../authentication/presentation/manager/auth_bloc.dart';
 import '../../../core/color_value.dart';
 import '../../../core/utility.dart';
@@ -115,12 +113,16 @@ class _ProfilUserWidgetState extends State<ProfilUserWidget> {
                               Center(
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(90),
-                                  child: Image.network(
-                                    state.model.data.imageUrl,
-                                    fit: BoxFit.cover,
-                                    width: 180,
-                                    height: 180,
-                                  ),
+                                  child: state.model.data.imageUrl.isEmpty
+                                      ? Utility(context).emptyProfileImg(
+                                          state.model.data.name)
+                                      : Image.network(state.model.data.imageUrl,
+                                          fit: BoxFit.cover,
+                                          width: 180,
+                                          height: 180,
+                                          errorBuilder: (c, __, _) =>
+                                              Utility(context).emptyProfileImg(
+                                                  state.model.data.name)),
                                 ),
                               ),
                               const SizedBox(

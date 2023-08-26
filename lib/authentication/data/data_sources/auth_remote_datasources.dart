@@ -55,7 +55,7 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
       await LocalAuthStorage().write("id", user.data.user.id.toString());
       return user.data.user.roles;
     } else {
-      if (response.statusCode == 500) {
+      if (response.statusCode == 401) {
         final streamResult = await response.stream.bytesToString();
         final user = jsonDecode(streamResult);
         throw ServerException(user["message"]);

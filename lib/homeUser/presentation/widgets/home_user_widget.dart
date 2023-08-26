@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../../core/color_value.dart';
 import '../../../core/utility.dart';
@@ -199,36 +200,51 @@ class _HomeUserWidgetState extends State<HomeUserWidget> {
                                               crossAxisSpacing: 20,
                                               mainAxisSpacing: 14,
                                               crossAxisCount: 2),
-                                      itemBuilder: (c, i) => Container(
-                                            padding: const EdgeInsets.all(10),
-                                            decoration: BoxDecoration(
-                                                color: Colors.white,
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                boxShadow: [
-                                                  BoxShadow(
-                                                    color: Colors.grey.shade300,
-                                                    offset: const Offset(0, 4),
-                                                    blurRadius: 4,
-                                                  )
-                                                ]),
-                                            child: Column(
-                                              children: [
-                                                Image.network(state
-                                                    .data.data[i].imageUrl),
-                                                const SizedBox(
-                                                  height: 9,
-                                                ),
-                                                Text(
-                                                  state.data.data[i].name,
-                                                  style: GoogleFonts.poppins(
-                                                      fontSize: 16,
-                                                      fontWeight:
-                                                          FontWeight.w600,
+                                      itemBuilder: (c, i) => GestureDetector(
+                                            onTap: () async {
+                                              await launchUrl(
+                                                  Uri.parse(
+                                                      state.data.data[i].url),
+                                                  mode: LaunchMode
+                                                      .externalApplication);
+                                            },
+                                            child: Container(
+                                              padding: const EdgeInsets.all(10),
+                                              decoration: BoxDecoration(
+                                                  color: Colors.white,
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  boxShadow: [
+                                                    BoxShadow(
                                                       color:
-                                                          ColorValue.primary),
-                                                )
-                                              ],
+                                                          Colors.grey.shade300,
+                                                      offset:
+                                                          const Offset(0, 4),
+                                                      blurRadius: 4,
+                                                    )
+                                                  ]),
+                                              child: Column(
+                                                children: [
+                                                  Image.network(
+                                                    state.data.data[i].imageUrl,
+                                                    width: 146,
+                                                    height: 98,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                                  const SizedBox(
+                                                    height: 9,
+                                                  ),
+                                                  Text(
+                                                    state.data.data[i].name,
+                                                    style: GoogleFonts.poppins(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.w600,
+                                                        color:
+                                                            ColorValue.primary),
+                                                  )
+                                                ],
+                                              ),
                                             ),
                                           ))
                               : GridView.builder(

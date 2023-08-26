@@ -76,7 +76,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
             listener: (context, state) {
               if (state is SuccesUpdateProfile) {
                 context.loaderOverlay.hide();
-                Utility(context).showSnackbar("Profile berhasil diupdate",color: ColorValue.primary);
+                Utility(context).showSnackbar("Profile berhasil diupdate",
+                    color: ColorValue.primary);
               }
               if (state is LoadingHomeUserState) {
                 context.loaderOverlay.show();
@@ -113,10 +114,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                             children: <Widget>[
                                               GestureDetector(
                                                 onTap: () {
-                                                  _pickImage(ImageSource.gallery);
+                                                  _pickImage(
+                                                      ImageSource.gallery);
                                                 },
                                                 child: const Column(
-                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
                                                   children: [
                                                     Icon(
                                                       Icons.image,
@@ -128,10 +131,12 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                               ),
                                               GestureDetector(
                                                 onTap: () {
-                                                  _pickImage(ImageSource.camera);
+                                                  _pickImage(
+                                                      ImageSource.camera);
                                                 },
                                                 child: const Column(
-                                                  mainAxisSize: MainAxisSize.min,
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
                                                   children: [
                                                     Icon(
                                                       Icons.camera,
@@ -149,11 +154,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(90),
                                   child: _image == null
-                                      ? Image.network(
-                                          widget.model.data.imageUrl,
-                                          fit: BoxFit.cover,
-                                          width: 180,
-                                          height: 180,
+                                      ? Center(
+                                          child: ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(90),
+                                            child: widget
+                                                    .model.data.imageUrl.isEmpty
+                                                ? Utility(context)
+                                                    .emptyProfileImg(
+                                                        widget.model.data.name)
+                                                : Image.network(
+                                                    widget.model.data.imageUrl,
+                                                    fit: BoxFit.cover,
+                                                    width: 180,
+                                                    height: 180,
+                                                    errorBuilder: (c, __, _) =>
+                                                        Utility(context)
+                                                            .emptyProfileImg(
+                                                                widget
+                                                                    .model
+                                                                    .data
+                                                                    .name)),
+                                          ),
                                         )
                                       : Image.file(_image!,
                                           width: 180,

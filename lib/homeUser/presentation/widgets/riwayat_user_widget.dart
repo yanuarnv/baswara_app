@@ -1,5 +1,6 @@
 import 'package:baswara_app/core/color_value.dart';
 import 'package:baswara_app/homeUser/presentation/widgets/riwayat_berlangsung_widget.dart';
+import 'package:baswara_app/homeUser/presentation/widgets/riwayat_selesai_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -39,18 +40,10 @@ class _RiwayatUserWidgetState extends State<RiwayatUserWidget> {
                   color: Colors.white),
             ),
           ),
-          body: TabBarView(
+          body: const TabBarView(
             children: [
-              const RiwayatBerlangsungWidget(),
-              Center(
-                child: Text(
-                  'Cooming soon !',
-                  style: GoogleFonts.poppins(
-                      fontWeight: FontWeight.w600,
-                      fontSize: 14,
-                      color: Colors.black),
-                ),
-              ),
+              RiwayatBerlangsungWidget(),
+              RiwayatSelesaiWidget(),
             ],
           ),
         ),

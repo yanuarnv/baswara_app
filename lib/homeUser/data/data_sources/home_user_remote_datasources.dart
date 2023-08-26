@@ -68,23 +68,18 @@ class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
       Uri.parse('${ConstantValue.apiUrl}user'),
     );
 
-    // Add file to the request
-    if (image != null) {
-      File imageFile = image;
-      request.files.add(
-        http.MultipartFile(
-          'file', // Field name in the API
-          imageFile.readAsBytes().asStream(),
-          imageFile.lengthSync(),
-          filename: 'image.jpg',
-        ),
-      );
-    }
     request.fields.addAll({
       'phone': noHp,
       'name': name,
       'email': email,
     });
+
+    if (image != null) {
+      File imageFile = image;
+      request.files
+          .add(await http.MultipartFile.fromPath('image', imageFile.path));
+    }
+
     request.headers.addAll(headers);
 
     // Send the request and handle the response
