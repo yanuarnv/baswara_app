@@ -38,33 +38,17 @@ class ReportEntity {
 }
 
 class ReportData {
-  int id;
-  String month;
-  String year;
-  int quantity;
   int price;
 
   ReportData({
-    required this.id,
-    required this.month,
-    required this.year,
-    required this.quantity,
     required this.price,
   });
 
   factory ReportData.fromJson(Map<String, dynamic> json) => ReportData(
-        id: json["id"],
-        month: json["month"],
-        year: json["year"],
-        quantity: json["quantity"],
         price: json["price"],
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "month": month,
-        "year": year,
-        "quantity": quantity,
         "price": price,
       };
 }
