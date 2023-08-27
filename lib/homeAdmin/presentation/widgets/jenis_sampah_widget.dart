@@ -30,6 +30,10 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
     "Plastik",
     "Kertas",
     "Besi",
+    "kaca",
+    "minyak",
+    "tembaga",
+    "lainnya"
   ];
 
   @override
@@ -109,68 +113,82 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                                     ValueListenableBuilder(
                                         valueListenable: filterItem,
                                         builder: (context, value, _) {
-                                          return Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: List<Widget>.generate(
-                                              4,
-                                              (int index) {
-                                                return ChoiceChip(
-                                                  selectedColor:
-                                                      ColorValue.primary,
-                                                  backgroundColor: Colors.white,
-                                                  shape: RoundedRectangleBorder(
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            4),
-                                                    side: const BorderSide(
-                                                      color: ColorValue.primary,
-                                                    ),
-                                                  ),
-                                                  label: Row(
-                                                    children: [
-                                                      if (value == index)
-                                                        const Icon(
-                                                          Icons.check,
-                                                          color: Colors.white,
-                                                          size: 12,
+                                          return SingleChildScrollView(
+                                            scrollDirection: Axis.horizontal,
+                                            child: Row(
+                                              children: List<Widget>.generate(
+                                                categoryList.length,
+                                                (int index) {
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            right: 10.0),
+                                                    child: ChoiceChip(
+                                                      selectedColor:
+                                                          ColorValue.primary,
+                                                      backgroundColor:
+                                                          Colors.white,
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(4),
+                                                        side: const BorderSide(
+                                                          color: ColorValue
+                                                              .primary,
                                                         ),
-                                                      const SizedBox(
-                                                        width: 5,
                                                       ),
-                                                      Text(
-                                                        categoryList[index],
-                                                        style: GoogleFonts.inter(
-                                                            fontSize: 12,
-                                                            color: value ==
-                                                                    index
-                                                                ? Colors.white
-                                                                : ColorValue
-                                                                    .primary),
+                                                      label: Row(
+                                                        children: [
+                                                          if (value == index)
+                                                            const Icon(
+                                                              Icons.check,
+                                                              color:
+                                                                  Colors.white,
+                                                              size: 12,
+                                                            ),
+                                                          const SizedBox(
+                                                            width: 5,
+                                                          ),
+                                                          Text(
+                                                            categoryList[index],
+                                                            style: GoogleFonts.inter(
+                                                                fontSize: 12,
+                                                                color: value ==
+                                                                        index
+                                                                    ? Colors
+                                                                        .white
+                                                                    : ColorValue
+                                                                        .primary),
+                                                          ),
+                                                        ],
                                                       ),
-                                                    ],
-                                                  ),
-                                                  selected: value == index,
-                                                  onSelected: (bool selected) {
-                                                    filterItem.value = index;
-                                                    if (index == 0) {
-                                                      dataProduct.value =
-                                                          state.data;
-                                                    } else {
-                                                      dataProduct.value = List<
-                                                                  Product>.from(
-                                                              state.data)
-                                                          .where((element) =>
-                                                              element
-                                                                  .categoriesId
-                                                                  .id ==
-                                                              index)
-                                                          .toList();
-                                                    }
-                                                  },
-                                                );
-                                              },
-                                            ).toList(),
+                                                      selected: value == index,
+                                                      onSelected:
+                                                          (bool selected) {
+                                                        filterItem.value =
+                                                            index;
+                                                        if (index == 0) {
+                                                          dataProduct.value =
+                                                              state.data;
+                                                        } else {
+                                                          dataProduct
+                                                              .value = List<
+                                                                      Product>.from(
+                                                                  state.data)
+                                                              .where((element) =>
+                                                                  element
+                                                                      .categoriesId
+                                                                      .id ==
+                                                                  index)
+                                                              .toList();
+                                                        }
+                                                      },
+                                                    ),
+                                                  );
+                                                },
+                                              ).toList(),
+                                            ),
                                           );
                                         }),
                                     const SizedBox(

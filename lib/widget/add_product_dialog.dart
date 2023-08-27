@@ -69,6 +69,42 @@ class _AddProductDialogState extends State<AddProductDialog> {
                     ),
                   ),
                 ),
+                DropdownMenuItem(
+                  value: 4,
+                  child: Text(
+                    'kaca',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: 5,
+                  child: Text(
+                    'tembaga',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: 6,
+                  child: Text(
+                    'minyak',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                DropdownMenuItem(
+                  value: 7,
+                  child: Text(
+                    'lainnya',
+                    style: GoogleFonts.poppins(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
                 // Add more items as needed
               ],
               onChanged: (value) {
