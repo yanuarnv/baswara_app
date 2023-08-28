@@ -95,9 +95,13 @@ class UserItemWidget extends StatelessWidget {
                 visualDensity: VisualDensity.compact,
                 onPressed: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const AksiInputSampahPage()));
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => AksiInputSampahPage(
+                        userId: user.id,
+                      ),
+                    ),
+                  );
                 },
                 icon: const Icon(
                   Icons.add,

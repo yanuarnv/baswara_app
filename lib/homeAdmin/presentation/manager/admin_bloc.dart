@@ -132,7 +132,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
   FutureOr<void> postCheckoutMapToState(
       PostCheckOut event, Emitter<AdminState> emit) async {
     emit(LoadingAdminState());
-    final data = await repository.potCheckout(event.items);
+    final data = await repository.potCheckout(event.items, event.userId);
     data.fold(
       (l) {
         if (l is ServerFailure) {

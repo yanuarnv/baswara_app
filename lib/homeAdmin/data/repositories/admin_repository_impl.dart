@@ -91,10 +91,10 @@ class AdminRepositoryImpl extends AdminRepository {
 
   @override
   Future<Either<Failure, bool>> potCheckout(
-      List<Map<String, dynamic>> body) async {
+      List<Map<String, dynamic>> body, int userId) async {
     if (await networkInfo.isConnected) {
       try {
-        final data = await remoteDataSources.postCheckout(body);
+        final data = await remoteDataSources.postCheckout(body, userId);
         return Right(data);
       } on ServerException catch (e) {
         return Left(ServerFailure(e.msg));

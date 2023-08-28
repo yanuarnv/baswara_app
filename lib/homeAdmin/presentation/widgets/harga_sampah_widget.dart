@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:sizer/sizer.dart';
 
 import '../../../core/color_value.dart';
 import '../../../core/utility.dart';
@@ -123,6 +122,7 @@ class _InputHargaSampahWidgetState extends State<InputHargaSampahWidget> {
                                       itemBuilder: (context, i) =>
                                           CategoryItemWidget(
                                         data: state.data[i],
+                                        suffix: "Rp/Kg",
                                         controller: _listControllerText[i],
                                       ),
                                     ),
@@ -145,7 +145,8 @@ class _InputHargaSampahWidgetState extends State<InputHargaSampahWidget> {
                                                   state.data[x].products[y].id,
                                               "price": int.parse(
                                                   _listControllerText[x][y]
-                                                      .text)
+                                                      .text
+                                                      .replaceAll(",", ""))
                                             });
                                           }
                                         }

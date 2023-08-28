@@ -41,7 +41,8 @@ abstract class AdminRepository {
 
   Future<Either<Failure, List<DataCategory>>> getAllCategory();
 
-  Future<Either<Failure, bool>> potCheckout(List<Map<String, dynamic>> body);
+  Future<Either<Failure, bool>> potCheckout(
+      List<Map<String, dynamic>> body, int userId);
 
   Future<Either<Failure, bool>> updateHargaSampah(
       List<Map<String, dynamic>> body);

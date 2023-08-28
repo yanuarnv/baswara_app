@@ -114,13 +114,15 @@ class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
   @override
   Future<RiwayatEntity> getRiwayatUser(String status) async {
     final String token = await LocalAuthStorage().read("token");
+    final String userId = await LocalAuthStorage().read("id");
     var headers = {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
       'Accept': 'application/json',
     };
     var request = await http.get(
-      Uri.parse('${ConstantValue.apiUrl}transaction?status=$status'),
+      Uri.parse(
+          '${ConstantValue.apiUrl}transaction?users_id=$userId&status=$status'),
       headers: headers,
     );
 

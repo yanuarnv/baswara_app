@@ -45,7 +45,7 @@ abstract class AdminRemoteDataSources {
 
   Future<List<DataCategory>> getAllCategory();
 
-  Future<bool> postCheckout(List<Map<String, dynamic>> body);
+  Future<bool> postCheckout(List<Map<String, dynamic>> body, int userId);
 
   Future<bool> updateHargaSampah(List<Map<String, dynamic>> body);
 }
@@ -150,9 +150,8 @@ class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
   }
 
   @override
-  Future<bool> postCheckout(List<Map<String, dynamic>> body) async {
+  Future<bool> postCheckout(List<Map<String, dynamic>> body, int userId) async {
     final String token = await LocalAuthStorage().read("token");
-    final String userid = await LocalAuthStorage().read("id");
     var headers = {
       'Authorization': 'Bearer $token',
       'Content-Type': 'application/json',
@@ -160,8 +159,7 @@ class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
     };
     var request = await http.post(
       Uri.parse('https://baswara-backend.my.id/api/checkout'),
-      body: jsonEncode(
-          {"items": body, "user_id": int.parse(userid), "status": "PENDING"}),
+      body: jsonEncode({"items": body, "user_id": userId, "status": "PENDING"}),
       headers: headers,
     );
 
