@@ -20,6 +20,9 @@ abstract class AdminRepository {
 
   Future<Either<Failure, bool>> deleteProduct(String id);
 
+  Future<Either<Failure, bool>> editProduct(
+      String productId, String name, String categoryId);
+
   Future<Either<Failure, bool>> deleteCatalogAdmin(String id);
 
   Future<Either<Failure, List<Data>>> getAllUser();

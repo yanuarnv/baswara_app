@@ -22,6 +22,7 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
     on<GetProduct>(getProductMapToState);
     on<AddProduct>(addProductMapToState);
     on<GetReport>(getReportMapToState);
+    on<EditProduct>(editProductMapToState);
     on<DeleteCatalogAdmin>(deleteCatalogAdminMapToState);
     on<DeleteProduct>(deleteProductMapToState);
     on<AddCatalogAdmin>(addCatalogAdminMapToState);
@@ -287,6 +288,26 @@ class AdminBloc extends Bloc<AdminEvent, AdminState> {
       },
       (r) => emit(
         SuccesTarikSaldo(),
+      ),
+    );
+  }
+
+  FutureOr<void> editProductMapToState(
+      EditProduct event, Emitter<AdminState> emit) async {
+    emit(LoadingAdminState());
+    final data = await repository.editProduct(
+        event.productId, event.name, event.categoryId);
+    data.fold(
+      (l) {
+        if (l is ServerFailure) {
+          emit(FailureAdminState(l.msg));
+        }
+        if (l is InternalFailure) {
+          emit(NoConnection());
+        }
+      },
+      (r) => emit(
+        SuccesProductCRUD(),
       ),
     );
   }

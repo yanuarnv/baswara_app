@@ -48,7 +48,7 @@ class _AddProductDialogState extends State<AddProductDialog> {
               items: [
                 DropdownMenuItem(
                   value: 1,
-                  child: Text('plastik',
+                  child: Text('Plastik',
                       style: GoogleFonts.poppins(
                         fontSize: 16,
                       )),
@@ -63,7 +63,7 @@ class _AddProductDialogState extends State<AddProductDialog> {
                 DropdownMenuItem(
                   value: 3,
                   child: Text(
-                    'besi',
+                    'Minyak',
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                     ),
@@ -81,7 +81,7 @@ class _AddProductDialogState extends State<AddProductDialog> {
                 DropdownMenuItem(
                   value: 5,
                   child: Text(
-                    'tembaga',
+                    'Besi',
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                     ),
@@ -90,7 +90,7 @@ class _AddProductDialogState extends State<AddProductDialog> {
                 DropdownMenuItem(
                   value: 6,
                   child: Text(
-                    'minyak',
+                    'Tembaga',
                     style: GoogleFonts.poppins(
                       fontSize: 16,
                     ),

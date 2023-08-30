@@ -29,10 +29,10 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
     "Semua",
     "Plastik",
     "Kertas",
-    "Besi",
+    "Minyak",
     "kaca",
-    "minyak",
-    "tembaga",
+    "Besi",
+    "Tembaga",
     "lainnya"
   ];
 
@@ -319,6 +319,7 @@ class _JenisSampahWidgetState extends State<JenisSampahWidget> {
                                                           context: context,
                                                           builder: (_) =>
                                                               EditProductDialog(
+                                                            model: value[index],
                                                             blocContext:
                                                                 context,
                                                           ),

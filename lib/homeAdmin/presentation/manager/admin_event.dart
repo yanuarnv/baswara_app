@@ -23,7 +23,13 @@ class DeleteProduct extends AdminEvent {
   DeleteProduct(this.idProduct);
 }
 
-class EditProduct extends AdminEvent {}
+class EditProduct extends AdminEvent {
+  final String productId;
+  final String name;
+  final String categoryId;
+
+  EditProduct(this.productId, this.name, this.categoryId);
+}
 
 class GetAlluser extends AdminEvent {}
 

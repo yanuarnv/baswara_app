@@ -212,4 +212,20 @@ class AdminRepositoryImpl extends AdminRepository {
       return Left(InternalFailure());
     }
   }
+
+  @override
+  Future<Either<Failure, bool>> editProduct(
+      String productId, String name, String categoryId) async {
+    if (await networkInfo.isConnected) {
+      try {
+        final data =
+            await remoteDataSources.editProduct(productId, name, categoryId);
+        return Right(data);
+      } on ServerException catch (e) {
+        return Left(ServerFailure(e.msg));
+      }
+    } else {
+      return Left(InternalFailure());
+    }
+  }
 }

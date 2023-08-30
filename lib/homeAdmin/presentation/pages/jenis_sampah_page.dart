@@ -29,7 +29,11 @@ class _JenisSampahPageState extends State<JenisSampahPage> {
     "Semua",
     "Plastik",
     "Kertas",
+    "Minyak",
+    "kaca",
     "Besi",
+    "Tembaga",
+    "lainnya"
   ];
 
   @override
@@ -321,6 +325,7 @@ class _JenisSampahPageState extends State<JenisSampahPage> {
                                                               EditProductDialog(
                                                             blocContext:
                                                                 context,
+                                                            model: value[index],
                                                           ),
                                                         );
                                                       },

@@ -85,7 +85,7 @@ class Item {
   int price;
   DateTime createdAt;
   DateTime updatedAt;
-  Product product;
+  String name;
 
   Item({
     required this.id,
@@ -96,20 +96,19 @@ class Item {
     required this.price,
     required this.createdAt,
     required this.updatedAt,
-    required this.product,
+    required this.name,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) => Item(
-        id: json["id"],
-        usersId: json["users_id"],
-        productsId: json["products_id"],
-        transactionsId: json["transactions_id"],
-        quantity: json["quantity"],
-        price: json["price"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        product: Product.fromJson(json["product"]),
-      );
+      id: json["id"],
+      usersId: json["users_id"],
+      productsId: json["products_id"],
+      transactionsId: json["transactions_id"],
+      quantity: json["quantity"],
+      price: json["price"],
+      createdAt: DateTime.parse(json["created_at"]),
+      updatedAt: DateTime.parse(json["updated_at"]),
+      name: json["name"]);
 
   Map<String, dynamic> toJson() => {
         "id": id,
@@ -120,30 +119,5 @@ class Item {
         "price": price,
         "created_at": createdAt.toIso8601String(),
         "updated_at": updatedAt.toIso8601String(),
-        "product": product.toJson(),
-      };
-}
-
-class Product {
-  int id;
-  String name;
-  int categoriesId;
-
-  Product({
-    required this.id,
-    required this.name,
-    required this.categoriesId,
-  });
-
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-        id: json["id"],
-        name: json["name"],
-        categoriesId: json["categories_id"],
-      );
-
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "categories_id": categoriesId,
       };
 }

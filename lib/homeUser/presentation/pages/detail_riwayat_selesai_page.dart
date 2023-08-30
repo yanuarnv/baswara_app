@@ -123,7 +123,7 @@ class DetailRiwayatSelesaiPage extends StatelessWidget {
                             Expanded(
                               flex: 4,
                               child: Text(
-                                model.items[index].product.name,
+                                model.items[index].name,
                                 style: GoogleFonts.poppins(
                                   fontSize: 16,
                                 ),

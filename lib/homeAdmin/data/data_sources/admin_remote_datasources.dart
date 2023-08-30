@@ -24,6 +24,8 @@ abstract class AdminRemoteDataSources {
 
   Future<bool> deleteCatalogAdmin(String id);
 
+  Future<bool> editProduct(String productId, String name, String categoryId);
+
   Future<bool> tarikSaldoUser(int userId, int totalSaldo);
 
   Future<List<Data>> getAllUser();
@@ -360,6 +362,28 @@ class AdminRemoteDataSourcesImpl extends AdminRemoteDataSources {
     final body = {"users_id": userId, "total_price": totalSaldo};
     var request = await http.post(
         Uri.parse('${ConstantValue.apiUrl}withdrawal'),
+        headers: headers,
+        body: jsonEncode(body));
+
+    if (request.statusCode == 200) {
+      return true;
+    } else {
+      throw ServerException(request.reasonPhrase.toString());
+    }
+  }
+
+  @override
+  Future<bool> editProduct(
+      String productId, String name, String categoryId) async {
+    final String token = await LocalAuthStorage().read("token");
+    var headers = {
+      'Authorization': 'Bearer $token',
+      'Content-Type': 'application/json',
+      'Accept': 'application/json',
+    };
+    final body = {"name": name, "categories_id": categoryId};
+    var request = await http.post(
+        Uri.parse('${ConstantValue.apiUrl}updateProducts?id=$productId'),
         headers: headers,
         body: jsonEncode(body));
 
