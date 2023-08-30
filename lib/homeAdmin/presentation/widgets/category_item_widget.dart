@@ -61,6 +61,15 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
                       obsecure: false,
                       hint: "__",
                       textAlign: TextAlign.end,
+                      validation: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'Tidak Boleh Kosong';
+                        }
+                        if (int.parse(value.replaceAll(",", "")) > 100000) {
+                          return 'Melebihi Batas !';
+                        }
+                        return null;
+                      },
                       inputFormaters: widget.suffix == "Rp/Kg"
                           ? [IDRInputFormatter(userSymbol: false)]
                           : [],
