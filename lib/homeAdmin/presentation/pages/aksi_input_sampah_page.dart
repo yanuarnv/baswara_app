@@ -162,7 +162,7 @@ class _AksiInputSampahPageState extends State<AksiInputSampahPage> {
                                             items.add({
                                               "id":
                                                   state.data[x].products[y].id,
-                                              "quantity": int.parse(
+                                              "quantity": double.parse(
                                                   _listControllerText[x][y]
                                                       .text)
                                             });

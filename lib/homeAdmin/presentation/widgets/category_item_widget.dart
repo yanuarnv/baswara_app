@@ -2,6 +2,7 @@ import 'package:baswara_app/core/idr_input_formater.dart';
 import 'package:baswara_app/homeAdmin/domain/entities/category_entity.dart';
 import 'package:baswara_app/widget/custom_form_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CategoryItemWidget extends StatefulWidget {
@@ -65,14 +66,20 @@ class _CategoryItemWidgetState extends State<CategoryItemWidget> {
                         if (value == null || value.isEmpty) {
                           return 'Tidak Boleh Kosong';
                         }
-                        if (int.parse(value.replaceAll(",", "")) > 100000) {
+                        if (value.toString()[0] == '.') {
+                          return 'format error';
+                        }
+                        if (double.parse(value.replaceAll(",", "")) > 100000) {
                           return 'Melebihi Batas !';
                         }
                         return null;
                       },
                       inputFormaters: widget.suffix == "Rp/Kg"
                           ? [IDRInputFormatter(userSymbol: false)]
-                          : [],
+                          : [
+                              FilteringTextInputFormatter.allow(
+                                  RegExp(r'^(\d+)?\.?\d{0,2}'))
+                            ],
                       contentPadding: const EdgeInsets.all(12),
                       inputType: TextInputType.number,
                       suffixIcon: Padding(
