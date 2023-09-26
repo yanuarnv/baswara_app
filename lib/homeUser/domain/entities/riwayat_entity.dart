@@ -81,7 +81,7 @@ class Item {
   int usersId;
   int productsId;
   int transactionsId;
-  int quantity;
+  double quantity;
   int price;
   DateTime createdAt;
   DateTime updatedAt;
@@ -104,7 +104,7 @@ class Item {
       usersId: json["users_id"],
       productsId: json["products_id"],
       transactionsId: json["transactions_id"],
-      quantity: json["quantity"],
+      quantity: json["quantity"].toDouble(),
       price: json["price"],
       createdAt: DateTime.parse(json["created_at"]),
       updatedAt: DateTime.parse(json["updated_at"]),

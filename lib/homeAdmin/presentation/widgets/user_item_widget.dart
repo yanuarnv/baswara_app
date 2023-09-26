@@ -1,3 +1,4 @@
+import 'package:baswara_app/core/utility.dart';
 import 'package:baswara_app/homeAdmin/presentation/pages/aksi_input_sampah_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -76,7 +77,8 @@ class UserItemWidget extends StatelessWidget {
                             height: 10,
                           ),
                           Text(
-                            "Rp ${user.savings}",
+                            Utility(context)
+                                .currencyFormat(int.parse(user.savings)),
                             style: GoogleFonts.poppins(
                               fontSize: 16,
                             ),
