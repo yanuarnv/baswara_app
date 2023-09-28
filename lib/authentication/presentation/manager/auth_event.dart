@@ -18,10 +18,13 @@ class RegisterAuth extends AuthEvent {
   final String phoneNumber;
   final String email;
   final String password;
+  final String rt;
+  final String rw;
+  final String desa;
   final File? image;
 
-  RegisterAuth(
-      this.name, this.phoneNumber, this.email, this.password, this.image);
+  RegisterAuth(this.name, this.phoneNumber, this.email, this.password,
+      this.image, this.rt, this.rw, this.desa);
 }
 
 class PostOtpEmailAuth extends AuthEvent {

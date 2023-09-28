@@ -24,8 +24,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> registermapToState(
       RegisterAuth event, Emitter<AuthState> emit) async {
     emit(LoadingAuthState());
-    final data = await repository.register(event.name, event.email,
-        event.password, event.phoneNumber, event.image);
+    final data = await repository.register(
+      event.name,
+      event.email,
+      event.password,
+      event.phoneNumber,
+      event.image,
+      event.rt,
+      event.rw,
+      event.desa,
+    );
     data.fold((l) {
       if (l is ServerFailure) {
         emit(FailureAuthState(l.msg));

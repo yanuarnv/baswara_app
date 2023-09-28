@@ -36,11 +36,22 @@ class AuthRepositoryImpl extends AuthRepository {
     String password,
     String phoneNumber,
     File? image,
+    String rt,
+    String rw,
+    String desa,
   ) async {
     if (await networkInfo.isConnected) {
       try {
         final role = await remoteDataSources.register(
-            name, email, password, phoneNumber, image);
+          name,
+          email,
+          password,
+          phoneNumber,
+          image,
+          rt,
+          rw,
+          desa,
+        );
         return Right(role);
       } on ServerException catch (e) {
         print("error");

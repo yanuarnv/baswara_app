@@ -55,14 +55,15 @@ class ProfileAdminWidget extends StatelessWidget {
                             Center(
                               child: ClipRRect(
                                 borderRadius: BorderRadius.circular(90),
-                                child: state.model.data.imageUrl != null
+                                child: state.model.data.imageUrl != ""
                                     ? Image.network(
                                         state.model.data.imageUrl,
                                         fit: BoxFit.cover,
                                         width: 180,
                                         height: 180,
                                       )
-                                    : Container(),
+                                    : Utility(context)
+                                        .emptyProfileImg(state.model.data.name),
                               ),
                             ),
                             const SizedBox(

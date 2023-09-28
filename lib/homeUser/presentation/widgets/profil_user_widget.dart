@@ -102,106 +102,167 @@ class _ProfilUserWidgetState extends State<ProfilUserWidget> {
                     child: Stack(
                       children: [
                         ListView(),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(
-                                height: 26,
-                              ),
-                              Center(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(90),
-                                  child: state.model.data.imageUrl.isEmpty
-                                      ? Utility(context).emptyProfileImg(
-                                          state.model.data.name)
-                                      : Image.network(state.model.data.imageUrl,
-                                          fit: BoxFit.cover,
-                                          width: 180,
-                                          height: 180,
-                                          errorBuilder: (c, __, _) =>
-                                              Utility(context).emptyProfileImg(
-                                                  state.model.data.name)),
+                        SingleChildScrollView(
+                          child: Padding(
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const SizedBox(
+                                  height: 26,
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 40,
-                              ),
-                              Text(
-                                "Nama",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
+                                Center(
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(90),
+                                    child: state.model.data.imageUrl.isEmpty
+                                        ? Utility(context).emptyProfileImg(
+                                            state.model.data.name)
+                                        : Image.network(
+                                            state.model.data.imageUrl,
+                                            fit: BoxFit.cover,
+                                            width: 180,
+                                            height: 180,
+                                            errorBuilder: (c, __, _) =>
+                                                Utility(context)
+                                                    .emptyProfileImg(
+                                                        state.model.data.name)),
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                state.model.data.name,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xff455A64),
+                                const SizedBox(
+                                  height: 40,
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "No. HP",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
+                                Text(
+                                  "Nama",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                state.model.data.phone,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xff455A64),
+                                Text(
+                                  state.model.data.name,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xff455A64),
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              Text(
-                                "Email",
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black,
+                                const SizedBox(
+                                  height: 10,
                                 ),
-                              ),
-                              Text(
-                                state.model.data.email,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: const Color(0xff455A64),
+                                Text(
+                                  "No. HP",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(
-                                height: 80,
-                              ),
-                              const Spacer(),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                      builder: (context) =>
-                                          EditProfilePage(model: state.model),
-                                    ),
-                                  );
-                                },
-                                child: Text("Ubah"),
-                              ),
-                              const SizedBox(
-                                height: 20,
-                              ),
-                            ],
+                                Text(
+                                  state.model.data.phone,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xff455A64),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Email",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  state.model.data.email,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xff455A64),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Rt",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  state.model.data.rt,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xff455A64),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Rw",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  state.model.data.rw,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xff455A64),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 10,
+                                ),
+                                Text(
+                                  "Desa",
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black,
+                                  ),
+                                ),
+                                Text(
+                                  state.model.data.desa,
+                                  style: GoogleFonts.poppins(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500,
+                                    color: const Color(0xff455A64),
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                                ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            EditProfilePage(model: state.model),
+                                      ),
+                                    );
+                                  },
+                                  child: Text("Ubah"),
+                                ),
+                                const SizedBox(
+                                  height: 20,
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

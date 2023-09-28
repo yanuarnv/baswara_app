@@ -29,6 +29,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final _numberPhone = TextEditingController();
   final _email = TextEditingController();
   final _password = TextEditingController();
+  final _rt = TextEditingController();
+  final _rw = TextEditingController();
+  final _desa = TextEditingController();
 
   @override
   void dispose() {
@@ -121,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             await showModalBottomSheet(
                                 context: context,
                                 builder: (context) => Container(
-                                      padding: EdgeInsets.all(16.0),
+                                      padding: const EdgeInsets.all(16.0),
                                       child: Row(
                                         mainAxisSize: MainAxisSize.min,
                                         mainAxisAlignment:
@@ -227,10 +230,34 @@ class _RegisterPageState extends State<RegisterPage> {
                           label: "Password",
                         ),
                         const SizedBox(
-                          height: 20,
+                          height: 14,
+                        ),
+                        CustomFormWidget(
+                          controller: _rt,
+                          obsecure: false,
+                          hint: "Masukkan RT",
+                          label: "Rt",
                         ),
                         const SizedBox(
-                          height: 15,
+                          height: 14,
+                        ),
+                        CustomFormWidget(
+                          controller: _rw,
+                          obsecure: false,
+                          hint: "Masukkan RW",
+                          label: "Rw",
+                        ),
+                        const SizedBox(
+                          height: 14,
+                        ),
+                        CustomFormWidget(
+                          controller: _desa,
+                          obsecure: false,
+                          hint: "Masukkan Desa",
+                          label: "Desa",
+                        ),
+                        const SizedBox(
+                          height: 35,
                         ),
                         ElevatedButton(
                           onPressed: () {
@@ -243,6 +270,9 @@ class _RegisterPageState extends State<RegisterPage> {
                                       _email.text,
                                       _password.text,
                                       _image,
+                                      _rt.text,
+                                      _rw.text,
+                                      _desa.text,
                                     ),
                                   );
                             }

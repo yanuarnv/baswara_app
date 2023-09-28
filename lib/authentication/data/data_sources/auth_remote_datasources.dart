@@ -17,6 +17,9 @@ abstract class AuthRemoteDataSource {
     String password,
     String phoneNumber,
     File? image,
+    String rt,
+    String rw,
+    String desa,
   );
 
   Future<bool> logout();
@@ -66,7 +69,7 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
 
   @override
   Future<String> register(String name, String email, String password,
-      String phoneNumber, File? image) async {
+      String phoneNumber, File? image, rt, rw, desa) async {
     var request = http.MultipartRequest(
         'POST', Uri.parse('https://baswara-backend.my.id/api/register'));
     if (image != null) {
@@ -85,6 +88,9 @@ class AuthRemoteDataSourcesImpl extends AuthRemoteDataSource {
       'email': email,
       'phone': phoneNumber,
       'password': password,
+      'rt': rt,
+      'rw': rw,
+      'desa': desa,
       'roles': "USER"
     });
 

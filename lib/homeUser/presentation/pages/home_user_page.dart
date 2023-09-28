@@ -41,7 +41,7 @@ class _HomeUserPageState extends State<HomeUserPage> {
                 ),
                 BottomNavigationBarItem(
                   icon: Icon(Icons.account_circle_rounded),
-                  label: 'Business',
+                  label: 'profil',
                 ),
               ],
             );

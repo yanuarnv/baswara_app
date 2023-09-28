@@ -42,6 +42,9 @@ class Data {
   String name;
   String email;
   String imageUrl;
+  String rt;
+  String rw;
+  String desa;
   String phone;
   String roles;
   String savings;
@@ -68,6 +71,9 @@ class Data {
     required this.createdAt,
     required this.updatedAt,
     required this.transactions,
+    required this.rt,
+    required this.rw,
+    required this.desa,
   });
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
@@ -76,6 +82,9 @@ class Data {
         email: json["email"],
         imageUrl: json["image_url"] ?? '',
         phone: json["phone"],
+        desa: json['desa'] ?? '',
+        rt: json['rt'] ?? '',
+        rw: json['rw'] ?? '',
         roles: json["roles"],
         savings: json["savings"],
         emailVerifiedAt: json["email_verified_at"],
