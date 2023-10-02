@@ -3,7 +3,6 @@ import 'package:baswara_app/homeUser/presentation/manager/home_user_bloc.dart';
 import 'package:baswara_app/homeUser/presentation/pages/catalog_user_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -37,12 +36,6 @@ class _HomeUserWidgetState extends State<HomeUserWidget> {
             color: Colors.white,
           ),
         ),
-        actions: [
-          Padding(
-            padding: const EdgeInsets.only(right: 13.0),
-            child: SvgPicture.asset("assets/icons/icon_notif_appbar.svg"),
-          )
-        ],
       ),
       body: BlocProvider(
         create: (context) =>
