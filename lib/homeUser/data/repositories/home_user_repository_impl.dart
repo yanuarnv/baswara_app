@@ -39,11 +39,18 @@ class HomeUserRepositoryImpl extends HomeUserRepository {
     required File? image,
     required String rt,
     required String rw,
+    required String desa,
   }) async {
     if (await networkInfo.isConnected) {
       try {
         final data = await remoteDataSources.updateUserProfile(
-            name: name, noHp: noHp, email: email, image: image, rw: rw, rt: rt);
+            name: name,
+            noHp: noHp,
+            email: email,
+            image: image,
+            rw: rw,
+            rt: rt,
+            desa: desa);
         return Right(data);
       } on ServerException catch (e) {
         return Left(ServerFailure(e.msg));

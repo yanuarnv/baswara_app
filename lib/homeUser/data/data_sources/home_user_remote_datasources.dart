@@ -23,6 +23,7 @@ abstract class HomeUserRemoteDataSources {
     required File? image,
     required String rt,
     required String rw,
+    required String desa,
   });
 }
 
@@ -60,6 +61,7 @@ class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
     required File? image,
     required String rt,
     required String rw,
+    required String desa,
   }) async {
     final String token = await LocalAuthStorage().read("token");
 
@@ -80,6 +82,7 @@ class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
       'email': email,
       'rt': rt,
       'rw': rw,
+      'desa': desa,
     });
 
     if (image != null) {

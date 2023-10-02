@@ -82,7 +82,7 @@ class Data {
         email: json["email"],
         imageUrl: json["image_url"] ?? '',
         phone: json["phone"],
-        desa: json['desa'] ?? '',
+        desa: json['desa'] ?? '-',
         rt: json['rt'] ?? '-',
         rw: json['rw'] ?? '-',
         roles: json["roles"],

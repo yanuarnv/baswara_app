@@ -21,5 +21,6 @@ abstract class HomeUserRepository {
     required File? image,
     required String rt,
     required String rw,
+    required String desa,
   });
 }

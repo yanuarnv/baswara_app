@@ -15,9 +15,10 @@ class UpdateUserProfile extends HomeUserEvent {
   final File? image;
   final String rt;
   final String rw;
+  final String desa;
 
-  UpdateUserProfile(
-      this.name, this.email, this.noHp, this.image, this.rt, this.rw);
+  UpdateUserProfile(this.name, this.email, this.noHp, this.image, this.rt,
+      this.rw, this.desa);
 }
 
 class GetCatalogUser extends HomeUserEvent {}

@@ -29,6 +29,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController _email = TextEditingController();
   final TextEditingController _rt = TextEditingController();
   final TextEditingController _rw = TextEditingController();
+  final TextEditingController _desa = TextEditingController();
   final _fomrKey = GlobalKey<FormState>();
 
   Future<void> _pickImage(ImageSource source) async {
@@ -50,6 +51,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _email.text = widget.model.data.email;
     _rt.text = widget.model.data.rt;
     _rw.text = widget.model.data.rw;
+    _desa.text = widget.model.data.desa;
     super.initState();
   }
 
@@ -234,13 +236,28 @@ class _EditProfilePageState extends State<EditProfilePage> {
                             label: "Rw",
                           ),
                           const SizedBox(
+                            height: 20,
+                          ),
+                          CustomFormWidget(
+                            controller: _desa,
+                            obsecure: false,
+                            hint: "Masukan Desa",
+                            label: "Desa",
+                          ),
+                          const SizedBox(
                             height: 30,
                           ),
                           ElevatedButton(
                             onPressed: () {
                               context.read<HomeUserBloc>().add(
-                                  UpdateUserProfile(_name.text, _email.text,
-                                      _noHp.text, _image, _rt.text, _rw.text));
+                                  UpdateUserProfile(
+                                      _name.text,
+                                      _email.text,
+                                      _noHp.text,
+                                      _image,
+                                      _rt.text,
+                                      _rw.text,
+                                      _desa.text));
                             },
                             child: const Text("Ubah"),
                           )

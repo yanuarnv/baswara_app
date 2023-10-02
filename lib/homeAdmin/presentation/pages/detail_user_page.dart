@@ -192,6 +192,22 @@ class DetailUserPage extends StatelessWidget {
                 color: const Color(0xff455A64),
               ),
             ),
+            Text(
+              "Desa",
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+            ),
+            Text(
+              model.desa,
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xff455A64),
+              ),
+            ),
           ],
         ),
       ),

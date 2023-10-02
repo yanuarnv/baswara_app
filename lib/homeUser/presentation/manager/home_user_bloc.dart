@@ -46,6 +46,7 @@ class HomeUserBloc extends Bloc<HomeUserEvent, HomeUserState> {
       image: event.image,
       rt: event.rt,
       rw: event.rw,
+      desa: event.desa,
     );
     data.fold((l) {
       if (l is ServerFailure) {
