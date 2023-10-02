@@ -32,15 +32,18 @@ class HomeUserRepositoryImpl extends HomeUserRepository {
   }
 
   @override
-  Future<Either<Failure, bool>> updateUserProfile(
-      {required String name,
-      required String noHp,
-      required String email,
-      required File? image}) async {
+  Future<Either<Failure, bool>> updateUserProfile({
+    required String name,
+    required String noHp,
+    required String email,
+    required File? image,
+    required String rt,
+    required String rw,
+  }) async {
     if (await networkInfo.isConnected) {
       try {
         final data = await remoteDataSources.updateUserProfile(
-            name: name, noHp: noHp, email: email, image: image);
+            name: name, noHp: noHp, email: email, image: image, rw: rw, rt: rt);
         return Right(data);
       } on ServerException catch (e) {
         return Left(ServerFailure(e.msg));

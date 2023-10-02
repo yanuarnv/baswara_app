@@ -9,7 +9,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:sizer/sizer.dart';
 
 import '../../../core/color_value.dart';
 import '../../../core/utility.dart';
@@ -28,6 +27,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   final TextEditingController _name = TextEditingController();
   final TextEditingController _noHp = TextEditingController();
   final TextEditingController _email = TextEditingController();
+  final TextEditingController _rt = TextEditingController();
+  final TextEditingController _rw = TextEditingController();
   final _fomrKey = GlobalKey<FormState>();
 
   Future<void> _pickImage(ImageSource source) async {
@@ -47,6 +48,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
     _name.text = widget.model.data.name;
     _noHp.text = widget.model.data.phone;
     _email.text = widget.model.data.email;
+    _rt.text = widget.model.data.rt;
+    _rw.text = widget.model.data.rw;
     super.initState();
   }
 
@@ -90,145 +93,158 @@ class _EditProfilePageState extends State<EditProfilePage> {
             child: BlocBuilder<HomeUserBloc, HomeUserState>(
               builder: (context, state) {
                 return SingleChildScrollView(
-                  child: SizedBox(
-                    height: 85.h,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Form(
-                        key: _fomrKey,
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: 26,
-                            ),
-                            GestureDetector(
-                              onTap: () async {
-                                await showModalBottomSheet(
-                                    context: context,
-                                    builder: (context) => Container(
-                                          padding: EdgeInsets.all(16.0),
-                                          child: Row(
-                                            mainAxisSize: MainAxisSize.min,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceEvenly,
-                                            children: <Widget>[
-                                              GestureDetector(
-                                                onTap: () {
-                                                  _pickImage(
-                                                      ImageSource.gallery);
-                                                },
-                                                child: const Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.image,
-                                                      size: 45,
-                                                    ),
-                                                    Text("galery")
-                                                  ],
-                                                ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Form(
+                      key: _fomrKey,
+                      child: Column(
+                        children: [
+                          const SizedBox(
+                            height: 26,
+                          ),
+                          GestureDetector(
+                            onTap: () async {
+                              await showModalBottomSheet(
+                                  context: context,
+                                  builder: (context) => Container(
+                                        padding: EdgeInsets.all(16.0),
+                                        child: Row(
+                                          mainAxisSize: MainAxisSize.min,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceEvenly,
+                                          children: <Widget>[
+                                            GestureDetector(
+                                              onTap: () {
+                                                _pickImage(ImageSource.gallery);
+                                              },
+                                              child: const Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Icon(
+                                                    Icons.image,
+                                                    size: 45,
+                                                  ),
+                                                  Text("galery")
+                                                ],
                                               ),
-                                              GestureDetector(
-                                                onTap: () {
-                                                  _pickImage(
-                                                      ImageSource.camera);
-                                                },
-                                                child: const Column(
-                                                  mainAxisSize:
-                                                      MainAxisSize.min,
-                                                  children: [
-                                                    Icon(
-                                                      Icons.camera,
-                                                      size: 45,
-                                                    ),
-                                                    Text("camera")
-                                                  ],
-                                                ),
+                                            ),
+                                            GestureDetector(
+                                              onTap: () {
+                                                _pickImage(ImageSource.camera);
+                                              },
+                                              child: const Column(
+                                                mainAxisSize: MainAxisSize.min,
+                                                children: [
+                                                  Icon(
+                                                    Icons.camera,
+                                                    size: 45,
+                                                  ),
+                                                  Text("camera")
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                        ));
-                              },
-                              child: Center(
-                                child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(90),
-                                  child: _image == null
-                                      ? Center(
-                                          child: ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(90),
-                                            child: widget
-                                                    .model.data.imageUrl.isEmpty
-                                                ? Utility(context)
-                                                    .emptyProfileImg(
-                                                        widget.model.data.name)
-                                                : Image.network(
-                                                    widget.model.data.imageUrl,
-                                                    fit: BoxFit.cover,
-                                                    width: 180,
-                                                    height: 180,
-                                                    errorBuilder: (c, __, _) =>
-                                                        Utility(context)
-                                                            .emptyProfileImg(
-                                                                widget
-                                                                    .model
-                                                                    .data
-                                                                    .name)),
-                                          ),
-                                        )
-                                      : Image.file(_image!,
-                                          width: 180,
-                                          height: 180,
-                                          fit: BoxFit.cover),
-                                ),
+                                            ),
+                                          ],
+                                        ),
+                                      ));
+                            },
+                            child: Center(
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.circular(90),
+                                child: _image == null
+                                    ? Center(
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(90),
+                                          child: widget
+                                                  .model.data.imageUrl.isEmpty
+                                              ? Utility(context)
+                                                  .emptyProfileImg(
+                                                      widget.model.data.name)
+                                              : Image.network(
+                                                  widget.model.data.imageUrl,
+                                                  fit: BoxFit.cover,
+                                                  width: 180,
+                                                  height: 180,
+                                                  errorBuilder: (c, __, _) =>
+                                                      Utility(context)
+                                                          .emptyProfileImg(
+                                                              widget.model.data
+                                                                  .name)),
+                                        ),
+                                      )
+                                    : Image.file(_image!,
+                                        width: 180,
+                                        height: 180,
+                                        fit: BoxFit.cover),
                               ),
                             ),
-                            Text(
-                              "Ubah foto Profil",
-                              style: GoogleFonts.poppins(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w500,
-                                  color: ColorValue.primary),
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            CustomFormWidget(
-                              controller: _name,
-                              obsecure: false,
-                              hint: "Masukan Nama",
-                              label: "Nama",
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            CustomFormWidget(
-                              controller: _noHp,
-                              obsecure: false,
-                              hint: "Masukan No.HP",
-                              label: "No Hp",
-                            ),
-                            const SizedBox(
-                              height: 20,
-                            ),
-                            CustomFormWidget(
-                              controller: _email,
-                              obsecure: false,
-                              hint: "Masukan email",
-                              label: "email",
-                            ),
-                            const Spacer(),
-                            ElevatedButton(
-                              onPressed: () {
-                                context.read<HomeUserBloc>().add(
-                                    UpdateUserProfile(_name.text, _email.text,
-                                        _noHp.text, _image));
-                              },
-                              child: const Text("Ubah"),
-                            )
-                          ],
-                        ),
+                          ),
+                          Text(
+                            "Ubah foto Profil",
+                            style: GoogleFonts.poppins(
+                                fontSize: 16,
+                                fontWeight: FontWeight.w500,
+                                color: ColorValue.primary),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CustomFormWidget(
+                            controller: _name,
+                            obsecure: false,
+                            hint: "Masukan Nama",
+                            label: "Nama",
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CustomFormWidget(
+                            controller: _noHp,
+                            obsecure: false,
+                            hint: "Masukan No.HP",
+                            label: "No Hp",
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CustomFormWidget(
+                            controller: _email,
+                            obsecure: false,
+                            hint: "Masukan email",
+                            label: "email",
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CustomFormWidget(
+                            controller: _rt,
+                            obsecure: false,
+                            inputType: TextInputType.number,
+                            hint: "Masukan Rt",
+                            label: "Rt",
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CustomFormWidget(
+                            controller: _rw,
+                            obsecure: false,
+                            inputType: TextInputType.number,
+                            hint: "Masukan rw",
+                            label: "Rw",
+                          ),
+                          const SizedBox(
+                            height: 30,
+                          ),
+                          ElevatedButton(
+                            onPressed: () {
+                              context.read<HomeUserBloc>().add(
+                                  UpdateUserProfile(_name.text, _email.text,
+                                      _noHp.text, _image, _rt.text, _rw.text));
+                            },
+                            child: const Text("Ubah"),
+                          )
+                        ],
                       ),
                     ),
                   ),

@@ -44,6 +44,8 @@ class HomeUserBloc extends Bloc<HomeUserEvent, HomeUserState> {
       noHp: event.noHp,
       email: event.email,
       image: event.image,
+      rt: event.rt,
+      rw: event.rw,
     );
     data.fold((l) {
       if (l is ServerFailure) {

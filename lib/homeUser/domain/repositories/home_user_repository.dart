@@ -19,5 +19,7 @@ abstract class HomeUserRepository {
     required String noHp,
     required String email,
     required File? image,
+    required String rt,
+    required String rw,
   });
 }

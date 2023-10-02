@@ -154,6 +154,44 @@ class DetailUserPage extends StatelessWidget {
                 color: const Color(0xff455A64),
               ),
             ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Rt",
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+            ),
+            Text(
+              model.rt,
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xff455A64),
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text(
+              "Rw",
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: Colors.black,
+              ),
+            ),
+            Text(
+              model.rw,
+              style: GoogleFonts.poppins(
+                fontSize: 16,
+                fontWeight: FontWeight.w500,
+                color: const Color(0xff455A64),
+              ),
+            ),
           ],
         ),
       ),

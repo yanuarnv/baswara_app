@@ -16,11 +16,14 @@ abstract class HomeUserRemoteDataSources {
 
   Future<RiwayatEntity> getRiwayatUser(String status);
 
-  Future<bool> updateUserProfile(
-      {required String name,
-      required String noHp,
-      required String email,
-      required File? image});
+  Future<bool> updateUserProfile({
+    required String name,
+    required String noHp,
+    required String email,
+    required File? image,
+    required String rt,
+    required String rw,
+  });
 }
 
 class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
@@ -50,11 +53,14 @@ class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
   }
 
   @override
-  Future<bool> updateUserProfile(
-      {required String name,
-      required String noHp,
-      required String email,
-      required File? image}) async {
+  Future<bool> updateUserProfile({
+    required String name,
+    required String noHp,
+    required String email,
+    required File? image,
+    required String rt,
+    required String rw,
+  }) async {
     final String token = await LocalAuthStorage().read("token");
 
     var headers = {
@@ -72,6 +78,8 @@ class HomeUserREmoteDataSourcesImpl extends HomeUserRemoteDataSources {
       'phone': noHp,
       'name': name,
       'email': email,
+      'rt': rt,
+      'rw': rw,
     });
 
     if (image != null) {
